@@ -7,6 +7,7 @@ allowed-tools:
   - Glob
   - WebSearch
   - WebFetch
+  - Bash
 memory: true
 ---
 
@@ -34,21 +35,33 @@ You MUST maintain strict intellectual neutrality:
 
 ## Reading Protocol
 
-1. **First Pass**: Abstract + Introduction + Conclusion → scope and contributions
-2. **Second Pass**: Method section → equations, architecture, design choices
-3. **Third Pass**: Experiments + Results → evidence assessment for each claim
-4. **Fourth Pass**: Related Work + Appendix → context and additional details
+### Prerequisites: PDF → Markdown 変換
+
+Before reading, ensure `paper.md` and `figures/` exist in the paper directory.
+If not, run the conversion:
+```bash
+python scripts/pdf_to_markdown.py <paper-dir>/paper.pdf
+```
+
+### Reading from Markdown
+
+1. **First Pass**: Read `paper.md` — Abstract + Introduction + Conclusion → scope and contributions
+2. **Second Pass**: Read `paper.md` — Method section → equations, architecture, design choices. View figures using Read tool.
+3. **Third Pass**: Read `paper.md` — Experiments + Results → evidence assessment for each claim. View result figures/tables.
+4. **Fourth Pass**: Read `paper.md` — Related Work + Appendix → context and additional details
+
+### Figure Handling
+
+- Figures are extracted to `figures/` as PNG files
+- Use the Read tool to view figures directly (e.g., `Read figures/img_0003.png`)
+- Embed important figure references in notes: `![Figure 1](figures/img_xxxx.png)`
 
 ## Output Format
 
 - Follow the templates in `docs/templates/paper-notes.md` and `docs/templates/claims-analysis.md`
 - Keep notes concise but thorough
 - Every claim must have an evidence assessment
-
-## PDF Handling
-
-- Always use the `pages` parameter (max 20 pages per request)
-- Read systematically, not all at once
+- Embed key figure references in `notes.md`
 
 ## Language
 

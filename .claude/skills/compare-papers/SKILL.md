@@ -42,9 +42,10 @@ Compare multiple papers and produce a structured analysis.
    - What would a synthesis of these approaches look like?
    - Which approach is more promising for future work and why?
 
-5. **Output**:
-   - Present the comparison directly to the user
-   - Optionally save to a file if the user requests it
+5. **Save to File**:
+   - Determine output path: if papers share a common topic directory, save to `papers/<topic>/comparison-<paper1>-vs-<paper2>.md`; otherwise save to `surveys/comparisons/<paper1>-vs-<paper2>.md`
+   - Write the full comparison (table + analysis) to the file
+   - Present a summary to the user with the file path
 
 ## Important
 

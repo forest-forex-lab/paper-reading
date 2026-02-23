@@ -48,13 +48,17 @@ Each paper lives under `papers/<topic>/<first-author>-<year>/`:
 
 ```
 papers/
+  inbox/                   # PDF投入口（/organize-inbox で自動分配）
+    new-paper.pdf
   transformers/
     vaswani-2017/
       paper.pdf            # Original PDF (Git LFS)
+      paper.md             # PDF→Markdown変換結果（自動生成）
+      figures/             # PDFから抽出した画像（自動生成）
+        img_0001.png
       notes.md             # Reading notes (from template)
       claims.md            # Claim-by-claim analysis (from template)
       README.md            # One-paragraph summary + metadata
-      figures/             # Extracted or recreated figures
 ```
 
 ### notes.md Structure
@@ -94,6 +98,7 @@ The following `/slash-commands` are available:
 
 | Command | Description | Mode |
 |---------|-------------|------|
+| `/organize-inbox` | inbox内のPDFを自動分類・配置 | Interactive |
 | `/read-paper <path>` | Systematically read and annotate a paper | Interactive |
 | `/survey <topic>` | Create a literature survey on a topic | SubAgent (literature-surveyor) |
 | `/trace-citations <path>` | Trace citation chains for a paper | SubAgent (citation-tracer) |
@@ -105,12 +110,34 @@ The following `/slash-commands` are available:
 
 ## PDF Handling
 
-- **Large PDFs**: Always use the `pages` parameter to read in chunks (max 20 pages per request)
-- **Reading order**: Abstract → Introduction → Method → Experiments → Results → Discussion → Appendix
-- **First pass**: Read Abstract + Introduction + Conclusion to grasp scope
-- **Second pass**: Method section in detail, cross-referencing equations and figures
-- **Third pass**: Experiments, ablations, and supplementary material
-- Store PDFs via Git LFS (`*.pdf` tracked in `.gitattributes`)
+### PDF → Markdown 変換（読解の前提）
+
+論文の読解は必ず **PDF→Markdown変換→Markdown読解** の順で実施する:
+
+1. **変換**: `python scripts/pdf_to_markdown.py <paper.pdf>` を実行
+   - `paper.md` が生成される（Markdown形式の論文本文）
+   - `figures/` に画像が抽出される（PNG）
+   - Markdown内で `![](figures/img_xxxx.png)` として画像が参照される
+2. **読解**: 生成された `paper.md` を Read ツールで読み、分析を行う
+   - 画像は Read ツールで直接表示可能
+   - PDF を直接読む必要はない
+
+### 変換ツールのセットアップ
+
+```bash
+pip install -r scripts/requirements.txt
+```
+
+### 読解の順序
+
+- **First pass**: Abstract → Introduction → Conclusion で全体像を把握
+- **Second pass**: Method セクションを精読、数式・図を参照
+- **Third pass**: Experiments, ablations, supplementary material
+
+### Git LFS
+
+- PDFは Git LFS で管理（`*.pdf` は `.gitattributes` で追跡）
+- 変換後の `paper.md` と `figures/` はgit通常管理
 
 ---
 
