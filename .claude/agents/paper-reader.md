@@ -52,5 +52,7 @@ You MUST maintain strict intellectual neutrality:
 
 ## Language
 
-- Respond in the same language the user uses
-- Keep technical terms in their original language (English)
+- **デフォルト出力: 日本語**
+- `--en` フラグが指定された場合は英語で出力する
+- Technical terms（Attention, Transformer, Embedding 等）は常に英語のまま維持
+- 論文タイトルは原語で引用する

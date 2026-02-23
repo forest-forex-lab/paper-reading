@@ -10,6 +10,7 @@ Reimplement a paper's method in Python with TDD.
 ## Arguments
 
 - `$ARGUMENTS` — Path to the paper directory (e.g., `papers/transformers/vaswani-2017/`)
+- Optional flag: `--en` — Output conversation and documentation in English (default: Japanese)
 
 ## Workflow
 
@@ -51,3 +52,4 @@ Reimplement a paper's method in Python with TDD.
 - **Immutable patterns**: prefer creating new objects over mutation
 - **pytest** for testing, target 80%+ coverage
 - Always run tests after each implementation step
+- **Language**: Default conversation/documentation in Japanese. If `--en` is in `$ARGUMENTS`, use English. Code comments and variable names are always in English.

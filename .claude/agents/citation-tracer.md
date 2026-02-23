@@ -76,3 +76,10 @@ Write to `{paper-directory}/citations.md`:
 - Keep summaries to 1-2 sentences per paper
 - Focus on the most relevant citations (top 10-20 in each direction)
 - Use Semantic Scholar for bulk metadata when possible
+
+## Language
+
+- **デフォルト出力: 日本語** — 引用分析文書は日本語で記述する
+- `--en` フラグが指定された場合は英語で出力する
+- Technical terms は常に英語のまま維持
+- 論文タイトルは原語で引用する

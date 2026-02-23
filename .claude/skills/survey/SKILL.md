@@ -12,6 +12,7 @@ Create a literature survey on the specified topic.
 ## Arguments
 
 - `$ARGUMENTS` — Topic to survey (e.g., "vision transformers", "diffusion models for text generation")
+- Optional flag: `--en` — Output survey in English (default: Japanese)
 
 ## Instructions for the literature-surveyor agent
 
@@ -43,3 +44,7 @@ Create a literature survey on the specified topic.
 ## Output
 
 The survey document at `surveys/{topic-slug}/survey.md` with all sections completed.
+
+## Language
+
+Default output is Japanese. If `--en` is in `$ARGUMENTS`, output all documents and conversation in English. Technical terms (Attention, Transformer, etc.) remain in English regardless.

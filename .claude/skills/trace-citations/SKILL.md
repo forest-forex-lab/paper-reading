@@ -12,6 +12,7 @@ Trace citation chains for a given paper.
 ## Arguments
 
 - `$ARGUMENTS` — Path to the paper directory (e.g., `papers/transformers/vaswani-2017/`) or paper title/identifier
+- Optional flag: `--en` — Output in English (default: Japanese)
 
 ## Instructions for the citation-tracer agent
 
@@ -43,3 +44,4 @@ Trace citation chains for a given paper.
 - Use Semantic Scholar API when possible for structured citation data
 - Fall back to Google Scholar and arXiv for additional coverage
 - Keep individual paper summaries to 1-2 sentences for efficiency
+- **Language**: Default output is Japanese. If `--en` is in `$ARGUMENTS`, output in English. Technical terms remain in English regardless.

@@ -10,6 +10,7 @@ Systematically read an academic paper and create structured notes.
 ## Arguments
 
 - `$ARGUMENTS` — Path to the paper directory (e.g., `papers/transformers/vaswani-2017/`) or PDF file
+- Optional flag: `--en` — Output notes and conversation in English (default: Japanese)
 
 ## Workflow
 
@@ -48,3 +49,4 @@ Systematically read an academic paper and create structured notes.
 - Maintain epistemic stance: distinguish claims from evidence
 - Use the paper's original notation for equations and terminology
 - Ask the user for input between passes — this is an interactive process
+- **Language**: Default output is Japanese. If `--en` is in `$ARGUMENTS`, output in English. Technical terms remain in English regardless of output language.

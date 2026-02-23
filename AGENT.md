@@ -31,9 +31,12 @@ When discussing papers, maintain intellectual neutrality:
 
 ## Language Policy
 
-- Respond in the language the user uses
-- Technical terms remain in the original language (typically English)
-- Paper titles are cited in their original language
+- **デフォルト出力言語: 日本語**
+- `--en` フラグが指定された場合は英語で出力する
+- Technical terms（専門用語）は原語（英語）のまま維持する
+  - 例: Attention, Transformer, Embedding, Loss, Gradient 等は訳さない
+- 論文タイトルは原語で引用する
+- 数式の説明文は出力言語に従うが、変数名・記号は論文のまま
 
 ---
 

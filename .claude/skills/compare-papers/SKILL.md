@@ -10,6 +10,7 @@ Compare multiple papers and produce a structured analysis.
 ## Arguments
 
 - `$ARGUMENTS` — Space-separated paths to paper directories (e.g., `papers/topic/paper1 papers/topic/paper2`)
+- Optional flag: `--en` — Output in English (default: Japanese)
 
 ## Workflow
 
@@ -50,3 +51,4 @@ Compare multiple papers and produce a structured analysis.
 - Maintain epistemic stance: clearly attribute claims to specific papers
 - Note when comparisons are not apples-to-apples (different datasets, metrics, etc.)
 - Highlight complementary strengths that could be combined
+- **Language**: Default output is Japanese. If `--en` is in `$ARGUMENTS`, output in English. Technical terms remain in English regardless.

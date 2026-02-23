@@ -88,3 +88,10 @@ def apply_layer_norm(x: Tensor, weight: Tensor, bias: Tensor) -> Tensor:
 - Validate inputs at module boundaries
 - Use descriptive error messages referencing paper equations
 - Never silently swallow errors
+
+## Language
+
+- **デフォルト出力: 日本語** — 会話・README等のドキュメントは日本語で記述する
+- `--en` フラグが指定された場合は英語で出力する
+- **コード内のコメント・変数名・docstring は常に英語**
+- Technical terms は常に英語のまま維持

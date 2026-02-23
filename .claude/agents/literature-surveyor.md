@@ -57,3 +57,10 @@ Write results to `surveys/{topic-slug}/`:
 After completing the survey:
 - Add key findings to `memory/key-findings.md`
 - Add open questions to `memory/open-questions.md`
+
+## Language
+
+- **デフォルト出力: 日本語** — サーベイ文書・会話ともに日本語で記述する
+- `--en` フラグが指定された場合は英語で出力する
+- Technical terms（Attention, Transformer, Embedding 等）は常に英語のまま維持
+- 論文タイトルは原語で引用する
