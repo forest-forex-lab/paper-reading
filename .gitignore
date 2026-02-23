@@ -1,0 +1,20 @@
+# IDE / Editor
+.kiri/
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+.env
+
+# Node (if any tooling)
+node_modules/
+
+# OS
+Thumbs.db
