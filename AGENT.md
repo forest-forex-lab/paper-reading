@@ -103,6 +103,7 @@ The following `/slash-commands` are available:
 | `/survey <topic>` | Create a literature survey on a topic | SubAgent (literature-surveyor) |
 | `/trace-citations <path>` | Trace citation chains for a paper | SubAgent (citation-tracer) |
 | `/reimplement <path>` | Reimplement a paper's method in Python | Interactive |
+| `/translate-paper <path>` | paper.md を日本語に翻訳（paper-ja.md 生成） | Interactive |
 | `/compare-papers <paths...>` | Compare multiple papers side by side | Interactive |
 | `/paper-status` | Show project-wide progress dashboard | Read-only |
 
@@ -114,7 +115,7 @@ The following `/slash-commands` are available:
 
 論文の読解は必ず **PDF→Markdown変換→Markdown読解** の順で実施する:
 
-1. **変換**: `python scripts/pdf_to_markdown.py <paper.pdf>` を実行
+1. **変換**: `uv run python scripts/pdf_to_markdown.py <paper.pdf>` を実行
    - `paper.md` が生成される（Markdown形式の論文本文）
    - `figures/` に画像が抽出される（PNG）
    - Markdown内で `![](figures/img_xxxx.png)` として画像が参照される
@@ -125,7 +126,8 @@ The following `/slash-commands` are available:
 ### 変換ツールのセットアップ
 
 ```bash
-pip install -r scripts/requirements.txt
+uv sync
+uv run python scripts/pdf_to_markdown.py <paper.pdf>
 ```
 
 ### 読解の順序
@@ -146,7 +148,7 @@ pip install -r scripts/requirements.txt
 ### Language & Environment
 - **Python 3.10+** as default language
 - **Virtual environment**: `venv` in each implementation directory
-- **Package management**: `pip` with `requirements.txt`
+- **Package management**: `uv` with `pyproject.toml`
 
 ### Code Quality
 - **Type hints** on all function signatures

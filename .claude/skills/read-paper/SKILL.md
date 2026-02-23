@@ -24,6 +24,13 @@ Systematically read an academic paper and create structured notes.
    - If `pymupdf4llm` is not installed, prompt the user to run `pip install -r scripts/requirements.txt`
 4. **Verify conversion**: Confirm `paper.md` exists and `figures/` contains extracted images.
 
+### Step 0.5: Japanese Translation (Optional)
+
+- After conversion, ask the user if they want a Japanese translation (`paper-ja.md`).
+- If yes, invoke `/translate-paper` on the paper directory.
+- If `paper-ja.md` already exists, skip and notify the user.
+- Subsequent reading passes use `paper-ja.md` if it exists, falling back to `paper.md`.
+
 ### Step 1: First Pass — Scope
 
 - Read the beginning of `paper.md` (Abstract, Introduction)
