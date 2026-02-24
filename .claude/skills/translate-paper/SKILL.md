@@ -70,6 +70,13 @@ Read the specified lines from the source file, translate following all translati
 
 **Launch ALL chunk agents in parallel** (multiple Task tool calls in a single response).
 
+3. **Report launch status**: After launching all chunk agents, immediately inform the user:
+   ```
+   Launched <N> translation chunks in parallel (lines X-Y, lines A-B, ...).
+   Estimated wait: ~1-2 minutes. Will report results as chunks complete.
+   ```
+4. **Report completion incrementally**: As chunk results return, report each: `Chunk <N>: <lines> lines translated, <headings> headings.` Do not wait for all chunks before reporting any progress.
+
 ### Step 3.5: Verify chunk outputs
 
 1. **File existence**: `test -f` each chunk file. Missing = CHUNK_FAILED.

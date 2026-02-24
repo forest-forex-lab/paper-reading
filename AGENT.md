@@ -40,6 +40,14 @@ When discussing papers, maintain intellectual neutrality:
 
 ---
 
+## Communication Style
+
+- **Operational tasks**: For routine, well-defined tasks (translation, PDF conversion, inbox organization) that have a documented SKILL.md workflow, execute directly with minimal preamble. Do not produce multi-paragraph plans for tasks that already have a specified workflow.
+- **Analytical tasks**: For paper reading, survey writing, and claim analysis, thorough explanation is expected.
+- **Progress updates**: When running multi-step workflows, report progress concisely: step name + outcome. Do not re-explain the plan at each step.
+
+---
+
 ## File Conventions
 
 ### Paper Directory Structure
@@ -157,6 +165,28 @@ When a tool call or shell command fails:
    - Check project docs (this file, SKILL.md) for the documented approach
    - If the required tool is not installed, inform the user rather than attempting workarounds
 4. **Two-failure rule**: If two different approaches to the same sub-task fail, pause and report the situation to the user with a summary of what was tried and why it failed. Do not attempt a third approach silently.
+5. **Never rationalize discrepancies.** If an output metric (line count, heading count, coverage percentage) does not match expectations, report the raw numbers and flag the gap. Do not invent an explanation (e.g., "compression during translation", "references were consolidated"). State: "Output is X, expected Y — investigating" and then diagnose the actual cause. Phrases like「妥当」「問題ない」「許容範囲」are prohibited when a numeric threshold is breached.
+
+---
+
+## Tool Usage Constraints
+
+### Read Tool — Large Files
+
+The Read tool truncates output beyond ~2,000 lines or ~25K tokens. For files that may exceed this:
+
+1. **Check size first**: Run `wc -l <file>` before reading.
+2. **Use offset and limit**: Read in segments (e.g., `offset=0, limit=500`, then `offset=500, limit=500`).
+3. **Never assume full content was returned**: If you need the entire file and it exceeds 1,500 lines, always read in segments.
+
+This applies especially to `paper.md` files, which commonly exceed 2,000 lines.
+
+### Edit Tool — Stale Content
+
+The Edit tool matches against the current file content, not what was last read. If another operation (sub-agent, Bash command, or earlier Edit) has modified the file since the last Read:
+
+1. **Re-read before editing**: If multiple writes target the same file, re-read between edits.
+2. **Prefer Write for assembled output**: When building a file from multiple sources (e.g., concatenating chunks), use Bash (`cat`) or Write rather than sequential Edit calls.
 
 ---
 
