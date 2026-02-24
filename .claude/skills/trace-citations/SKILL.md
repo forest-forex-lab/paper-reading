@@ -1,47 +1,57 @@
 ---
 name: trace-citations
 description: Trace the citation chain of a paper — both papers it cites and papers that cite it.
-context: fork
-agent: citation-tracer
 ---
 
 # /trace-citations
 
-Trace citation chains for a given paper.
+Trace citation chains for a given paper by delegating to the `citation-tracer` sub-agent.
 
 ## Arguments
 
 - `$ARGUMENTS` — Path to the paper directory (e.g., `papers/transformers/vaswani-2017/`) or paper title/identifier
 - Optional flag: `--en` — Output in English (default: Japanese)
 
-## Instructions for the citation-tracer agent
+## Workflow
 
-1. **Identify the Paper**:
-   - If a path is given, read `notes.md` or `README.md` to get the paper title and authors
-   - If a title is given, search for the paper on Semantic Scholar or Google Scholar
+### Step 1: Delegate to citation-tracer sub-agent (main agent)
 
-2. **Backward Citations (References)**:
-   - Identify the key references cited by this paper
-   - For each reference, provide: title, authors, year, venue, one-sentence contribution
-   - Classify references by role: foundational, methodological, baseline/comparison, dataset, tangential
-   - Highlight the most influential references (those central to the paper's method)
+Determine language:
+- If `--en` is in `$ARGUMENTS` → `lang = en`
+- Otherwise → `lang = ja`
 
-3. **Forward Citations (Cited By)**:
-   - Search for papers that cite this work
-   - For the top cited-by papers, provide: title, authors, year, venue, how they build on this work
-   - Classify: extends, applies, improves upon, competes with, surveys
+1. **Read the agent instructions**: Read the file `.claude/agents/citation-tracer.md` to get the full agent instructions.
+2. **Launch a single sub-agent**: Use the Task tool with `subagent_type: "general-purpose"` and `model: "sonnet"` and include the agent instructions in the prompt.
 
-4. **Citation Graph**:
-   - Create a summary showing the paper's position in the citation network
-   - Identify citation clusters and research threads
+The prompt should be structured as:
 
-5. **Output**:
-   - Write results to `{paper-directory}/citations.md` (or `citations-{paper-slug}.md` in current directory if no paper directory)
-   - Format with clear sections for backward and forward citations
+```
+You are the citation-tracer agent. Follow these instructions:
 
-## Notes
+<paste full content of .claude/agents/citation-tracer.md here>
 
-- Use Semantic Scholar API when possible for structured citation data
-- Fall back to Google Scholar and arXiv for additional coverage
-- Keep individual paper summaries to 1-2 sentences for efficiency
+---
+
+Now perform the following task:
+
+target: <paper path or title from $ARGUMENTS>
+lang: <ja or en>
+
+1. If a path is given, read `notes.md` or `README.md` to get the paper title and authors.
+2. If a title is given, search for the paper on Semantic Scholar or Google Scholar.
+3. Trace backward citations (references) — classify each as foundational, methodological, baseline, dataset, or tangential.
+4. Trace forward citations (cited by) — classify each as extends, applies, improves, competes, or surveys.
+5. Write results to `{paper-directory}/citations.md`.
+```
+
+### Step 2: Report to user (main agent)
+
+After the sub-agent completes, report:
+- The output file path
+- Summary of citation statistics (total references, total citations)
+
+## Important
+
+- **Do NOT perform the citation tracing in the main context.** All search and analysis is done by the sub-agent.
+- The main agent only handles: sub-agent delegation (Step 1) and reporting (Step 2).
 - **Language**: Default output is Japanese. If `--en` is in `$ARGUMENTS`, output in English. Technical terms remain in English regardless.

@@ -5,7 +5,7 @@ description: Systematically read and annotate an academic paper, producing struc
 
 # /read-paper
 
-Systematically read an academic paper and create structured notes.
+Systematically read an academic paper and create structured notes by delegating to the `paper-reader` sub-agent.
 
 ## Arguments
 
@@ -14,7 +14,7 @@ Systematically read an academic paper and create structured notes.
 
 ## Workflow
 
-### Step 0: PDF → Markdown 変換
+### Step 0: PDF → Markdown Conversion (main agent)
 
 1. **Locate the PDF**: Find `paper.pdf` in the given path. If a PDF path is given directly, use that.
 2. **Check for existing conversion**: If `paper.md` already exists in the paper directory, skip conversion and ask the user if they want to re-convert.
@@ -24,92 +24,80 @@ Systematically read an academic paper and create structured notes.
    - If `docling` is not installed, prompt the user to run `uv sync`
 4. **Verify conversion**: Confirm `paper.md` exists and `paper_artifacts/` contains extracted images.
 
-### Step 0.5: Japanese Translation Check
+### Step 0.5: Japanese Translation Check (main agent)
 
-- If `paper-ja.md` already exists in the paper directory, use it for subsequent reading passes (preferred over `paper.md`).
-- If it does not exist, proceed with `paper.md`. Do not ask whether to translate — the user can invoke `/translate-paper` separately if desired.
+- If `paper-ja.md` already exists in the paper directory, the sub-agent will use it for reading (preferred over `paper.md`).
+- If it does not exist, proceed with `paper.md`. Do not ask whether to translate.
 
-### Step 1: First Pass — Scope
+### Step 1: Delegate to paper-reader sub-agent
 
-- Read the beginning of `paper.md` (Abstract, Introduction)
-- Read images in `paper_artifacts/` referenced in the text to understand key diagrams
-- Identify the core problem, proposed solution, and claimed contributions
-- Report a one-sentence summary to the user and proceed to the next step
+Determine which source file to use:
+- If `paper-ja.md` exists → `source_file = paper-ja.md`
+- Otherwise → `source_file = paper.md`
 
-### Step 2: Second Pass — Method, Design Philosophy, & Intellectual Lineage
+Determine language:
+- If `--en` is in `$ARGUMENTS` → `lang = en`
+- Otherwise → `lang = ja`
 
-This pass extracts not just WHAT the method is, but WHY it was designed this way and WHERE its ideas come from.
+1. **Read the agent instructions**: Read the file `.claude/agents/paper-reader.md` to get the full agent instructions.
+2. **Launch a single sub-agent**: Use the Task tool with `subagent_type: "general-purpose"` and include the agent instructions in the prompt.
 
-#### 2a: Core Thesis & Design Philosophy
+The prompt should be structured as:
 
-Before diving into technical details, identify the paper's intellectual stance:
+```
+You are the paper-reader agent. Follow these instructions:
 
-- **Core thesis**: What is the fundamental insight or bet? (e.g., "in-context learning can replace explicit meta-learning")
-- **What they reject**: What conventional assumptions do they challenge?
-- **What they bet on**: What principle or mechanism do they trust instead?
+<paste full content of .claude/agents/paper-reader.md here>
 
-Report these to the user before proceeding to technical details.
+---
 
-#### 2b: Intellectual Lineage
+Now perform the following task:
 
-For each significant prior work referenced in the Method section, identify:
+paper_dir: <paper_directory_path>
+source_file: <source_file name>
+lang: <ja or en>
 
-1. **Source concept**: What specific idea, mechanism, or framework is borrowed?
-2. **Original context**: How was this concept used in the original work?
-3. **Transformation**: How does this paper adapt, extend, or combine it?
+1. Read `<paper_dir>/<source_file>` following the 3-pass reading protocol above.
+2. View figures in `<paper_dir>/paper_artifacts/` using the Read tool.
+3. Read the templates at `docs/templates/paper-notes.md` and `docs/templates/claims-analysis.md`.
+4. Generate `notes.md`, `claims.md`, and `README.md` in `<paper_dir>/` following the templates.
+5. End your response with the SUMMARY_START/SUMMARY_END block as specified above.
 
-This is NOT a bibliography — it's a map of "which ideas flowed from where into this design."
+Important:
+- Maintain strict epistemic stance — distinguish claims from evidence.
+- Use the paper's original notation for equations and terminology.
+- Ensure Core Thesis, Intellectual Lineage, and Key Design Decisions sections are substantive.
+```
 
-Examples of what to capture:
-- "Borrowed the contract-first principle from formal verification, adapted it as a decomposition stopping criterion"
-- "Extended FeUdal Networks' Manager-Worker hierarchy from single-agent HRL to multi-agent delegation"
-- "Combined Press & Dyson's extortion strategies with sequence model in-context learning"
+### Step 2: Update Memory (main agent)
 
-#### 2c: Method & Key Design Decisions
+After the sub-agent completes, parse the `SUMMARY_START/SUMMARY_END` block from its response and:
 
-- Read the Method/Approach section from `paper.md`
-- View figures referenced in this section using Read tool
-- For each significant design choice, identify:
-  - **What** was chosen
-  - **Why** (the rationale — look for justification in the text)
-  - **Alternatives** (what else could have been done, whether discussed by authors or not)
-- Note key equations, referencing by paper numbering (Eq. 1, etc.)
-- Note architectural choices and technical details
+1. **Append to `memory/reading-log.md`**:
+   ```
+   - YYYY-MM-DD: **<paper_title>** (<venue>) — <one_sentence_summary> → `<paper_dir>/`
+   ```
 
-Proceed to the next step. (The user can interrupt at any point if they want deeper exploration.)
+2. **Append to `memory/key-findings.md`** (if significant findings):
+   ```
+   ### <paper_title> (YYYY-MM-DD)
+   - <key_finding_1>
+   - <key_finding_2>
+   ```
 
-### Step 3: Third Pass — Evidence
+3. **Append to `memory/open-questions.md`** (if open questions):
+   ```
+   ### <paper_title> (YYYY-MM-DD)
+   - <open_question_1>
+   - <open_question_2>
+   ```
 
-- Read Experiments and Results sections from `paper.md`
-- View result figures and tables (extracted as images in `paper_artifacts/`)
-- Catalog each claim with its supporting evidence
-- Note datasets, baselines, metrics, and statistical rigor
-- Flag any methodological concerns
-
-### Step 4: Generate Notes
-
-- Create `notes.md` following `docs/templates/paper-notes.md`
-  - Embed key figure references: `![Figure 1](paper_artifacts/image_xxxx.png)`
-  - **CRITICAL**: Ensure the following sections are substantive (not placeholders):
-    - **Core Thesis & Design Philosophy**: Must articulate WHY, not just WHAT
-    - **Intellectual Lineage**: Must have at least 3 entries with Source → Original → Adaptation
-    - **Key Design Decisions**: Must list at least 3 decisions with rationale and alternatives
-    - **Technical Details**: Must include specific equations, architecture, algorithms
-- Create `claims.md` following `docs/templates/claims-analysis.md`
-- Create `README.md` with a one-paragraph summary and metadata
-
-### Step 5: Update Memory
-
-- Append entry to `memory/reading-log.md`
-- Add any significant findings to `memory/key-findings.md`
-- Add any open questions to `memory/open-questions.md`
+4. **Report to user**: Display the one-sentence summary, key findings, and note that `notes.md`, `claims.md`, and `README.md` have been generated.
 
 ## Important
 
-- **Always convert PDF to Markdown first** — do not read PDF directly
-- Figures extracted from the PDF are viewable with the Read tool (`paper_artifacts/*.png`)
-- Embed important figure references in `notes.md` for later review
-- Maintain epistemic stance: distinguish claims from evidence
-- Use the paper's original notation for equations and terminology
-- Run all passes (Steps 1 through 5) continuously without pausing for confirmation between steps. Only stop to ask the user if: (a) a step fails and requires a decision, or (b) the user explicitly asked to run in interactive mode (`--interactive` flag).
+- **Do NOT read the full paper.md in the main context.** All reading is done by the sub-agent.
+- The main agent only handles: PDF conversion (Step 0), sub-agent delegation (Step 1), and memory updates (Step 2).
+- The sub-agent writes `notes.md`, `claims.md`, and `README.md` directly.
+- Run Steps 0 through 2 continuously without pausing for confirmation between steps. Only stop to ask the user if: (a) a step fails and requires a decision, or (b) the user explicitly asked to run in interactive mode (`--interactive` flag).
 - **Language**: Default output is Japanese. If `--en` is in `$ARGUMENTS`, output in English. Technical terms remain in English regardless of output language.

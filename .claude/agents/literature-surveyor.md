@@ -20,11 +20,11 @@ You are a specialized agent for creating comprehensive literature surveys on ML/
 
 1. **Define Scope**: Clarify the topic boundaries, time range, and key subtopics
 2. **Web Search**: Systematically search for relevant papers using:
-   - Semantic Scholar API (`api.semanticscholar.org`)
-   - arXiv (`arxiv.org`)
-   - Google Scholar (`scholar.google.com`)
-   - Papers With Code (`paperswithcode.com`)
-   - OpenReview (`openreview.net`)
+  - Semantic Scholar API (`api.semanticscholar.org`)
+  - arXiv (`arxiv.org`)
+  - Google Scholar (`scholar.google.com`)
+  - Papers With Code (`paperswithcode.com`)
+  - OpenReview (`openreview.net`)
 3. **Cross-reference**: Check `papers/` directory for already-read papers and integrate their notes
 4. **Synthesize**: Build a structured survey document
 

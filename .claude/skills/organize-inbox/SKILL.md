@@ -5,7 +5,7 @@ description: Scan papers/inbox/ for PDFs, extract metadata, and organize them in
 
 # /organize-inbox
 
-Scan `papers/inbox/` for PDF files and organize them into `papers/<topic>/<author-year>/`.
+Scan `papers/inbox/` for PDF files and organize them into `papers/<topic>/<author-year>/` using parallel classification via sub-agents.
 
 ## Arguments
 
@@ -13,41 +13,45 @@ Scan `papers/inbox/` for PDF files and organize them into `papers/<topic>/<autho
 
 ## Workflow
 
-### Step 1: Scan Inbox
+### Step 1: Scan Inbox (main agent)
 
-- List all `.pdf` files in `papers/inbox/`
+- List all `.pdf` files in `papers/inbox/` using `ls papers/inbox/*.pdf`
 - If `$ARGUMENTS` specifies a filename, process only that file
 - If no PDFs found, report "inbox is empty" and exit
-- Report the list of PDFs found to the user
+- Get the list of existing topic directories: `ls papers/` (to pass to sub-agents)
 
-### Step 2: For Each PDF — Extract Metadata
+### Step 2: Parallel Classification (sub-agents)
 
-For each PDF file:
+1. **Read the agent instructions**: Read the file `.claude/agents/inbox-classifier.md` to get the full agent instructions.
+2. **Launch classifier agents**: For each PDF, launch a sub-agent using the Task tool with `subagent_type: "general-purpose"` and `model: "sonnet"`.
 
-1. **Convert to Markdown** (temporary, for metadata extraction):
-   - Run: `uv run python scripts/pdf_to_markdown.py <pdf_path> --output-dir papers/inbox/_tmp_<filename>`
-   - This generates a temporary markdown + images for reading
+Each sub-agent prompt should be structured as:
 
-2. **Read first ~100 lines** of the generated markdown to extract:
-   - **Title** — the paper title
-   - **Authors** — list of authors (identify first author's last name)
-   - **Year** — publication year
-   - **Venue** — conference or journal (if identifiable)
-   - **Topic** — classify into a topic category
+```
+You are the inbox-classifier agent. Follow these instructions:
 
-3. **Determine topic**:
-   - Check existing `papers/` subdirectories for matching topics
-   - Suggest the most appropriate existing topic, or propose a new topic slug
-   - Topic should be lowercase, hyphenated (e.g., `retrieval-augmented-generation`, `vision-transformers`, `diffusion-models`)
+<paste full content of .claude/agents/inbox-classifier.md here>
 
-4. **Construct destination path**:
-   - Format: `papers/<topic>/<first-author-lastname>-<year>/`
-   - Author name: lowercase ASCII (e.g., `vaswani-2017`, `brown-2020`)
-   - If directory already exists, warn and ask user
+---
 
-### Step 3: Confirm with User
+Now perform the following task:
 
-Present a summary table for all PDFs to be organized:
+pdf_path: papers/inbox/<filename>.pdf
+existing_topics: <comma-separated list of existing topic directories>
+
+Follow the instructions above to:
+1. Convert the PDF temporarily for metadata extraction
+2. Extract title, authors, year, venue
+3. Classify into an appropriate topic
+4. Clean up temporary files
+5. Return the METADATA_START/METADATA_END block
+```
+
+**Launch ALL classifier agents in parallel** (multiple Task tool calls in a single response).
+
+### Step 3: Confirm with User (main agent)
+
+Parse each sub-agent's `METADATA_START/METADATA_END` block and present a summary table:
 
 ```
 === Inbox Organization Plan ===
@@ -63,7 +67,7 @@ Ask the user to:
 - **Edit** — modify specific topic or author-year for individual papers
 - **Skip** — skip specific PDFs
 
-### Step 4: Move and Convert
+### Step 4: Move and Convert (main agent)
 
 For each approved PDF:
 
@@ -71,50 +75,33 @@ For each approved PDF:
 2. **Move PDF**: `mv papers/inbox/<file>.pdf papers/<topic>/<author-year>/paper.pdf`
 3. **Run full conversion**: `uv run python scripts/pdf_to_markdown.py papers/<topic>/<author-year>/paper.pdf`
    - This generates `paper.md` and `paper_artifacts/` in the proper location
-4. **Clean up**: Remove temporary conversion files from inbox (`papers/inbox/_tmp_*`)
+4. **Clean up**: Remove any remaining temporary files from inbox (`rm -rf papers/inbox/_tmp_*`)
 
-### Step 5: Report Results
+### Step 5: Report Results (main agent)
 
 ```
 === Organization Complete ===
 
-Moved 2 papers:
-  papers/transformers/vaswani-2017/   — "Attention Is All You Need"
-  papers/language-models/devlin-2019/ — "BERT: Pre-training of Deep..."
+Moved N papers:
+  papers/<topic>/<author-year>/ — "<title>"
+  ...
 
-Remaining in inbox: 0 PDFs
+Remaining in inbox: M PDFs
 ```
 
 ### Step 6: Update Memory (optional)
 
 - If papers were successfully organized, optionally append to `memory/reading-log.md` with status `[INBOX]`
 
-## Topic Classification Guidelines
-
-Use these topic categories as reference (create new ones as needed):
-
-- `transformers` — Transformer architecture and variants
-- `language-models` — LLMs, pretraining, fine-tuning
-- `retrieval-augmented-generation` — RAG, retrieval-based methods
-- `vision` — Computer vision, image classification, detection
-- `vision-transformers` — ViT and variants
-- `diffusion-models` — Diffusion-based generative models
-- `reinforcement-learning` — RL, RLHF, reward models
-- `optimization` — Training methods, optimizers, learning rate
-- `agents` — LLM agents, tool use, planning
-- `multimodal` — Vision-language, audio-text models
-- `evaluation` — Benchmarks, metrics, evaluation methods
-- `interpretability` — Explainability, mechanistic interpretability
-- `efficiency` — Pruning, quantization, distillation, efficient inference
-
 ## Error Handling
 
 - If `docling` is not installed, prompt: `uv sync`
-- If metadata extraction fails, fall back to asking user for title/author/year manually
+- If a sub-agent fails to extract metadata (returns `CONVERSION_FAILED` or `unknown` fields), fall back to asking the user for title/author/year manually
 - If destination directory already exists, ask user whether to overwrite or choose a different name
 
 ## Important
 
-- **Always confirm with user before moving files**
+- **Do NOT read PDF content in the main context.** All metadata extraction is done by sub-agents.
+- **Always confirm with user before moving files** (Step 3)
 - Clean up all temporary files (`_tmp_*`) after processing
 - **Language**: Default output is Japanese. If `--en` is in `$ARGUMENTS`, output in English.

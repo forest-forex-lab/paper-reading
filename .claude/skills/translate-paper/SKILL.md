@@ -5,7 +5,7 @@ description: Translate a paper's Markdown (paper.md) into Japanese (paper-ja.md)
 
 # /translate-paper
 
-Translate a paper's Markdown into Japanese.
+Translate a paper's Markdown into Japanese using parallel chunk translation via sub-agents.
 
 ## Arguments
 
@@ -13,52 +13,78 @@ Translate a paper's Markdown into Japanese.
 
 ## Workflow
 
-### Step 1: Locate paper.md
+### Step 1: Locate paper.md and validate
 
 1. If a directory path is given, look for `paper.md` inside it.
 2. If a file path is given, use it directly.
 3. If `paper.md` does not exist, inform the user and suggest running `/read-paper` first to convert the PDF.
 4. Check if `paper-ja.md` already exists. If so, ask the user whether to overwrite.
 
-### Step 2: Translate
+### Step 2: Analyze structure and plan chunks
 
-Read `paper.md` and translate its content into Japanese **section by section**.
+Do NOT read the full paper.md content. Instead:
 
-For long papers, process in chunks of ~300 lines to stay within context limits:
-1. Read a chunk with the Read tool (using `offset` and `limit`).
-2. Translate the chunk following the rules below.
-3. Append the translated text to an accumulator.
-4. Repeat until the entire file is processed.
+1. Run `wc -l <paper.md>` to get total line count.
+2. Run `grep -n '^#' <paper.md>` to find section heading positions.
+3. **Identify the References section boundaries**:
+   - Find the heading for References (e.g., `# References`, `## References`, `# Bibliography`). Record its line number as `references_start_line`.
+   - Find the next heading **at the same or higher level** after References (e.g., Appendix). Record its line number as `references_end_line`. If there is no subsequent heading, `references_end_line` = total line count + 1.
+   - The References section spans `[references_start_line, references_end_line - 1]`.
+4. Plan chunk boundaries at section headings, targeting ~300-500 lines per chunk.
+   - **Skip the References section**: create chunks for lines before it and lines after it (e.g., Appendix), but not for the References section itself.
+   - Never split in the middle of a section — always split at a heading boundary.
+   - If a section is longer than 500 lines, split at sub-heading boundaries within it.
+5. Record chunk plan as a list of `(start_line, end_line, chunk_index)`.
+6. Record the references range: `(references_start_line, references_end_line - 1)` — this will be copied as-is (untranslated) in Step 4.
 
-### Step 3: Write output
+### Step 3: Parallel chunk translation
 
-Write the complete translated text to `paper-ja.md` in the same directory as `paper.md`.
+1. **Read the agent instructions**: Read the file `.claude/agents/paper-translator.md` to get the full agent instructions.
+2. **Launch chunk agents**: For each chunk, launch a sub-agent using the Task tool with `subagent_type: "general-purpose"` and `model: "sonnet"`.
 
-## Translation Rules
+Each sub-agent prompt should be structured as:
 
-1. **Technical terms**: Keep in English as-is. Do NOT translate:
-   - Model/method names (Transformer, Attention, Embedding, Softmax, RAG, etc.)
-   - Proper nouns (dataset names, benchmark names, tool names)
-   - Abbreviations (LLM, RL, MARL, QA, etc.)
-2. **Mathematical notation**: Preserve exactly as written (`$...$`, `$$...$$`, LaTeX commands).
-3. **Markdown formatting**: Preserve all formatting:
-   - Headings (`#`, `##`, etc.)
-   - Lists (`-`, `*`, `1.`)
-   - Bold/italic (`**...**`, `_..._`)
-   - Code blocks (`` ``` ``)
-   - Image references (`![...](figures/...)`)
-   - Table structure (`|...|`)
-4. **Citations**: Keep author names and years as-is (e.g., "Vaswani et al., 2017").
-5. **Figure/Table/Equation references**: Keep numbering as-is (e.g., "Figure 1", "Table 2", "Eq. 3"). Translate only the label word if natural (e.g., "Figure 1" can remain or become "図1").
-6. **Section headings**: Translate heading text but keep numbering (e.g., "## 3. Method" -> "## 3. 手法").
-7. **Abstract**: Translate fully.
-8. **Tone**: Use academic Japanese (である調). Maintain the paper's register.
-9. **Page artifacts**: Remove page numbers, headers/footers, and other conversion artifacts if present.
+```
+You are the paper-translator agent. Follow these instructions:
+
+<paste full content of .claude/agents/paper-translator.md here>
+
+---
+
+Now perform the following task:
+
+Source file: <paper.md path>
+Output file: <paper_dir>/paper-ja-chunk-<N>.md
+Read lines: offset=<start_line - 1>, limit=<end_line - start_line + 1>
+
+Read the specified lines from the source file, translate following all 9 translation rules above, and write the result to the output file.
+```
+
+**Launch ALL chunk agents in parallel** (multiple Task tool calls in a single response).
+
+### Step 4: Assemble and clean up
+
+After all sub-agents complete:
+
+1. **Extract the References section** (untranslated) from the original `paper.md`:
+   ```bash
+   sed -n '<references_start_line>,<references_end_line>p' <paper.md> > <paper_dir>/paper-ja-references.md
+   ```
+2. Concatenate all translated chunk files and the untranslated References section **in document order**:
+   - Chunks before References → `paper-ja-references.md` → Chunks after References (e.g., Appendix)
+   ```bash
+   cat <paper_dir>/paper-ja-chunk-0.md ... <paper_dir>/paper-ja-references.md <paper_dir>/paper-ja-chunk-N.md ... > <paper_dir>/paper-ja.md
+   ```
+3. Remove temporary chunk files:
+   ```bash
+   rm <paper_dir>/paper-ja-chunk-*.md <paper_dir>/paper-ja-references.md
+   ```
+4. Report completion to the user with the output path.
 
 ## Important
 
-- Always read `paper.md` first — never read the PDF directly.
-- Process section by section to maintain translation quality and context.
-- If a section is too domain-specific and you are uncertain about terminology, flag it and proceed with your best translation.
+- **Do NOT read the full paper.md into the main context.** Only use `wc -l` and `grep -n` for structure analysis.
+- Each sub-agent handles its own chunk independently — no context sharing between chunks.
+- The chunking in Step 2 is an internal processing strategy. Do not ask the user for confirmation on chunk boundaries.
 - Output language is always Japanese. The `--en` flag is NOT applicable to this skill.
-- Run the entire translation continuously without asking the user for confirmation between chunks. The chunking in Step 2 is an internal processing strategy, not a user-interaction point. Write the final `paper-ja.md` only after all chunks are translated.
+- If the paper is short (< 300 lines), use a single sub-agent instead of splitting.

@@ -233,14 +233,24 @@ The `memory/` directory maintains cross-session state:
 
 ## SubAgents
 
-Four specialized SubAgents are available in `.claude/agents/`:
+Six specialized SubAgent definitions are available in `.claude/agents/`.
+Skills use these by reading the agent file and passing its content as instructions to `general-purpose` sub-agents via the Task tool.
 
-| Agent | Model | Specialty |
-|-------|-------|-----------|
-| `paper-reader` | opus | Deep paper analysis with strict epistemic stance |
-| `literature-surveyor` | opus | Web search + existing notes for survey generation |
-| `citation-tracer` | sonnet | High-volume citation chain investigation |
-| `reimplementer` | opus | TDD-based Python reimplementation |
+| Agent File | Recommended Model | Specialty | Used By |
+|------------|-------------------|-----------|---------|
+| `paper-reader.md` | opus | Deep paper analysis with strict epistemic stance + notes/claims/README generation | `/read-paper` |
+| `paper-translator.md` | sonnet | Chunk-based paper translation (English → Japanese) | `/translate-paper` |
+| `inbox-classifier.md` | sonnet | PDF metadata extraction and topic classification | `/organize-inbox` |
+| `literature-surveyor.md` | opus | Web search + existing notes for survey generation | `/survey` |
+| `citation-tracer.md` | sonnet | High-volume citation chain investigation | `/trace-citations` |
+| `reimplementer.md` | opus | TDD-based Python reimplementation | `/reimplement` |
+
+### How to use custom agents in skills
+
+Since `.claude/agents/` definitions are NOT registered as Task tool `subagent_type` values, skills must:
+1. Read the agent file: `.claude/agents/<agent-name>.md`
+2. Launch `Task` with `subagent_type: "general-purpose"` (and optionally `model: "sonnet"` or `"opus"`)
+3. Include the agent file content as instructions in the prompt
 
 ---
 

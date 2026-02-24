@@ -2,7 +2,7 @@
 name = "paper-reading"
 version = "0.1.0"
 description = "ML/AI論文の読解・サーベイ・再現実装プロジェクト"
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 dependencies = [
     "pymupdf>=1.25.0",
     "pymupdf4llm>=0.0.17",
