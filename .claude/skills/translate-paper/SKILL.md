@@ -61,3 +61,4 @@ Write the complete translated text to `paper-ja.md` in the same directory as `pa
 - Process section by section to maintain translation quality and context.
 - If a section is too domain-specific and you are uncertain about terminology, flag it and proceed with your best translation.
 - Output language is always Japanese. The `--en` flag is NOT applicable to this skill.
+- Run the entire translation continuously without asking the user for confirmation between chunks. The chunking in Step 2 is an internal processing strategy, not a user-interaction point. Write the final `paper-ja.md` only after all chunks are translated.

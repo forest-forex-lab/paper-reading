@@ -25,8 +25,8 @@ Scan `papers/inbox/` for PDF files and organize them into `papers/<topic>/<autho
 For each PDF file:
 
 1. **Convert to Markdown** (temporary, for metadata extraction):
-   - Run: `python scripts/pdf_to_markdown.py <pdf_path> --output-dir papers/inbox/_tmp_<filename>`
-   - This generates a temporary markdown + figures for reading
+   - Run: `uv run python scripts/pdf_to_markdown.py <pdf_path> --output-dir papers/inbox/_tmp_<filename>`
+   - This generates a temporary markdown + images for reading
 
 2. **Read first ~100 lines** of the generated markdown to extract:
    - **Title** — the paper title
@@ -69,8 +69,8 @@ For each approved PDF:
 
 1. **Create destination directory**: `mkdir -p papers/<topic>/<author-year>/`
 2. **Move PDF**: `mv papers/inbox/<file>.pdf papers/<topic>/<author-year>/paper.pdf`
-3. **Run full conversion**: `python scripts/pdf_to_markdown.py papers/<topic>/<author-year>/paper.pdf`
-   - This generates `paper.md` and `figures/` in the proper location
+3. **Run full conversion**: `uv run python scripts/pdf_to_markdown.py papers/<topic>/<author-year>/paper.pdf`
+   - This generates `paper.md` and `paper_artifacts/` in the proper location
 4. **Clean up**: Remove temporary conversion files from inbox (`papers/inbox/_tmp_*`)
 
 ### Step 5: Report Results
@@ -109,7 +109,7 @@ Use these topic categories as reference (create new ones as needed):
 
 ## Error Handling
 
-- If `pymupdf4llm` is not installed, prompt: `pip install -r scripts/requirements.txt`
+- If `docling` is not installed, prompt: `uv sync`
 - If metadata extraction fails, fall back to asking user for title/author/year manually
 - If destination directory already exists, ask user whether to overwrite or choose a different name
 

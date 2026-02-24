@@ -15,9 +15,44 @@
 
 {What problem does this paper address? Why is it important?}
 
+## Core Thesis & Design Philosophy
+
+{The paper's fundamental intellectual stance — WHY the authors believe their approach works.
+This is NOT a method description, but the underlying insight or principle that drives the design.}
+
+- **Core thesis:** {The key insight or bet the paper makes, in one sentence}
+- **What they reject:** {What conventional wisdom or prior assumptions do they challenge?}
+- **What they bet on:** {What principle or mechanism do they trust instead?}
+
+## Intellectual Lineage
+
+{How the paper draws on prior work — not just "what it cites" but "what concepts it borrows and how it adapts them."
+Each entry should explain: (1) the source concept, (2) its original context, (3) how this paper transforms or extends it.}
+
+| Source | Original Concept | How This Paper Adapts It |
+|--------|-----------------|-------------------------|
+| {Author (Year)} | {concept name and brief description} | {how it was borrowed, modified, or extended} |
+| ... | ... | ... |
+
 ## Proposed Method
 
+### Overview
+
 {High-level description of the approach. Reference key equations and figures.}
+
+### Key Design Decisions
+
+{For each significant design choice, explain WHAT was chosen, WHY, and what ALTERNATIVES exist.
+These are the decisions that make this paper's method distinct from naive or default approaches.}
+
+1. **{Decision name}**: {What was chosen} — *Rationale:* {Why} — *Alternatives:* {What else could have been done}
+2. ...
+
+### Technical Details
+
+{Detailed method description: architecture, algorithms, equations, training procedures.
+Use the paper's original notation. Reference equations by paper numbering (Eq. 1, etc.).
+Include key figures: `![Figure N](figures/xxx.png)`}
 
 ## Key Claims
 

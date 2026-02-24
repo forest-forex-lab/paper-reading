@@ -54,8 +54,8 @@ papers/
     vaswani-2017/
       paper.pdf            # Original PDF (Git LFS)
       paper.md             # PDF→Markdown変換結果（自動生成）
-      figures/             # PDFから抽出した画像（自動生成）
-        img_0001.png
+      paper_artifacts/     # PDFから抽出した画像（自動生成）
+        image_000000_xxx.png
       notes.md             # Reading notes (from template)
       claims.md            # Claim-by-claim analysis (from template)
       README.md            # One-paragraph summary + metadata
@@ -116,9 +116,10 @@ The following `/slash-commands` are available:
 論文の読解は必ず **PDF→Markdown変換→Markdown読解** の順で実施する:
 
 1. **変換**: `uv run python scripts/pdf_to_markdown.py <paper.pdf>` を実行
-   - `paper.md` が生成される（Markdown形式の論文本文）
-   - `figures/` に画像が抽出される（PNG）
-   - Markdown内で `![](figures/img_xxxx.png)` として画像が参照される
+   - `paper.md` が生成される（Markdown形式の論文本文、画像参照付き）
+   - `paper_artifacts/` に画像が抽出される（PNG）
+   - Markdown内で `![Image](paper_artifacts/image_xxxx.png)` として画像が参照される
+   - 変換エンジン: [Docling](https://github.com/docling-project/docling)
 2. **読解**: 生成された `paper.md` を Read ツールで読み、分析を行う
    - 画像は Read ツールで直接表示可能
    - PDF を直接読む必要はない
@@ -139,7 +140,23 @@ uv run python scripts/pdf_to_markdown.py <paper.pdf>
 ### Git LFS
 
 - PDFは Git LFS で管理（`*.pdf` は `.gitattributes` で追跡）
-- 変換後の `paper.md` と `figures/` はgit通常管理
+- 変換後の `paper.md` と `paper_artifacts/` はgit通常管理
+
+---
+
+## Error Handling Rules
+
+When a tool call or shell command fails:
+
+1. **Never retry the same command unchanged.** If a command fails once, it will fail again with the same inputs. Diagnose the error message before acting.
+2. **Distinguish transient from structural errors:**
+   - Transient (retry OK): network timeout, rate limit, temporary lock
+   - Structural (do NOT retry): missing binary, wrong arguments, permission denied, file not found
+3. **After a structural failure, stop and investigate:**
+   - Read error output carefully
+   - Check project docs (this file, SKILL.md) for the documented approach
+   - If the required tool is not installed, inform the user rather than attempting workarounds
+4. **Two-failure rule**: If two different approaches to the same sub-task fail, pause and report the situation to the user with a summary of what was tried and why it failed. Do not attempt a third approach silently.
 
 ---
 
@@ -149,6 +166,14 @@ uv run python scripts/pdf_to_markdown.py <paper.pdf>
 - **Python 3.10+** as default language
 - **Virtual environment**: `venv` in each implementation directory
 - **Package management**: `uv` with `pyproject.toml`
+
+### Tooling Rule: Read Before Guessing
+
+Before running any package manager, build tool, or CLI utility:
+
+1. **Check this file first.** AGENT.md specifies `uv` as the package manager and `scripts/pdf_to_markdown.py` as the PDF converter. Do not substitute alternatives.
+2. **Never use `pip` or `pip install` in this project.** Always use `uv add` for dependencies and `uv run` for execution.
+3. **If a task requires a tool not mentioned in AGENT.md**, check what is actually installed (`uv pip list`, `which <tool>`) before attempting to use it. Do not install new tools without informing the user.
 
 ### Code Quality
 - **Type hints** on all function signatures

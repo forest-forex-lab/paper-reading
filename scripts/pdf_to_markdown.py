@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convert a PDF to Markdown with image extraction.
+"""Convert a PDF to Markdown with image extraction using Docling.
 
 Usage:
     uv run python scripts/pdf_to_markdown.py <pdf_path> [--output-dir <dir>]
@@ -7,21 +7,20 @@ Usage:
 If --output-dir is not specified, outputs to the same directory as the PDF.
 
 Output:
-    <output-dir>/paper.md       Markdown text with embedded image references
-    <output-dir>/figures/        Extracted images (PNG)
+    <output-dir>/paper.md              Markdown text with embedded image references
+    <output-dir>/paper_artifacts/      Extracted images (PNG)
 """
 
 from __future__ import annotations
 
 import argparse
-import re
 import sys
 from pathlib import Path
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Convert PDF to Markdown with image extraction."
+        description="Convert PDF to Markdown with image extraction (Docling)."
     )
     parser.add_argument("pdf_path", type=Path, help="Path to the input PDF file")
     parser.add_argument(
@@ -37,188 +36,94 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Output markdown filename (default: paper.md)",
     )
     parser.add_argument(
-        "--dpi",
-        type=int,
-        default=200,
-        help="DPI for image extraction (default: 200)",
+        "--image-scale",
+        type=float,
+        default=2.0,
+        help="Scale factor for extracted images (default: 2.0)",
     )
     return parser.parse_args(argv)
-
-
-def _clean_paragraph_breaks(md_text: str) -> str:
-    """Join intra-paragraph line breaks while preserving block-level structure.
-
-    Processes blank-line-separated blocks. Within each block, joins lines
-    that are plain paragraph text. Preserves headings, lists, code fences,
-    images, tables, math blocks, and blockquotes.
-    """
-    lines = md_text.split("\n")
-    result: list[str] = []
-    i = 0
-
-    while i < len(lines):
-        line = lines[i]
-
-        # Pass through code fences verbatim
-        if line.strip().startswith("```"):
-            result.append(line)
-            i += 1
-            while i < len(lines) and not lines[i].strip().startswith("```"):
-                result.append(lines[i])
-                i += 1
-            if i < len(lines):
-                result.append(lines[i])
-                i += 1
-            continue
-
-        # Pass through math blocks ($$...$$) verbatim
-        if line.strip().startswith("$$"):
-            result.append(line)
-            # If $$ is on its own line, find closing $$
-            if line.strip() == "$$":
-                i += 1
-                while i < len(lines) and lines[i].strip() != "$$":
-                    result.append(lines[i])
-                    i += 1
-                if i < len(lines):
-                    result.append(lines[i])
-                    i += 1
-            else:
-                i += 1
-            continue
-
-        # Blank lines pass through
-        if line.strip() == "":
-            result.append(line)
-            i += 1
-            continue
-
-        # Lines that should never be joined with subsequent lines
-        if _is_block_element(line):
-            result.append(line)
-            i += 1
-            continue
-
-        # Collect consecutive paragraph lines for joining
-        para_lines = [line]
-        i += 1
-        while i < len(lines) and lines[i].strip() != "" and not _is_block_element(lines[i]):
-            # Stop if next line starts a code fence or math block
-            if lines[i].strip().startswith("```") or lines[i].strip().startswith("$$"):
-                break
-            para_lines.append(lines[i])
-            i += 1
-
-        joined = _join_lines(para_lines)
-        result.append(joined)
-
-    return "\n".join(result)
-
-
-def _is_block_element(line: str) -> bool:
-    """Check if a line is a block-level Markdown element that should not be joined."""
-    stripped = line.strip()
-    if stripped.startswith("#"):
-        return True
-    if re.match(r"^[-*+]\s", stripped):
-        return True
-    if re.match(r"^\d+\.\s", stripped):
-        return True
-    if stripped.startswith("!["):
-        return True
-    if stripped.startswith("|"):
-        return True
-    if stripped.startswith(">"):
-        return True
-    if stripped.startswith("---") or stripped.startswith("***") or stripped.startswith("___"):
-        return True
-    return False
-
-
-def _join_lines(lines: list[str]) -> str:
-    """Join paragraph lines, repairing hyphenation at line breaks."""
-    if len(lines) <= 1:
-        return lines[0] if lines else ""
-
-    parts: list[str] = []
-    for j, line in enumerate(lines):
-        text = line.strip()
-        if j < len(lines) - 1:
-            # Repair hyphenation: "word-" + "continuation" -> "wordcontinuation"
-            if text.endswith("-") and not text.endswith("--"):
-                next_line = lines[j + 1].strip()
-                if next_line and next_line[0].islower():
-                    text = text[:-1]
-                    parts.append(text)
-                    continue
-            parts.append(text + " ")
-        else:
-            parts.append(text)
-
-    return "".join(parts).rstrip()
 
 
 def convert_pdf_to_markdown(
     pdf_path: Path,
     output_dir: Path,
     output_name: str = "paper.md",
-    dpi: int = 200,
+    image_scale: float = 2.0,
 ) -> Path:
-    """Convert a PDF file to Markdown with extracted images.
+    """Convert a PDF file to Markdown with extracted images using Docling.
 
-    Uses pymupdf4llm for text extraction and applies post-processing
-    to clean up paragraph breaks.
+    Uses Docling's DocumentConverter with ImageRefMode.REFERENCED to produce
+    Markdown with image file references.
 
     Args:
         pdf_path: Path to the input PDF file.
         output_dir: Directory to write output files.
         output_name: Name of the output markdown file.
-        dpi: Resolution for image extraction.
+        image_scale: Scale factor for image extraction resolution.
 
     Returns:
         Path to the generated markdown file.
 
     Raises:
         FileNotFoundError: If the PDF file does not exist.
-        ImportError: If pymupdf4llm is not installed.
+        ImportError: If docling is not installed.
     """
     if not pdf_path.exists():
         raise FileNotFoundError(f"PDF not found: {pdf_path}")
 
     try:
-        import pymupdf4llm
+        from docling.datamodel.base_models import InputFormat
+        from docling.datamodel.pipeline_options import PdfPipelineOptions
+        from docling.document_converter import DocumentConverter, PdfFormatOption
+        from docling_core.types.doc import ImageRefMode
     except ImportError as e:
         raise ImportError(
-            "pymupdf4llm is required. Install with: uv add pymupdf4llm"
+            "docling is required. Install with: uv add docling"
         ) from e
 
-    figures_dir = output_dir / "figures"
-    figures_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"Converting: {pdf_path}")
 
-    md_text: str = pymupdf4llm.to_markdown(
-        str(pdf_path),
-        write_images=True,
-        image_path=str(figures_dir),
-        dpi=dpi,
+    pipeline_opts = PdfPipelineOptions(
+        generate_picture_images=True,
+        images_scale=image_scale,
+    )
+    converter = DocumentConverter(
+        format_options={
+            InputFormat.PDF: PdfFormatOption(
+                pipeline_options=pipeline_opts
+            )
+        }
     )
 
-    # Rewrite image paths to be relative to output_dir
-    abs_figures = str(figures_dir)
-    rel_figures = str(figures_dir.relative_to(output_dir))
-    md_text = md_text.replace(abs_figures, rel_figures)
-
-    md_text = _clean_paragraph_breaks(md_text)
+    result = converter.convert(str(pdf_path))
+    doc = result.document
 
     output_path = output_dir / output_name
+    doc.save_as_markdown(
+        output_path,
+        image_mode=ImageRefMode.REFERENCED,
+    )
+
+    # Rewrite absolute image paths to relative
+    md_text = output_path.read_text(encoding="utf-8")
+    abs_output_dir = str(output_dir.resolve()) + "/"
+    md_text = md_text.replace(abs_output_dir, "")
     output_path.write_text(md_text, encoding="utf-8")
 
-    image_count = len(list(figures_dir.glob("*.png"))) + len(
-        list(figures_dir.glob("*.jpg"))
-    )
+    # Count extracted images
+    stem = Path(output_name).stem
+    artifacts_dir = output_dir / f"{stem}_artifacts"
+    image_count = 0
+    if artifacts_dir.exists():
+        image_count = (
+            len(list(artifacts_dir.glob("*.png")))
+            + len(list(artifacts_dir.glob("*.jpg")))
+        )
+
     print(f"  Markdown: {output_path}")
-    print(f"  Images:   {image_count} files in {figures_dir}/")
+    print(f"  Images:   {image_count} files in {artifacts_dir}/")
 
     return output_path
 
@@ -234,7 +139,7 @@ def main(argv: list[str] | None = None) -> int:
             pdf_path=pdf_path,
             output_dir=output_dir,
             output_name=args.output_name,
-            dpi=args.dpi,
+            image_scale=args.image_scale,
         )
     except (FileNotFoundError, ImportError, ValueError) as e:
         print(f"Error: {e}", file=sys.stderr)

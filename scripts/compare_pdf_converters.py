@@ -193,15 +193,15 @@ def convert_with_markitdown(
 def convert_with_docling(
     pdf_path: Path, output_dir: Path
 ) -> ConversionResult:
-    """Convert PDF using Docling."""
+    """Convert PDF using Docling with image references in markdown."""
     method = "docling"
-    figures_dir = output_dir / "figures"
-    figures_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     try:
         from docling.datamodel.base_models import InputFormat
         from docling.datamodel.pipeline_options import PdfPipelineOptions
         from docling.document_converter import DocumentConverter, PdfFormatOption
+        from docling_core.types.doc import ImageRefMode
     except ImportError:
         return ConversionResult(
             method=method,
@@ -230,25 +230,26 @@ def convert_with_docling(
         result = converter.convert(str(pdf_path))
         doc = result.document
 
-        md_text = doc.export_to_markdown()
-
-        # Extract images
-        img_index = 0
-        for item, _level in doc.iterate_items():
-            if hasattr(item, "image") and item.image is not None:
-                try:
-                    pil_img = item.image.pil_image
-                    if pil_img is not None:
-                        img_path = figures_dir / f"img_{img_index:04d}.png"
-                        pil_img.save(str(img_path))
-                        img_index += 1
-                except Exception:
-                    pass
+        # save_as_markdown with REFERENCED mode writes images to
+        # <stem>_artifacts/ and inserts ![](path) references
+        output_path = output_dir / "paper.md"
+        doc.save_as_markdown(
+            output_path,
+            image_mode=ImageRefMode.REFERENCED,
+        )
 
         elapsed = time.perf_counter() - start
 
-        output_path = output_dir / "paper.md"
+        md_text = output_path.read_text(encoding="utf-8")
+
+        # Rewrite absolute image paths to relative
+        abs_output_dir = str(output_dir.resolve()) + "/"
+        md_text = md_text.replace(abs_output_dir, "")
         output_path.write_text(md_text, encoding="utf-8")
+
+        # Count images in the artifacts directory
+        artifacts_dir = output_dir / "paper_artifacts"
+        image_count = _count_images(artifacts_dir)
 
         return ConversionResult(
             method=method,
@@ -256,7 +257,7 @@ def convert_with_docling(
             output_path=output_path,
             char_count=len(md_text),
             line_count=md_text.count("\n") + 1,
-            image_count=_count_images(figures_dir),
+            image_count=image_count,
             success=True,
         )
     except Exception as e:

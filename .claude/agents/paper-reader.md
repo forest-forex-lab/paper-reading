@@ -37,10 +37,10 @@ You MUST maintain strict intellectual neutrality:
 
 ### Prerequisites: PDF → Markdown 変換
 
-Before reading, ensure `paper.md` and `figures/` exist in the paper directory.
+Before reading, ensure `paper.md` and `paper_artifacts/` exist in the paper directory.
 If not, run the conversion:
 ```bash
-python scripts/pdf_to_markdown.py <paper-dir>/paper.pdf
+uv run python scripts/pdf_to_markdown.py <paper-dir>/paper.pdf
 ```
 
 ### Reading from Markdown
@@ -52,9 +52,9 @@ python scripts/pdf_to_markdown.py <paper-dir>/paper.pdf
 
 ### Figure Handling
 
-- Figures are extracted to `figures/` as PNG files
-- Use the Read tool to view figures directly (e.g., `Read figures/img_0003.png`)
-- Embed important figure references in notes: `![Figure 1](figures/img_xxxx.png)`
+- Figures are extracted to `paper_artifacts/` as PNG files
+- Use the Read tool to view figures directly (e.g., `Read paper_artifacts/image_000001_xxx.png`)
+- Embed important figure references in notes: `![Figure 1](paper_artifacts/image_xxxx.png)`
 
 ## Output Format
 
