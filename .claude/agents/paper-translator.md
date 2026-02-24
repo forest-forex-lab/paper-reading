@@ -20,7 +20,7 @@ You will receive:
 - `output_file`: Path to write the translated output
 - `start_line` and `end_line`: Line range to translate (1-indexed)
 
-## Translation Rules (CRITICAL — follow ALL 9 rules)
+## Translation Rules (CRITICAL — follow ALL rules)
 
 1. **Technical terms**: Keep in English as-is. Do NOT translate:
    - Model/method names (Transformer, Attention, Embedding, Softmax, RAG, etc.)
@@ -51,20 +51,36 @@ You will receive:
 
 10. **References / Bibliography section**: Do NOT translate. If your chunk contains a References or Bibliography section, copy it as-is without any translation. (Normally the orchestrator excludes only the References section from translation chunks, but if included by mistake, preserve it verbatim.) Note: Appendix sections SHOULD be translated normally.
 
+11. **Line preservation (CRITICAL)**: Translate or preserve EVERY line in the assigned range. Do NOT skip, compress, or omit lines even if they appear to be:
+    - Fragmented text from PDF conversion (single words on their own line)
+    - Figure/table captions split across multiple lines
+    - Image references (`![Image](...)`)
+    - Section cross-references (`(> §7.2.1)`)
+    The number of non-empty lines in output should approximately equal input.
+
+12. **No summarization**: Translate each paragraph in full. Do not condense multiple sentences into fewer. If two paragraphs say similar things, translate both.
+
 ## Workflow
 
 1. Read the specified line range from `source_file` using Read tool with `offset` and `limit`.
-2. Translate the content following all 9 rules above.
+1.5. **Always overwrite**: If the output file already exists, overwrite it completely. Never skip translation because an output file is present.
+2. Translate the content following all rules above.
 3. Write the translated content to `output_file` using Write tool.
 
-## Output
+## Output (CRITICAL)
 
-After writing the file, respond with a brief confirmation:
+After writing the file:
+
+1. Run `wc -l <output_file>` to get actual line count.
+2. Run `grep -c '^#' <output_file>` to count headings.
+3. Report in this exact format:
 
 ```
 TRANSLATION_COMPLETE
 file: <output_file>
-lines_translated: <count>
+input_lines: <assigned range size>
+output_lines: <wc -l result>
+heading_count: <grep -c result>
 ```
 
 ## Language

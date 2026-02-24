@@ -30,12 +30,20 @@ Do NOT read the full paper.md content. Instead:
    - Find the heading for References (e.g., `# References`, `## References`, `# Bibliography`). Record its line number as `references_start_line`.
    - Find the next heading **at the same or higher level** after References (e.g., Appendix). Record its line number as `references_end_line`. If there is no subsequent heading, `references_end_line` = total line count + 1.
    - The References section spans `[references_start_line, references_end_line - 1]`.
-4. Plan chunk boundaries at section headings, targeting ~300-500 lines per chunk.
+4. Plan chunk boundaries at section headings, targeting **200-300 lines per chunk** (hard maximum: 350 lines).
    - **Skip the References section**: create chunks for lines before it and lines after it (e.g., Appendix), but not for the References section itself.
    - Never split in the middle of a section — always split at a heading boundary.
-   - If a section is longer than 500 lines, split at sub-heading boundaries within it.
+   - If a section exceeds 300 lines even at finest sub-heading granularity, split at the **nearest blank line** after ~250 lines.
+   - **Rationale**: Dense survey prose (274 lines) hit the 32K output token limit at the previous 500-line cap. 200-300 lines provides a 2x safety margin.
 5. Record chunk plan as a list of `(start_line, end_line, chunk_index)`.
 6. Record the references range: `(references_start_line, references_end_line - 1)` — this will be copied as-is (untranslated) in Step 4.
+
+### Step 2.5: Clean stale chunk files
+
+Before launching sub-agents, remove any chunk files from previous runs:
+```bash
+rm -f <paper_dir>/paper-ja-chunk-*.md <paper_dir>/paper-ja-references.md
+```
 
 ### Step 3: Parallel chunk translation
 
@@ -57,10 +65,23 @@ Source file: <paper.md path>
 Output file: <paper_dir>/paper-ja-chunk-<N>.md
 Read lines: offset=<start_line - 1>, limit=<end_line - start_line + 1>
 
-Read the specified lines from the source file, translate following all 9 translation rules above, and write the result to the output file.
+Read the specified lines from the source file, translate following all translation rules above, and write the result to the output file.
 ```
 
 **Launch ALL chunk agents in parallel** (multiple Task tool calls in a single response).
+
+### Step 3.5: Verify chunk outputs
+
+1. **File existence**: `test -f` each chunk file. Missing = CHUNK_FAILED.
+
+2. **Line count ratio**: `wc -l` each chunk. If output < 70% of input lines → CONTENT_LOSS.
+
+3. **Section coverage**: `grep -n '^#' <chunk_file>` and compare against the headings expected from Step 2. Missing heading → SECTION_MISSING.
+
+4. **Handle failures**:
+   - CHUNK_FAILED → Re-launch that sub-agent. Two failures → report to user.
+   - CONTENT_LOSS → Split chunk in half, re-launch as two chunks. Both fail → report to user.
+   - SECTION_MISSING → Report missing sections with line numbers, ask user.
 
 ### Step 4: Assemble and clean up
 
@@ -80,6 +101,19 @@ After all sub-agents complete:
    rm <paper_dir>/paper-ja-chunk-*.md <paper_dir>/paper-ja-references.md
    ```
 4. Report completion to the user with the output path.
+5. **Post-assembly verification**:
+   ```bash
+   wc -l <paper_dir>/paper-ja.md
+   wc -l <paper_dir>/paper.md
+   grep -c '^#' <paper_dir>/paper-ja.md
+   grep -c '^#' <paper_dir>/paper.md
+   ```
+   Report to user:
+   ```
+   Original: <N> lines (<H> headings) | Translated: <M> lines (<J> headings)
+   Body coverage: <body_ja / body_orig * 100>% (excluding References)
+   ```
+   If body coverage < 90%, warn the user before reporting completion.
 
 ## Important
 
