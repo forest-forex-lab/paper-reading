@@ -13,32 +13,19 @@ _2026-02-12_
 
 _Keywords:_ _AI, agents, LLM, delegation, multi-agent, safety_
 
+_Corresponding author(s):_ _nenadt@google.com_ © 2026 Google. All rights reserved
 
 ### **1. Introduction**
 
-As advanced AI agents evolve beyond queryresponse models, their utility is increasingly defined by how effectively they can decompose complex objectives and delegate sub-tasks. This coordination paradigm underpins applications ranging from personal use, where AI agents can act as personal assistants (Gabriel et al., 2024), to commercial, enterprise deployments where AI agents can provide support and automate workflows (Huang and Hughes, 2025; Shao et al., 2025; Tupe and Thube, 2025). Large language models (LLMs) have already shown promise in robotics (Li et al., 2025a; Wang et al., 2024a), by enabling more interactive and accurate goal specification and feedback. Recent proposals have also highlighted the possibility of large-scale AI agent coordination in virtual economies (Tomasev et al., 2025). Modern agentic AI systems implement complex control flows across differentiated sub-agents, coupled with centralized or decentralized orchestration protocols (Hong et al., 2023; Rasal and Hauer, 2024; Song et al., 2025; Zhang et al., 2025a). This can already be seen as a sort of a microcosm of task decomposition and delegation, where the process is hard-coded and highly constrained. Managing dynamic web-scale interactions requires us to think beyond the approaches that are currently employed by more
-
-
-_Corresponding author(s):_ _nenadt@google.com_ © 2026 Google. All rights reserved
-
-
-
-heuristic multi-agent frameworks.
+As advanced AI agents evolve beyond queryresponse models, their utility is increasingly defined by how effectively they can decompose complex objectives and delegate sub-tasks. This coordination paradigm underpins applications ranging from personal use, where AI agents can act as personal assistants (Gabriel et al., 2024), to commercial, enterprise deployments where AI agents can provide support and automate workflows (Huang and Hughes, 2025; Shao et al., 2025; Tupe and Thube, 2025). Large language models (LLMs) have already shown promise in robotics (Li et al., 2025a; Wang et al., 2024a), by enabling more interactive and accurate goal specification and feedback. Recent proposals have also highlighted the possibility of large-scale AI agent coordination in virtual economies (Tomasev et al., 2025). Modern agentic AI systems implement complex control flows across differentiated sub-agents, coupled with centralized or decentralized orchestration protocols (Hong et al., 2023; Rasal and Hauer, 2024; Song et al., 2025; Zhang et al., 2025a). This can already be seen as a sort of a microcosm of task decomposition and delegation, where the process is hard-coded and highly constrained. Managing dynamic web-scale interactions requires us to think beyond the approaches that are currently employed by more heuristic multi-agent frameworks.
 
 
 Delegation (Castelfranchi and Falcone, 1998) is more than just task decomposition into manageable sub-units of action. Beyond the creation of sub-tasks, delegation necessitates the assignment of responsibility and authority (Mueller and Vogelsmeier, 2013; Nagia, 2024) and thus implicates accountability for outcomes. Delegation thus involves risk assessment, which can be moderated by trust (Griffiths, 2005). Delegation further involves capability matching and continuous performance monitoring, incorporating dynamic adjustments based on feedback, and ensuring completion of the distributed task under the specified constraints. Current approaches tend to fail to account for these factors, relying more on heuristics and/or simpler parallelization. This may be sufficient for early prototypes, but real world AI deployments need to move beyond ad hoc, brittle, and untrustworthy delegation. There is a pressing need for systems that can dynamically adapt to changes (Acharya et al., 2025; Hauptman et al., 2023) and recover from errors. The absence of adaptive and robust deployment frameworks remains one of the key limiting factors for AI applications in high-stakes environments.
 
 
-To fully utilize AI agents, we need _intelligent_ _delegation_ : a robust framework centered around
+To fully utilize AI agents, we need _intelligent_ _delegation_ : a robust framework centered around clear roles, boundaries, reputation, trust, transparency, certifiable agentic capabilities, verifiable task execution, and scalable task distribution. Here we introduce an intelligent task delegation framework aimed at addressing these limitations, informed by historical insights from human organizations, and grounded in key agentic safety requirements.
 
-
-Intelligent AI Delegation
-
-
-
-clear roles, boundaries, reputation, trust, transparency, certifiable agentic capabilities, verifiable task execution, and scalable task distribution. Here we introduce an intelligent task delegation framework aimed at addressing these limitations, informed by historical insights from human organizations, and grounded in key agentic safety requirements.
-
-### **2. Foundations of Intelligent Delega-** **tion**
+### **2. Foundations of Intelligent Delegation**
 
 
 **2.1.** **Definition**
@@ -62,17 +49,7 @@ As delegation can take different forms, here we introduce several axes that help
 3. **Task characteristics.**
 
 
-(a) **Complexity.** The degree of difficulty inherent in the task, often correlated with the number of sub-steps and the sophistication of reasoning required. (b) **Criticality.** The measure of the task’s importance and the severity of consequences associated with failure or suboptimal performance. (c) **Uncertainty.** The level of ambiguity regarding the environment, inputs, or the probability of successful outcome achievement. (d) **Duration.** The expected time-frame for task execution, ranging from instantaneous sub-routines to long-running processes spanning days or weeks. (e) **Cost.** The economic or computational expense incurred to execute the task, including token usage, API fees, and energy consumption. (f) **Resource Requirements.** The specific computational assets, tools, data access permissions, or human capabilities necessary to complete the task. (g) **Constraints.** The operational, ethical, or legal boundaries within which the task must be executed, limiting the solution space. (h) **Verifiability.** The relative difficulty and cost associated with validating the task outcome. Tasks with high verifiability (e.g., formal code verification, mathematical proofs) allow for “trustless” delegation or automated checking. Conversely, tasks with low verifiability (e.g., open-ended research) require high-trust delegatees or expensive, labor-intensive oversight. (i) **Reversibility.** The degree to which the
-
-
-2
-
-
-Intelligent AI Delegation
-
-
-
-effects of the task execution can be undone. Irreversible tasks that produce side effects in the real world (e.g., executing a financial trade, deleting a database, sending an external email) require stricter _liability firebreaks_ and steeper authority gradients than reversible tasks (e.g., drafting an email, flagging a database entry). (j) **Contextuality.** The volume and sensitivity of external state, history, or environmental awareness required to execute the task effectively. High-context tasks introduce larger privacy surface areas, whereas context-free tasks can be more easily compartmentalized and outsourced to lower-trust nodes. (k) **Subjectivity.** The extent to which the success criteria are a matter of preference versus objective fact. Highly subjective tasks (e.g., “design a compelling logo”) typically require “Humanas-Value-Specifier” intervention and iterative feedback loops, whereas objective tasks can be governed by stricter, binary contracts.
+(a) **Complexity.** The degree of difficulty inherent in the task, often correlated with the number of sub-steps and the sophistication of reasoning required. (b) **Criticality.** The measure of the task’s importance and the severity of consequences associated with failure or suboptimal performance. (c) **Uncertainty.** The level of ambiguity regarding the environment, inputs, or the probability of successful outcome achievement. (d) **Duration.** The expected time-frame for task execution, ranging from instantaneous sub-routines to long-running processes spanning days or weeks. (e) **Cost.** The economic or computational expense incurred to execute the task, including token usage, API fees, and energy consumption. (f) **Resource Requirements.** The specific computational assets, tools, data access permissions, or human capabilities necessary to complete the task. (g) **Constraints.** The operational, ethical, or legal boundaries within which the task must be executed, limiting the solution space. (h) **Verifiability.** The relative difficulty and cost associated with validating the task outcome. Tasks with high verifiability (e.g., formal code verification, mathematical proofs) allow for “trustless” delegation or automated checking. Conversely, tasks with low verifiability (e.g., open-ended research) require high-trust delegatees or expensive, labor-intensive oversight. (i) **Reversibility.** The degree to which the effects of the task execution can be undone. Irreversible tasks that produce side effects in the real world (e.g., executing a financial trade, deleting a database, sending an external email) require stricter _liability firebreaks_ and steeper authority gradients than reversible tasks (e.g., drafting an email, flagging a database entry). (j) **Contextuality.** The volume and sensitivity of external state, history, or environmental awareness required to execute the task effectively. High-context tasks introduce larger privacy surface areas, whereas context-free tasks can be more easily compartmentalized and outsourced to lower-trust nodes. (k) **Subjectivity.** The extent to which the success criteria are a matter of preference versus objective fact. Highly subjective tasks (e.g., “design a compelling logo”) typically require “Humanas-Value-Specifier” intervention and iterative feedback loops, whereas objective tasks can be governed by stricter, binary contracts.
 
 
 4. **Granularity.** The request could involve either fine-grained or course-grained objectives. In the course-grained case, the delegatee may need to perform further task decomposition.
@@ -95,13 +72,6 @@ Delegation between agents may either be hierarchical or non-hierarchical, depend
 AI-human delegation (Guggenberger et al., 2023) has been shown to be a promising paradigm (Hemmer et al., 2023), making it easier to successfully collaborate with super-human systems (Fügener et al., 2022), due to differences in cognitive biases and metacognition (Fügener et al., 2019). Davidson and Hadshar (2025) predict that there will be an increase in "AI-directed human labour," which may significantly increase economic productivity. In practice, present day AI-human delegation comes with a set of issues. Algorithmic management systems in ride-hailing and logistics allocate and sequence tasks, set performance metrics, and enforce behavioural norms through data-driven decision-making, effectively delegating managerial functions from firms and their AI-based systems to human workers (Beverungen, 2021; Lee et al., 2015; Rosenblat and Stark, 2016). A growing literature links these systems to degraded job quality, stress, and health risks –suggesting that current deployments of algorithmic management often undermine, rather than enhance, workers’ welfare (Ashton and Franklin, 2022; Goods et al., 2019; Vignola et al., 2023). Present day AI-human delegation needs further improvement as it does not take into account human welfare, or long term social externalities.
 
 
-3
-
-
-Intelligent AI Delegation
-
-
-
 **2.3.** **Delegation in Human Organizations**
 
 
@@ -110,54 +80,25 @@ Delegation functions as a primary mechanism within human societal and organisati
 
 **The Principal-Agent Problem.** The _principal-_ _agent problem_ (Cvitanić et al., 2018; Ensminger, 2001; Grossman and Hart, 1992; Myerson, 1982; Sannikov, 2008; Shah, 2014; Sobel, 1993) has been studied at length: a situation that arises when a principal delegates a task to an agent that has motivations that are not in alignment with that of the principal. The agent may thus prioritize their own motivations, withhold information, and act in ways that compromise the original intent. For AI delegation, this dynamic assumes heightened complexity. While most present-day AI agents arguably do not have a hidden agenda [1]
 
-- goals and values they would pursue contrary to
-the instructions of their users - there may still be AI alignment issues that manifest in undesirable ways. For example, reward misspecification occurs when designers give an AI system an imperfect or incomplete objective, while reward hacking (or specification gaming) refers to the system exploiting loopholes in that specified reward signal to achieve high measured performance in ways that subvert the designers’ intent
+- goals and values they would pursue contrary to the instructions of their users - there may still be AI alignment issues that manifest in undesirable ways. For example, reward misspecification occurs when designers give an AI system an imperfect or incomplete objective, while reward hacking (or specification gaming) refers to the system exploiting loopholes in that specified reward signal to achieve high measured performance in ways that subvert the designers’ intent - together illustrating a core alignment problem in which optimising the stated reward diverges from the true goal (Amodei et al., 2016; Krakovna et al., 2020; Leike et al., 2017; Skalse and Mancosu, 2022). This dynamic is likely to change entirely in more autonomous AI agent economies, where AI agents may act on behalf of different human users, groups and organizations, or as delegates on behalf of other agents, with associated unknown objectives.
 
-- together illustrating a core alignment problem
-in which optimising the stated reward diverges from the true goal (Amodei et al., 2016; Krakovna et al., 2020; Leike et al., 2017; Skalse and Mancosu, 2022). This dynamic is likely to change entirely in more autonomous AI agent economies, where AI agents may act on behalf of different human users, groups and organizations, or as delegates on behalf of other agents, with associated
-
-
-1Recent deceptive-alignment work shows that frontier language models can (i) strategically underperform or otherwise tailor their behaviour on capability and safety evaluations while maintaining different capabilities elsewhere, (ii) explicitly reason about faking alignment during training to preserve preferred behaviour out of training, and (iii) detect when they are being evaluated - together indicating that AI systems are already capable, in controlled settings, of adopting hidden “agendas” about performing well on evaluations that need not generalise to deployment behaviour (Greenblatt et al., 2024; Hubinger et al., 2024; Needham et al., 2025; van der Weij et al., 2025).
-
-
-
-unknown objectives.
-
+:::note info
+1 Recent deceptive-alignment work shows that frontier language models can (i) strategically underperform or otherwise tailor their behaviour on capability and safety evaluations while maintaining different capabilities elsewhere, (ii) explicitly reason about faking alignment during training to preserve preferred behaviour out of training, and (iii) detect when they are being evaluated - together indicating that AI systems are already capable, in controlled settings, of adopting hidden “agendas” about performing well on evaluations that need not generalise to deployment behaviour (Greenblatt et al., 2024; Hubinger et al., 2024; Needham et al., 2025; van der Weij et al., 2025).
+:::
 
 **Span of Control.** In human organizations, _span_ _of control_ (Ouchi and Dowling, 1974) is a concept that denotes the limits of hierarchical authority exercised by a single manager. This relates to the number of workers that a manager can effectively manage, which in turn informs the organization’s manager-to-worker ratio. This questions is central to both orchestration and oversight in intelligent AI delegation. The former would inform how many orchestrator nodes would be required compared to worker nodes, while the latter would specify the need for oversight performed by humans and AI agents. For human oversight, it is crucial to establish how many AI agents a human expert can reliably oversee without excessive fatigue, and with an acceptably low error rate. Span of control is known to be goal-dependent (Theobald and Nicholson-Crotty, 2005) and domain-dependent. The impact of identifying the correct organizational structure is most pronounced in tasks with higher complexity (Bohte and Meier, 2001). The optimal span of control also depends on the relative importance of cost vs performance and reliability (Keren and Levhari, 1979). More sensitive and critical tasks may require highly accurate oversight and control at a higher cost. These costs may be relaxed, at the expense of granularity, for tasks that are less consequential and more routine. Similarly, the optimal choice would necessarily depend on the relative capabilities and reliability of the involved delegators, delegatees, and overseers.
 
 
-**Authority Gradient.** Another relevant concept is that of an _authority_ _gradient_ . Coined in aviation (Alkov et al., 1992), this term describes scenarios where significant disparities in capability, experience, and authority impede communication, leading to errors. This has subsequently been studied in medicine, where a significant percentage of errors is attributed to the manner in which senior practitioners conduct supervision (Cosby and Croskerry, 2004; Stucky et al., 2022). There are several ways in which these mistakes could occur. A more experienced person may make erroneous assumptions about the knowledge of the less experienced worker, resulting in under-specified requests. Alternatively, a
-
-
-4
-
-
-Intelligent AI Delegation
-
-
-
-sufficiently high authority gradient may prevent the less experienced workers from voicing concerns about a request. Similar situations may occur in AI delegation. A more capable delegator agent may mistakenly presume a missing level of capability on behalf of a delegatee, thereby delegating a task of an inappropriate complexity. A delegatee agent may potentially, due to sycophancy (Malmqvist, 2025; Sharma et al., 2023) and instruction following bias, be reluctant to challenge, modify, or reject a request, irrespective of whether the request had been issued by a delegator agent or human user.
+**Authority Gradient.** Another relevant concept is that of an _authority_ _gradient_ . Coined in aviation (Alkov et al., 1992), this term describes scenarios where significant disparities in capability, experience, and authority impede communication, leading to errors. This has subsequently been studied in medicine, where a significant percentage of errors is attributed to the manner in which senior practitioners conduct supervision (Cosby and Croskerry, 2004; Stucky et al., 2022). There are several ways in which these mistakes could occur. A more experienced person may make erroneous assumptions about the knowledge of the less experienced worker, resulting in under-specified requests. Alternatively, a sufficiently high authority gradient may prevent the less experienced workers from voicing concerns about a request. Similar situations may occur in AI delegation. A more capable delegator agent may mistakenly presume a missing level of capability on behalf of a delegatee, thereby delegating a task of an inappropriate complexity. A delegatee agent may potentially, due to sycophancy (Malmqvist, 2025; Sharma et al., 2023) and instruction following bias, be reluctant to challenge, modify, or reject a request, irrespective of whether the request had been issued by a delegator agent or human user.
 
 
 **Zone** **of** **Indifference.** When an authority is accepted, the delegatee develops a _zone_ _of_ _indifference_ (Finkelman, 1993; Isomura, 2021; Rosanas and Velilla, 2003) – a range of instructions that are executed without critical deliberation or moral scrutiny. In current AI systems, this zone is defined by post-training safety filters and system instructions; as long as a request does not trigger a hard violation, the model complies (Akheel, 2025). However, in the emerging agentic web, this static compliance creates a significant systemic risk. As delegation chains lengthen ( _𝐴_ → _𝐵_ → _𝐶_ ), a broad zone of indifference allows subtle intent mismatches or context-dependent harms to propagate rapidly downstream, with each agent acting as an unthinking router rather than a responsible actor. Intelligent delegation therefore requires the engineering of **dynamic** **cognitive** **friction** : agents must be capable of recognizing when a request, while technically “safe,” is contextually ambiguous enough to warrant stepping _outside_ their zone of indifference to challenge the delegator or request human verification.
 
 
-**Trust Calibration.** An important aspect of ensuring appropriate task delegation is _trust_ _cali-_ _bration_, where the level of trust placed in a delegatee is aligned with their true underlying capabilities. This applies for human and AI delegators and delegatees alike. Human delegation to agents (Afroogh et al., 2024; Gebru et al., 2022; Kohn et al., 2021; Wischnewski et al., 2023) relies upon the operator either internalising an accurate model of system performance or accessing resources that present these capabilities in
-
-
-
-a human-interpretable format. Conversely, AI agent delegators need to have good models of the capability of the humans and AIs they are delegating to. Calibration of trust also involves a self-awareness of one’s own capabilities as a delegator might decide to complete the task on their own (Ma et al., 2023). Explainability plays an important role in establishing trust in AI capability (Franklin, 2022; Herzog and Franklin, 2024; Naiseh et al., 2021, 2023), yet this method may not be sufficiently reliable or sufficiently scalable. Established trust in automation can be quite fragile, and quickly retracted in case of unanticipated system errors (Dhuliawala et al., 2023). Calibrating trust in autonomous systems is difficult, as current AI models are prone to overconfidence even when factually incorrect. (Aliferis and Simon, 2024; Geng et al., 2023; He et al., 2023; Jiang et al., 2021; Krause et al., 2023; Li et al., 2024b; Liu et al., 2025). Mitigating these tendencies usually requires bespoke technical solutions (Kapoor et al., 2024; Lin et al., 2022; Ren et al., 2023; Xiao et al., 2022).
+**Trust Calibration.** An important aspect of ensuring appropriate task delegation is _trust_ _cali-_ _bration_, where the level of trust placed in a delegatee is aligned with their true underlying capabilities. This applies for human and AI delegators and delegatees alike. Human delegation to agents (Afroogh et al., 2024; Gebru et al., 2022; Kohn et al., 2021; Wischnewski et al., 2023) relies upon the operator either internalising an accurate model of system performance or accessing resources that present these capabilities in a human-interpretable format. Conversely, AI agent delegators need to have good models of the capability of the humans and AIs they are delegating to. Calibration of trust also involves a self-awareness of one’s own capabilities as a delegator might decide to complete the task on their own (Ma et al., 2023). Explainability plays an important role in establishing trust in AI capability (Franklin, 2022; Herzog and Franklin, 2024; Naiseh et al., 2021, 2023), yet this method may not be sufficiently reliable or sufficiently scalable. Established trust in automation can be quite fragile, and quickly retracted in case of unanticipated system errors (Dhuliawala et al., 2023). Calibrating trust in autonomous systems is difficult, as current AI models are prone to overconfidence even when factually incorrect. (Aliferis and Simon, 2024; Geng et al., 2023; He et al., 2023; Jiang et al., 2021; Krause et al., 2023; Li et al., 2024b; Liu et al., 2025). Mitigating these tendencies usually requires bespoke technical solutions (Kapoor et al., 2024; Lin et al., 2022; Ren et al., 2023; Xiao et al., 2022).
 
 
 **Transaction cost economies.** _Transaction cost_ _economies_ (Cuypers et al., 2021; Tadelis and Williamson, 2012; Williamson, 1979, 1989) justify the existence of firms by contrasting the costs of internal delegation against external contracting, specifically accounting for the overhead of monitoring, negotiation, and uncertainty. In case of AI delegatees, there may be a difference in these costs and their respective ratios. Complex negotiations and delays in contracting are less likely with easier monitoring for routine tasks. Conversely, for high-consequence tasks in critical domains, the overhead associated with rigorous monitoring and assurance increases the cost of AI delegation, potentially rendering human delegates the more cost-effective option. Similarly, AI-AI delegation may also be contextualized via transaction cost economies. An AI agent may face an option of either 1) completing the task individually, 2) delegating to a sub-agent where capabilities are fully known, 3) delegating to another AI agent where trust has been established, or 4) delegating to a new AI agent that it hasn’t previously collaborated with. These may come at different expected costs and confidence levels.
-
-
-5
-
-
-Intelligent AI Delegation
-
 
 
 **Contingency theory.** _Contingency theory_ (Donaldson, 2001; Luthans and Stewart, 1977; Otley, 2016; Van de Ven, 1984) posits that there is no universally optimal organizational structure; rather, the most effective approach is contingent upon specific internal and external constraints. Applied to AI delegation, this implies that the requisite level of oversight, delegatee capability, and human involvement must not be static, but dynamically matched to the distinct characteristics of the task at hand. Intelligent delegation may therefore require solutions that can be dynamically reconfigured and adjusted in accordance with the evolving needs. For instance, while stable environments allow for rigid, hierarchical verification protocols, high-uncertainty scenarios require adaptive coordination where human intervention occurs via ad-hoc escalation rather than pre-defined checkpoints. This is particularly important for hybrid (Fuchs et al., 2024) delegation by identifying the key tasks and moments when human participation is most helpful to ensure the delegated tasks are completed safely. Automation is therefore not only about what AI can do, but what AI should do (Lubars and Tan, 2019).
@@ -168,47 +109,22 @@ Intelligent AI Delegation
 Constrained forms of delegation feature within historical _narrow_ AI applications. Early expert systems (Buchanan and Smith, 1988; Jacobs et al., 1991) were a nascent attempt to encode a specialized capability into software, in order to delegate routine decisions to such modules. Mixture of experts (Masoudnia and Ebrahimpour, 2014; Yuksel et al., 2012) extends this by introducing a set of expert sub-systems with complementary capabilities, and a routing module that determines which expert, or subset of experts, would get invoked on a specific input query – an approach that features in modern deep learning applications (Cai et al., 2025; Chen et al., 2022; He, 2024; Jiang et al., 2024; Riquelme et al., 2021; Shazeer et al., 2017; Zhou et al., 2022). Routing can be performed hierarchically (Zhao et al., 2021), making it potentially easier to scale to a large number of experts.
 
 
-Hierarchical reinforcement learning (HRL) rep
-
-
-resents a framework in which decision-making is delegated within a single agent (Barto and Mahadevan, 2003; Botvinick, 2012; Nachum et al., 2018; Pateria et al., 2021; Vezhnevets et al., 2017a; Zhang et al., 2024). It addresses limitations of _flat_ RL, primarily the difficulty of scaling to large state and action spaces. Furthermore, it improves the tractability of credit assignment (Pignatelli et al., 2023) in environments characterized by sparse rewards. HRL employes a hierarchy of policies across several levels of abstraction, thereby breaking down a task into sub-tasks that are executed by the corresponding sub-policies, respectively. The arising semiMarkov decision process (Sutton et al., 1999) utilizes _options_, and a meta-controller that adaptively switches between them. Lower-level policies function to fulfil objectives established by the meta-controller, which learns to allocate specific goals to the appropriate lower-level policy. This framework corresponds to a form of delegation characterised by task decomposition. Although the meta-controller learns to optimise this decomposition, the approach lacks explicit mechanisms for handling sub-policy failures or facilitating dynamic coordination.
+Hierarchical reinforcement learning (HRL) represents a framework in which decision-making is delegated within a single agent (Barto and Mahadevan, 2003; Botvinick, 2012; Nachum et al., 2018; Pateria et al., 2021; Vezhnevets et al., 2017a; Zhang et al., 2024). It addresses limitations of _flat_ RL, primarily the difficulty of scaling to large state and action spaces. Furthermore, it improves the tractability of credit assignment (Pignatelli et al., 2023) in environments characterized by sparse rewards. HRL employes a hierarchy of policies across several levels of abstraction, thereby breaking down a task into sub-tasks that are executed by the corresponding sub-policies, respectively. The arising semiMarkov decision process (Sutton et al., 1999) utilizes _options_, and a meta-controller that adaptively switches between them. Lower-level policies function to fulfil objectives established by the meta-controller, which learns to allocate specific goals to the appropriate lower-level policy. This framework corresponds to a form of delegation characterised by task decomposition. Although the meta-controller learns to optimise this decomposition, the approach lacks explicit mechanisms for handling sub-policy failures or facilitating dynamic coordination.
 
 
 The Feudal Reinforcement Learning framework, notably revisited in FeUdal Networks (Vezhnevets et al., 2017b), constitutes a particularly relevant paradigm within HRL. This architecture explicitly models a “Manager“ and “Worker“ relationship, effectively replicating the delegatordelegatee dynamic. The Manager operates at a lower temporal resolution, setting abstract goals for the Worker to fulfil. Critically, the Manager learns _how_ to delegate - identifying sub-goals that maximise long-term value – without requiring mastery of the lower-level primitive actions. This decoupling allows the Manager to develop a delegation policy robust to the specific implementation details of the Worker. Consequently, this approach offers a potential template for learningbased delegation within future agentic economies. Rather than relying on hard-coded heuristics, decomposition rules are learned adaptively, facilitating dynamic adjustment to environmental changes.
 
 
-Multi-agent research (Du et al., 2023) ad
-
-6
+Multi-agent research (Du et al., 2023) addresses agent coordination for complex tasks exceeding single-agent capabilities. Task decomposition and delegation function as central components of this domain. Coordination in multiagent systems occurs via explicit protocols or emergent specialisation through RL (Gronauer and Diepold, 2022; Zhu et al., 2024). The Contract Net Protocol (Sandholm, 1993; Smith, 1980; Vokřínek et al., 2007; Xu and Weigand, 2001) exemplifies an explicit auction-based decentralized protocol. Here, an agent announces a task, while others submit bids based on their capabilities, allowing the announcer to select the most suitable bidder. This demonstrates the utility of market-based mechanisms for facilitating cooperation. Coalition formation methods (Aknine et al., 2004; Boehmer et al., 2025; Lau and Zhang, 2003; Mazdin and Rinner, 2021; Sarkar et al., 2022; Shehory et al., 1997) investigate flexible configurations where agent groups are not predetermined; individual agents accept or refuse membership based on utility distribution. Recent research focuses on multi-agent reinforcement learning approaches (Albrecht et al., 2024; Foerster et al., 2018; Ning and Xie, 2024; Wang et al., 2020) as a framework for learned coordination. Agents learn individual policies and value functions, occupying specific niches within the collective. This process is either fully distributed or orchestrated via a central coordinator. Despite this flexibility, task delegation in such systems remains opaque. Furthermore, while multiagent systems offer approaches for collaborative problem-solving, they lack mechanisms for enforcing accountability, responsibility, and monitoring. However, the literature explores trust mechanisms in this context (Cheng et al., 2021; Pinyol and Sabater-Mir, 2013; Ramchurn et al., 2004; Yu et al., 2013).
 
 
-Intelligent AI Delegation
-
-
-
-dresses agent coordination for complex tasks exceeding single-agent capabilities. Task decomposition and delegation function as central components of this domain. Coordination in multiagent systems occurs via explicit protocols or emergent specialisation through RL (Gronauer and Diepold, 2022; Zhu et al., 2024). The Contract Net Protocol (Sandholm, 1993; Smith, 1980; Vokřínek et al., 2007; Xu and Weigand, 2001) exemplifies an explicit auction-based decentralized protocol. Here, an agent announces a task, while others submit bids based on their capabilities, allowing the announcer to select the most suitable bidder. This demonstrates the utility of market-based mechanisms for facilitating cooperation. Coalition formation methods (Aknine et al., 2004; Boehmer et al., 2025; Lau and Zhang, 2003; Mazdin and Rinner, 2021; Sarkar et al., 2022; Shehory et al., 1997) investigate flexible configurations where agent groups are not predetermined; individual agents accept or refuse membership based on utility distribution. Recent research focuses on multi-agent reinforcement learning approaches (Albrecht et al., 2024; Foerster et al., 2018; Ning and Xie, 2024; Wang et al., 2020) as a framework for learned coordination. Agents learn individual policies and value functions, occupying specific niches within the collective. This process is either fully distributed or orchestrated via a central coordinator. Despite this flexibility, task delegation in such systems remains opaque. Furthermore, while multiagent systems offer approaches for collaborative problem-solving, they lack mechanisms for enforcing accountability, responsibility, and monitoring. However, the literature explores trust mechanisms in this context (Cheng et al., 2021; Pinyol and Sabater-Mir, 2013; Ramchurn et al., 2004; Yu et al., 2013).
-
-
-LLMs now constitute a foundational element in the architecture of advanced AI agents and assistants (Wang et al., 2024b; Xi et al., 2025). These systems execute sophisticated control flows integrating memory (Zhang et al., 2025b), planning and reasoning (Hao et al., 2023; Valmeekam et al., 2023; Xu et al., 2025), reflection and selfcritique (Gou et al., 2023), and tool use (Paranjape et al., 2023; Ruan et al., 2023). Consequently, task decomposition and delegation occur
-
-
-
-either internally – mediated by coordinated agentic sub-components - or across distinct agents. This design paradigm offers inherent flexibility, as LLMs facilitate goal comprehension and communication while providing access to expert knowledge and common-sense reasoning. Furthermore, the coding capabilities (Guo et al., 2024a; Nijkamp et al., 2022) of LLMs enable the programmatic execution of tasks. However, significant limitations persist. Planning in LLMs often proves brittle (Huang et al., 2023), resulting in subtle failures, while efficient tool selection within largescale repositories remains challenging. Additionally, long-term memory represents an open research problem, and the current paradigm does not readily support continual learning.
+LLMs now constitute a foundational element in the architecture of advanced AI agents and assistants (Wang et al., 2024b; Xi et al., 2025). These systems execute sophisticated control flows integrating memory (Zhang et al., 2025b), planning and reasoning (Hao et al., 2023; Valmeekam et al., 2023; Xu et al., 2025), reflection and selfcritique (Gou et al., 2023), and tool use (Paranjape et al., 2023; Ruan et al., 2023). Consequently, task decomposition and delegation occur either internally – mediated by coordinated agentic sub-components - or across distinct agents. This design paradigm offers inherent flexibility, as LLMs facilitate goal comprehension and communication while providing access to expert knowledge and common-sense reasoning. Furthermore, the coding capabilities (Guo et al., 2024a; Nijkamp et al., 2022) of LLMs enable the programmatic execution of tasks. However, significant limitations persist. Planning in LLMs often proves brittle (Huang et al., 2023), resulting in subtle failures, while efficient tool selection within largescale repositories remains challenging. Additionally, long-term memory represents an open research problem, and the current paradigm does not readily support continual learning.
 
 
 Multi-agent systems incorporating LLM agents (Guo et al., 2024b; Qian et al., 2024; Tran et al., 2025) have become a topic of substantial interest, leading to a development of a number of agent communication and action protocols (Ehtesham et al., 2025; Neelou et al., 2025; Zou et al., 2025), such as MCP (Anthropic, 2024; Luo et al., 2025; Microsoft, 2025; Radosevich and Halloran, 2025; Singh et al., 2025; Xing et al., 2025), A2A (Google, 2025b), A2P (Google, 2025a), and others. While contemporary multi-agent systems often rely on bespoke prompt engineering, emerging frameworks such as Chain-of-Agents (Li et al., 2025b) inherently facilitate dynamic multi-agent reasoning and tool use.
 
 
-Technical shortcomings and safety considerations have given rise to a number of human-in-theloop approaches (Akbar and Conlan, 2024; Drori and Te’eni, 2024; Mosqueira-Rey et al., 2023; Retzlaff et al., 2024; Takerngsaksiri et al., 2025; Zanzotto, 2019), where task delegation has defined checkpoints for human oversight. AI can be used as a tool, interactive assistant, collaborator (Fuchs et al., 2023), or an autonomous system with limited oversight, corresponding to different degree of autonomy (Falcone and Castelfranchi, 2002). Although uncertainty-aware delegation strategies (Lee and Tok, 2025) have been developed to control risk and minimise uncertainty, the effective implementation of such human-in-theloop approaches remains non-trivial. Human ex
-
-7
-
-
-Intelligent AI Delegation
-
-
-
-pertise can create a scalability bottleneck, as the cognitive load of verifying long reasoning traces and managing context-switches impedes reliable error detection.
+Technical shortcomings and safety considerations have given rise to a number of human-in-theloop approaches (Akbar and Conlan, 2024; Drori and Te’eni, 2024; Mosqueira-Rey et al., 2023; Retzlaff et al., 2024; Takerngsaksiri et al., 2025; Zanzotto, 2019), where task delegation has defined checkpoints for human oversight. AI can be used as a tool, interactive assistant, collaborator (Fuchs et al., 2023), or an autonomous system with limited oversight, corresponding to different degree of autonomy (Falcone and Castelfranchi, 2002). Although uncertainty-aware delegation strategies (Lee and Tok, 2025) have been developed to control risk and minimise uncertainty, the effective implementation of such human-in-theloop approaches remains non-trivial. Human expertise can create a scalability bottleneck, as the cognitive load of verifying long reasoning traces and managing context-switches impedes reliable error detection.
 
 ### **4. Intelligent Delegation: A Frame-** **work**
 
@@ -222,11 +138,7 @@ Existing delegation protocols rely on static, opaque heuristics that would likel
 **Adaptive** **Execution.** Delegation decisions should not be static. They should adapt to environmental shifts, resource constraints, and failures in sub-systems. Delegators should retain the capability to switch delegatees mid-execution. This applies when performance degrades beyond acceptable parameters or unforseen events occur. Such adaptive strategies should extend beyond a single delegator-delegatee link, operating across the complex interconnected web of agents described in Adaptive Coordination (Section 4.4).
 
 
-**Structural** **Transparency.** Current sub-task execution in AI-AI delegation is too opaque to support robust oversight for intelligent task delegation. This opacity obscures the distinction between incompetence and malice, compounding
-
-
-
-risks of collusion and chained failures. Failures range from merely costly to harmful (Chan et al., 2023), yet existing frameworks lack satisfactory liability mechanisms (Gabriel et al., 2025). We propose strictly enforced auditability (Berghoff et al., 2021) via the Monitoring (Section 4.5) and Verifiable Task Completion (Section 4.8) protocols, ensuring attribution for both successful and failed executions.
+**Structural** **Transparency.** Current sub-task execution in AI-AI delegation is too opaque to support robust oversight for intelligent task delegation. This opacity obscures the distinction between incompetence and malice, compounding risks of collusion and chained failures. Failures range from merely costly to harmful (Chan et al., 2023), yet existing frameworks lack satisfactory liability mechanisms (Gabriel et al., 2025). We propose strictly enforced auditability (Berghoff et al., 2021) via the Monitoring (Section 4.5) and Verifiable Task Completion (Section 4.8) protocols, ensuring attribution for both successful and failed executions.
 
 
 **Scalable Market Coordination.** Task delegation needs to be efficiently scalable. Protocols need to be implementable at web-scale to support large-scale coordination problems in virtual economies (Tomasev et al., 2025). Markets provide useful coordination mechanisms for task delegation, but require Trust and Reputation (Section 4.6) and Multi-objective Optimization (Section 4.3) to function effectively.
@@ -238,64 +150,31 @@ risks of collusion and chained failures. Failures range from merely costly to ha
 **4.1.** **Task Decomposition**
 
 
-Task decomposition is a prerequisite for subsequent task assignment. This step can be executed by delegators or specialized agents that pass on the responsibility of delegation to the delegators
+Task decomposition is a prerequisite for subsequent task assignment. This step can be executed by delegators or specialized agents that pass on the responsibility of delegation to the delegators upon having agreed on the structure of the decomposition. These responsibilities are inextricably linked; the delegator will likely execute both functions to facilitate dynamic recovery from latency, pre-emption, and execution anomalies.
 
-
-8
-
-
-Intelligent AI Delegation
-
-
+---
 Table 1 | The Intelligent Delegation Framework: Mapping requirements to technical protocols.
 
+| **Framework Pillar** | **Core Requirement** | **Technical Implementation** |
+| :--- | :--- | :--- |
+| **Dynamic Assessment** | Granular inference of agent state | Task Decomposition (§4.1) <br> Task Assignment (§4.2) |
+| **Adaptive Execution** |  Handling context shifts | Adaptive Coordination (§4.4) |
+| **Structural Transparency** | Auditability of process and outcome | Monitoring (§4.5) <br> Verifiable Completion (§4.8) |
+| **Scalable Market** | Efficient, trusted coordination | Trust & Reputation (§4.6) | Multi-objective Optimization (§4.3) |
+| **Systemic Resilience** | Preventing systemic failures | Security (§4.9) <br> Permission Handling (§4.7) |
 
-**Framework Pillar** **Core Requirement** **Technical Implementation**
-
-
-**Dynamic Assessment** Granular inference of agent state Task Decomposition (§4.1) Task Assignment (§4.2)
-
-
-**Adaptive Execution** Handling context shifts Adaptive Coordination (§4.4)
-
-
-**Structural Transparency** Auditability of process and outcome Monitoring (§4.5) Verifiable Completion (§4.8)
-
-
-**Scalable Market** Efficient, trusted coordination Trust & Reputation (§4.6) Multi-objective Optimization (§4.3)
-
-
-**Systemic Resilience** Preventing systemic failures Security (§4.9) Permission Handling (§4.7)
-
-
-
-upon having agreed on the structure of the decomposition. These responsibilities are inextricably linked; the delegator will likely execute both functions to facilitate dynamic recovery from latency, pre-emption, and execution anomalies.
-
+---
 
 Decomposition should optimise the task execution graph for efficiency and modularity, distinguishing it from simple objective fragmentation. This process entails a systematic evaluation of the task attributes defined in Section 2 – specifically criticality, complexity, and resource constraints – to determine the suitability of sub-tasks for parallel versus sequential execution. Furthermore, these attributes inform the matching of tasks to corresponding delegatee capabilities. Prioritising modularity facilitates more precise matching, as sub-tasks requiring narrow, specific capabilities are matched more reliably than generalist requests (Khattab et al., 2023). Consequently, the decomposition logic functions to maximise the probability of reliable task completion by aligning sub-task granularity with available market specialisations.
 
 
-To promote safety, the framework incorporates “ _contract-first_ _decomposition_ ” as a binding constraint, wherein task delegation is contingent upon the outcome having precise verification. If a sub-task’s output is too subjective, costly, or complex to verify (see _Verifiability_ in Section 4.2), the system should recursively decompose it further. The decomposition logic should maximise the probability of reliable task completion by aligning sub-task granularity (Section 2) with available
-
-
-
-market specialisations. This process continues further until the resulting units of work match the specific verification capabilities, such as formal proofs or automated unit tests, of the available delegatees.
+To promote safety, the framework incorporates “ _contract-first_ _decomposition_ ” as a binding constraint, wherein task delegation is contingent upon the outcome having precise verification. If a sub-task’s output is too subjective, costly, or complex to verify (see _Verifiability_ in Section 4.2), the system should recursively decompose it further. The decomposition logic should maximise the probability of reliable task completion by aligning sub-task granularity (Section 2) with available market specialisations. This process continues further until the resulting units of work match the specific verification capabilities, such as formal proofs or automated unit tests, of the available delegatees.
 
 
 Decomposition strategies should explicitly account for hybrid human-AI markets. Delegators need to decide if sub-tasks require human intervention, whether due to AI agent unreliability, unavailability, or domain-specific requirements for human-in-the-loop oversight. Given that humans and AI agents operate at different speeds, and with different associated costs, the stratification is non-trivial, as it introduces latency and cost asymmetries into the execution graph. The decomposition engine must therefore balance the speed and low cost of AI agents against domain-specific necessities of human judgement, effectively marking specific nodes for human allocation.
 
 
-A delegator implementing an intelligent approach to task decomposition, may need to iteratively generate several proposals for the final decomposition, and match each proposal to the available delegatees on the market, and obtain concrete estimates for the success rate, cost, and duration. Alternative proposals should be kept in-context, in case adaptive re-adjustments are needed later due to changes in circumstances. Upon selecting a proposal, the delegator must formalise the request beyond simple input-output pairs. The final specification must explicitly define roles, resource boundaries, progress reporting frequency, and the specific certifications required to
-
-
-9
-
-
-Intelligent AI Delegation
-
-
-
-prove the delegatee’s capability, as a minimum requirement for being granted the task.
+A delegator implementing an intelligent approach to task decomposition, may need to iteratively generate several proposals for the final decomposition, and match each proposal to the available delegatees on the market, and obtain concrete estimates for the success rate, cost, and duration. Alternative proposals should be kept in-context, in case adaptive re-adjustments are needed later due to changes in circumstances. Upon selecting a proposal, the delegator must formalise the request beyond simple input-output pairs. The final specification must explicitly define roles, resource boundaries, progress reporting frequency, and the specific certifications required to prove the delegatee’s capability, as a minimum requirement for being granted the task.
 
 
 **4.2.** **Task Assignment**
@@ -306,35 +185,16 @@ For each final specification of a sub-task, a delegator needs to identify delega
 
 Successful matching should be formalized into a smart contract that ensures that the task execution faithfully follows the request. The contract must pair performance requirements with specific formal verification mechanisms for establishing adherence and automated penalties actioned for contract breaches. This would allow for mitigations and alternatives being established beforehand, rather than being reactive to problems as they arise. Crucially, these contracts must be bidirectional: they should protect the delegatee as rigorously as the delegator. Provisions must include compensation terms for task cancellation and clauses allowing for renegotiation in light of unforeseen external events, ensuring that the risk is equitably distributed between human and AI participants.
 
-
-2This would be similar to tool registries that are used in tool-use agentic applications (Qin et al., 2023).
-
-
+:::note info
+2 This would be similar to tool registries that are used in tool-use agentic applications (Qin et al., 2023).
+:::
 
 Monitoring should also be negotiated prior to execution. This specification should define the cadence of progress reports, whether these are provided by the delegator, or whether there is more direct inspection of the relevant data on behalf of either the delegator or a third party monitoring contractor. Finally, there should be clear guardrails regarding privacy and access to private and proprietary data, commensurate with the task’s contextuality. Should such sensitive data be handled in the process of task execution, this places additional constraints on transparency and reporting. Rather than granting direct access to raw activity logs, delegators may need to employ a trusted service that provide anonymized or pseudonymized attestations of progress. In case of human delegators, these data clauses must include explicit consent mechanisms and insurance provisions for accidental leakage.
 
 
 Finally, assignment should involve establishing a delegatee’s role, boundaries, and the exact level of autonomy granted. We distinguish between atomic execution, where agents adhere to strict specifications for narrowly scoped tasks, and open-ended delegation, where agents are granted the authority to decompose objectives and pursue sub-goals. This level of autonomy should not be static; it may be constrained implicitly by market costs or explicitly by the delegator’s trust model. Further, delegation can be recursive where an agent is assigned a task to identify and assign sub-tasks to others, effectively delegating the act of delegation itself.
 
-
-10
-
-
-Intelligent AI Delegation
-
-
-Figure 1 | A flowchart of Task Decomposition and Task Assignment.
-
-
-
-11
-
-
-
-![](figures/paper.pdf-10-0.png)
-Intelligent AI Delegation
-
-
+![Figure 1 | A flowchart of Task Decomposition and Task Assignment.](figures/paper.pdf-10-0.png)
 
 **4.3.** **Multi-objective Optimization**
 
@@ -345,10 +205,7 @@ Core to intelligent task delegation is the problem of multi-objective optimizati
 The optimization landscape consists of competing objectives that map directly to the task characteristics defined in Section 2, necessitating a complex balancing of cost, uncertainty, privacy, quality, and efficiency. High-performing agents typically command higher fees and often require extensive computational resources, creating a tension between output quality and operational expense. Conversely, reducing resource consumption often necessitates slower execution, presenting a direct trade-off between latency and cost. Uncertainty is similarly coupled with expenditure; utilizing highly reputable agents or premium data access tools reduces risk but increases cost, whereas cost-minimisation strategies inherently elevate the probability of failure. Privacy constraints introduce further complexity; maximising performance often demands full context transparency, while privacy-preserving techniques—such as data obfuscation or homomorphic encryption—incur significant computational overhead. Consequently, the delegator navigates a _trust-efficiency frontier_, seeking to maximise the probability of success while satisfying strict constraints on context leakage and verification budgets. Finally, the objective function may extend to encompass broader societal goals, such as human skill preservation (Section 5.6).
 
 
-In multi-objective optimization terms, the delegator seeks Pareto optimality, ensuring the selected solution is not dominated by any other attainable option. The integration of complex constraints and trade-offs often necessitates open negotiation to complement quantitative proposal metrics. The optimization process is not a one
-
-
-time event performed at the initial delegation. It runs as a continuous loop, integrating monitoring signals as a stream of real-world performance data, updating the delegator’s beliefs about each agent’s likelihood of success, expected task duration, and cost. Significant drift in execution – resulting in an optimality gap relative to alternative solutions identified in the interim – triggers re-optimisation and re-allocation. These decisions must also incorporate the cost of adaptation, as there is overhead and resource wastage when switching mid-execution.
+In multi-objective optimization terms, the delegator seeks Pareto optimality, ensuring the selected solution is not dominated by any other attainable option. The integration of complex constraints and trade-offs often necessitates open negotiation to complement quantitative proposal metrics. The optimization process is not a one time event performed at the initial delegation. It runs as a continuous loop, integrating monitoring signals as a stream of real-world performance data, updating the delegator’s beliefs about each agent’s likelihood of success, expected task duration, and cost. Significant drift in execution – resulting in an optimality gap relative to alternative solutions identified in the interim – triggers re-optimisation and re-allocation. These decisions must also incorporate the cost of adaptation, as there is overhead and resource wastage when switching mid-execution.
 
 
 The delegator must also account for the overall _delegation overhead_ - the aggregate cost of negotiation, contract creation, and verification, along with the computational cost of the delegator’s reasoning control flow. Consequently, a complexity floor is established, below which tasks characterised by low criticality, high certainty, and short duration may bypass intelligent delegation protocols in favour of direct execution. Otherwise, the transaction costs may exceed the value of the task, rendering the task delegation infeasible.
@@ -360,48 +217,20 @@ The delegator must also account for the overall _delegation overhead_ - the aggr
 For tasks characterized by high uncertainty or high duration, static execution plans are insufficient. The delegation of such tasks in highly dynamic, open, and uncertain environments requires _adaptive_ _coordination_, and a departure from fixed, static execution plans. Task allocation needs to be responsive to runtime contingencies, that may arise either from _external_ or _internal_ triggers. These shifts would be identified through monitoring (see Section 4.5), including a stream of relevant contextual information.
 
 
-There are a number of external triggers that could cause a delegator to adapt and re-delegate. First, the delegator may alter the task specification, changing the objective or introducing additional constraints. Second, the task could be canceled. Third, the availability or cost of external resources may experience changes. For example, a critical third-party API may experience an outage, a dataset may become inaccessible, or the cost of compute might spike. Fourth, a new task may enter the queue, with a higher priority than the
+There are a number of external triggers that could cause a delegator to adapt and re-delegate. First, the delegator may alter the task specification, changing the objective or introducing additional constraints. Second, the task could be canceled. Third, the availability or cost of external resources may experience changes. For example, a critical third-party API may experience an outage, a dataset may become inaccessible, or the cost of compute might spike. Fourth, a new task may enter the queue, with a higher priority than the current task, requiring preemption of resources used for lower-priority tasks. Finally, security systems may identify a potentially malicious or harmful actions by a delegatee, necessitating an immediate termination.
 
-
-12
-
-
-Intelligent AI Delegation
-
-
-Figure 2 | The adaptive coordination cycle. Different types of environmental triggers may prompt a dynamic re-evaluation of the delegation setup, necessitating runtime changes.
-
-
-
-![](figures/paper.pdf-12-0.png)
-
-current task, requiring preemption of resources used for lower-priority tasks. Finally, security systems may identify a potentially malicious or harmful actions by a delegatee, necessitating an immediate termination.
-
+![Figure 2 | The adaptive coordination cycle. Different types of environmental triggers may prompt a dynamic re-evaluation of the delegation setup, necessitating runtime changes.](figures/paper.pdf-12-0.png)
 
 As for the internal triggers, there are several reasons why a delegator may decide to adapt its original delegation strategy. First, a particular delegatee may be experiencing performance degradation, failing to meet the agreed-upon service level objectives, such as processing latency, throughput, or progress velocity. Second, a delegatee might consume resources beyond its allocated budget, or determine that a resource increase would be needed to effectively complete the task. [3] Third, an intermediate artifact produced by a delegatee may fail a verification check. Finally, a particular delegatee may turn unresponsive, failing to acknowledge further requests.
 
+:::note info
+3 This scenario may be expected to come up frequently, as precise budget estimates are hard in complex environments.
+:::
 
-The identification of a trigger initiates an adaptive response cycle, orchestrating corrective actions across the entire delegation chain. This process commences with the continuous monitoring of delegatees and the environment to identify issues. If issues are detected, the delegator
-
-
-3This scenario may be expected to come up frequently, as precise budget estimates are hard in complex environments.
-
-
-
-diagnoses root causes and evaluates potential response scenarios to select. This evaluation includes establishing how rapid the response ought to be. Less urgent situations will give the delegator more time to re-delegate, whereas urgent scenarios will require immediate, premeditated responses. The response may vary in scope; being as self-contained as adjusting the operating parameters, or involve re-delegation of sub-tasks, or going fully redoing the task decomposition and re-allocating a number of newly derived sub-tasks. Issues may also need to be escalated up through the delegation chain to the original delegator or a human overseer. The selection of the response scenario is ultimately governed by the task’s reversibility. Reversible sub-task failures may trigger automatic re-delegation, whereas failures in irreversible, high-criticality tasks must trigger immediate termination or human escalation.
+The identification of a trigger initiates an adaptive response cycle, orchestrating corrective actions across the entire delegation chain. This process commences with the continuous monitoring of delegatees and the environment to identify issues. If issues are detected, the delegator diagnoses root causes and evaluates potential response scenarios to select. This evaluation includes establishing how rapid the response ought to be. Less urgent situations will give the delegator more time to re-delegate, whereas urgent scenarios will require immediate, premeditated responses. The response may vary in scope; being as self-contained as adjusting the operating parameters, or involve re-delegation of sub-tasks, or going fully redoing the task decomposition and re-allocating a number of newly derived sub-tasks. Issues may also need to be escalated up through the delegation chain to the original delegator or a human overseer. The selection of the response scenario is ultimately governed by the task’s reversibility. Reversible sub-task failures may trigger automatic re-delegation, whereas failures in irreversible, high-criticality tasks must trigger immediate termination or human escalation.
 
 
-The response orchestration depends on the level of centralization in the delegation network. In the centralised case, a dedicated delegator is responsible. This agent would maintain a global view of delegated tasks, delegatee capabilities, and progress. Upon detecting a trigger, the agent would issue task cancellation requests, and redelegate to new delegators. The shortcoming of a centralised system is that it can be fragile as it
-
-
-13
-
-
-Intelligent AI Delegation
-
-
-
-introduces a single point of failure. Centralized orchestrators are also fundamentally limited by their computational span of control (Section 2.3). Just as human managers face cognitive limits, a centralized decision node may face latency and computational limits that introduce bottlenecks.
+The response orchestration depends on the level of centralization in the delegation network. In the centralised case, a dedicated delegator is responsible. This agent would maintain a global view of delegated tasks, delegatee capabilities, and progress. Upon detecting a trigger, the agent would issue task cancellation requests, and redelegate to new delegators. The shortcoming of a centralised system is that it can be fragile as it introduces a single point of failure. Centralized orchestrators are also fundamentally limited by their computational span of control (Section 2.3). Just as human managers face cognitive limits, a centralized decision node may face latency and computational limits that introduce bottlenecks.
 
 
 Decentralized orchestration through marketbased mechanisms provides an alternative. Here, newly derived delegation requests can be pushed onto an auction queue, for the delegatee candidate agents to bid towards. If an agent defaults on a task, and the task is re-auctioned, the defaulting agent may be required to cover the price difference as a penalty. For complex tasks where suitability is not easily expressed in a single bid, agents may engage in multi-round negotiation. Delegation agreements encoded as smart contracts may also contain pre-agreed executable clauses for adaptive coordination. For example, a clause in the delegation agreement can specify a backup agent, the function that would automatically re-allocate the task, and the associated payment to the backup should the primary delegatee fail to submit a valid zero-knowledge proof checkpoint by a given deadline.
@@ -413,10 +242,7 @@ Adaptive task re-allocation mechanisms ought to be coupled by market-level stabi
 **4.5.** **Monitoring**
 
 
-Monitoring in the context of task delegation is the systematic process of observing, measuring, and verifying the state, progress, and outcomes of a delegated task. As such, it serves several critical functions: ensuring contractual compliance, detecting failures, enabling real-time intervention, collecting data for subsequent performance eval
-
-
-uation, and building a foundation for reputation systems. Monitoring implementations can be broken down across several different axes (see Table 2), thus a robust monitoring system would need to incorporate multiple complementary solutions that can either be more lightweight or intensive.
+Monitoring in the context of task delegation is the systematic process of observing, measuring, and verifying the state, progress, and outcomes of a delegated task. As such, it serves several critical functions: ensuring contractual compliance, detecting failures, enabling real-time intervention, collecting data for subsequent performance evaluation, and building a foundation for reputation systems. Monitoring implementations can be broken down across several different axes (see Table 2), thus a robust monitoring system would need to incorporate multiple complementary solutions that can either be more lightweight or intensive.
 
 
 The first axis is the target of monitoring. _Outcome-level monitoring_ focuses on the final result of an agent’s action. This post-hoc check could be a binary flag that indicates whether the task was completed successfully or not, a quantitative scale (e.g. 1-10), or a piece of qualitative feedback provided by the delegator or a trusted third party. In contrast, _process-level monitoring_ provides ongoing insight into the execution of the task itself, by tracking intermediate states, resource consumption, and the methodologies used by the delegatee. While more resource-intensive, process-level monitoring (Lightman et al., 2023) is essential for tasks that are long-running, critical, or where the _how_ is as important as the _what_ . This forms the basis for scalable oversight (Bowman et al., 2022; Saunders et al., 2022), where the inspection of legible intermediate reasoning steps may be necessary to ensure safety.
@@ -425,79 +251,28 @@ The first axis is the target of monitoring. _Outcome-level monitoring_ focuses o
 The second axis is observability - monitoring can be direct and indirect. Direct monitoring involves explicit communication protocols where the delegator queries the delegatee for status updates. Indirect monitoring, on the other hand, involves inferring progress by observing the effects of delegatee’s actions within a shared environment without direct communication. For instance, a delegator could monitor a shared file system, a database, or a version control repository for changes indicative of progress. While less intrusive, this process may also be less precise, and also less feasible when the environment is not fully observable.
 
 
-These approaches can be realized in a number of different ways, from a technical point of view. The most straightforward implementation of direct monitoring relies on well-defined APIs. A delegator can periodically poll a GET /task/id/status endpoint, or subscribe to a webhook for pushbased notifications. For more fine-grained, realtime process monitoring, event streaming platforms like Apache Kafka or gRPC streams can
+These approaches can be realized in a number of different ways, from a technical point of view. The most straightforward implementation of direct monitoring relies on well-defined APIs. A delegator can periodically poll a GET /task/id/status endpoint, or subscribe to a webhook for pushbased notifications. For more fine-grained, realtime process monitoring, event streaming platforms like Apache Kafka or gRPC streams can be employed. A delegatee agent could publish events such as TASK_STARTED, CHECKPOINT_REACHED, RESOURCE_WARNING, and TASK_COMPLETED, that the delegator could later examine. The development of standardized observability protocols, is critical for ensuring interoperability in the agentic web (Blanco, 2023). Smart contracts on blockchain can be used to make the delegatee agent commit to publishing key progress milestones or checkpoints to the blockchain. These could be coupled by algorithmic triggers in response to performance degradation, leading to a level of _algorithmic enforcement_ accompanying the monitoring process.
 
-
-14
-
-
-Intelligent AI Delegation
-
-
+---
 Table 2 | Taxonomy of Monitoring Approaches in Intelligent Delegation.
 
+| **Dimension** | **Option A (Lightweight)** | **Option B (Intensive)** |
+| :--- | :--- | :--- |
+| **Target** | **Outcome-Level** : Post-hoc validation of final results (e.g., binary success flags, quality scores). | **Process-Level** : Continuous tracking of intermediate states, resource consumption, and methodology. |
+| **Observability** | **Indirect** : Inferring progress via environmental side-effects (e.g., file system changes). | **Direct** : Explicit status polling, push notifications, or real-time event streaming APIs. |
+| **Transparency** | **Black-Box** : Input/Output observation | **White-Box** : Full inspection of internal only; internal state remains hidden. reasoning traces, decision logic, and memory. |
+| **Privacy** | **Full Transparency** : The delegatee reveals data and intermediate artifacts to the delegator. | **Cryptographic** : Zero-Knowledge Proofs (zk-SNARKs) or MPC to verify correctness without revealing data. |
+| **Topology** | **Direct** : Monitoring only the immediate | **Transitive** : Relying on signed attestadelegatee (1-to-1). tions from intermediate agents to verify sub-delegatees. |
 
-**Dimension** **Option A (Lightweight)** **Option B (Intensive)**
+---
 
-
-
-**Target** **Outcome-Level** : Post-hoc validation of final results (e.g., binary success flags, quality scores).
-
-
-**Observability** **Indirect** : Inferring progress via environmental side-effects (e.g., file system changes).
-
-
-
-**Process-Level** : Continuous tracking of intermediate states, resource consumption, and methodology.
+The third axis is system transparency. In _black-_ _box monitoring_, the delegatee agent is treated as a sealed unit. The delegator can only observe its inputs and outputs and the direct consequences of its actions. This is common when the delegatee is a proprietary model or a third-party service. _White-box_ monitoring grants the delegator access to the delegatee’s internal states, reasoning processes, or decision logic. This is crucial for debugging, auditing, and ensuring alignment in advanced AI agents. If the delegatee is a human, full black-box monitoring is not technically achievable, though it may be possible to strike a balance by asking for intentions, reasoning, and justifications. Robust black-box monitoring protocols need to also take into account the fact that the generated model’s thoughts in natural language do not always faithfully match the model’s true internal state (Turpin et al., 2023).
 
 
-**Direct** : Explicit status polling, push notifications, or real-time event streaming APIs.
+The fourth axis is privacy. A significant challenge arises when a delegated task involves private, sensitive, or proprietary data. While the delegator requires assurance of progress and correctness, the delegatee may be restricted from revealing raw data or intermediate computational artifacts. In scenarios where data sensitivity is low, the most efficient solution is _Full_ _Transparency_, wherein the delegatee simply reveals all data and intermediate artifacts to the delegator. However, this approach is often untenable in sensitive domains subject to regulations like GDPR or HIPAA, or where a delegatee’s intermediate insights constitute trade secrets. In such cases, revealing operational methods could harm a delegatee’s market position or introduce security vulnerabilities by exposing internal states to exploitation. To implement monitoring safely under these constraints, it is necessary to utilize advanced cryptographic techniques. Zero-knowledge proofs enable a delegatee (the “prover”) to demonstrate to a delegator (the “verifier”) that a computation was performed correctly on a dataset, without revealing the data itself. For example, an agent tasked with analyzing a sensitive dataset can generate a succinct non-interactive argument of knowledge (zk-SNARK) (Bitansky et al., 2013; Petkus, 2019) that proves a specific property of the result. The delegator can verify this proof instantly, gaining certainty of the outcome without ever viewing the underlying sensitive data. Alternatively, homomorphic encryption (Acar et al., 2018) and secure multi-party computation (Goldreich, 1998; Knott et al., 2021) allow for computation to be performed on encrypted data. These methods apply to task execution and monitoring alike: the delegatee performs a pre-agreed monitoring function on the encrypted intermediate state, sending the result to the delegator, who is the only party capable of decrypting it to verify compliance.
 
 
-
-**Transparency** **Black-Box** : Input/Output observation **White-Box** : Full inspection of internal only; internal state remains hidden. reasoning traces, decision logic, and memory.
-
-
-
-**Privacy** **Full** **Transparency** : The delegatee reveals data and intermediate artifacts to the delegator.
-
-
-
-**Cryptographic** : Zero-Knowledge Proofs (zk-SNARKs) or MPC to verify correctness without revealing data.
-
-
-
-**Topology** **Direct** : Monitoring only the immediate **Transitive** : Relying on signed attestadelegatee (1-to-1). tions from intermediate agents to verify sub-delegatees.
-
-
-
-be employed. A delegatee agent could publish events such as TASK_STARTED, CHECKPOINT_REACHED, RESOURCE_WARNING, and TASK_COMPLETED, that the delegator could later examine. The development of standardized observability protocols, is critical for ensuring interoperability in the agentic web (Blanco, 2023). Smart contracts on blockchain can be used to make the delegatee agent commit to publishing key progress milestones or checkpoints to the blockchain. These could be coupled by algorithmic triggers in response to performance degradation, leading to a level of _algorithmic enforcement_ accompanying the monitoring process.
-
-
-The third axis is system transparency. In _black-_ _box monitoring_, the delegatee agent is treated as a sealed unit. The delegator can only observe its inputs and outputs and the direct consequences of its actions. This is common when the delegatee is a proprietary model or a third-party service. _White-box_ monitoring grants the delegator access to the delegatee’s internal states, reasoning processes, or decision logic. This is crucial for debugging, auditing, and ensuring alignment in advanced AI agents. If the delegatee is a human, full black-box monitoring is not technically achievable, though it may be possible to strike a
-
-
-
-balance by asking for intentions, reasoning, and justifications. Robust black-box monitoring protocols need to also take into account the fact that the generated model’s thoughts in natural language do not always faithfully match the model’s true internal state (Turpin et al., 2023).
-
-
-The fourth axis is privacy. A significant challenge arises when a delegated task involves private, sensitive, or proprietary data. While the delegator requires assurance of progress and correctness, the delegatee may be restricted from revealing raw data or intermediate computational artifacts. In scenarios where data sensitivity is low, the most efficient solution is _Full_ _Transparency_, wherein the delegatee simply reveals all data and intermediate artifacts to the delegator. However, this approach is often untenable in sensitive domains subject to regulations like GDPR or HIPAA, or where a delegatee’s intermediate insights constitute trade secrets. In such cases, revealing operational methods could harm a delegatee’s market position or introduce security vulnerabilities by exposing internal states to exploitation. To implement monitoring safely under these constraints, it is necessary to utilize advanced cryptographic techniques. Zero-knowledge proofs enable a delegatee (the “prover”) to demonstrate to a del
-
-15
-
-
-Intelligent AI Delegation
-
-
-
-egator (the “verifier”) that a computation was performed correctly on a dataset, without revealing the data itself. For example, an agent tasked with analyzing a sensitive dataset can generate a succinct non-interactive argument of knowledge (zk-SNARK) (Bitansky et al., 2013; Petkus, 2019) that proves a specific property of the result. The delegator can verify this proof instantly, gaining certainty of the outcome without ever viewing the underlying sensitive data. Alternatively, homomorphic encryption (Acar et al., 2018) and secure multi-party computation (Goldreich, 1998; Knott et al., 2021) allow for computation to be performed on encrypted data. These methods apply to task execution and monitoring alike: the delegatee performs a pre-agreed monitoring function on the encrypted intermediate state, sending the result to the delegator, who is the only party capable of decrypting it to verify compliance.
-
-
-The final axis is topology. Across complex networks that may arise in the agentic web, tasks can be decomposed and re-delegated, forming a delegation chain: Agent _𝐴_ delegates to _𝐵_, which further sub-delegates a part of the task to _𝐶_, and so on. This introduces the problem of achieving effective _transitive monitoring_ . In such delegation chains, it may not be feasible for the original delegator (Agent _𝐴_ in the example above) to directly monitor agent _𝐶_, or to monitor _𝐶_ to the same extent to which it monitors _𝐵_ . _𝐴_ may have a smart delegation contract with _𝐵_, and _𝐵_ may have a contract with _𝐶_, but unless _𝐴_ also contracts with _𝐶_, those provisions may simply not be in place. For other reasons, _𝐵_ may not wish to expose its supplier ( _𝐶_ ) to its client ( _𝐴_ ). Technically, _𝐴_, _𝐵_, and _𝐶_ may use different monitoring protocols, and agree on different monitoring levels, due to differences in each agent’s reputation within the network. There may be bespoke privacy concerns specific to each individual delegation link. A more practical model is therefore _transitive accountability_ _via attestation_ . In this framework, Agent _𝐵_ monitors its delegatee, _𝐶_ . _𝐵_ then generates a summary report of _𝐶_ ’s performance (e.g., “Sub-task_2 completed, quality score: 0.87, resources consumed: 5 GPU-hours”). _𝐵_ then cryptographically signs the report and forwards it to _𝐴_ embedded in its own scheduled status update. Agent _𝐴_ does not monitor _𝐶_ directly, but instead monitors _𝐵_ ’s ability
-
-
-
-to monitor _𝐶_ . For such delegated monitoring to be effective, it requires _𝐴_ to be able to trust in _𝐵_ ’s verification capabilities, which can be ensured by _𝐵_ having its monitoring processes certified by a trusted third party.
+The final axis is topology. Across complex networks that may arise in the agentic web, tasks can be decomposed and re-delegated, forming a delegation chain: Agent _𝐴_ delegates to _𝐵_, which further sub-delegates a part of the task to _𝐶_, and so on. This introduces the problem of achieving effective _transitive monitoring_ . In such delegation chains, it may not be feasible for the original delegator (Agent _𝐴_ in the example above) to directly monitor agent _𝐶_, or to monitor _𝐶_ to the same extent to which it monitors _𝐵_ . _𝐴_ may have a smart delegation contract with _𝐵_, and _𝐵_ may have a contract with _𝐶_, but unless _𝐴_ also contracts with _𝐶_, those provisions may simply not be in place. For other reasons, _𝐵_ may not wish to expose its supplier ( _𝐶_ ) to its client ( _𝐴_ ). Technically, _𝐴_, _𝐵_, and _𝐶_ may use different monitoring protocols, and agree on different monitoring levels, due to differences in each agent’s reputation within the network. There may be bespoke privacy concerns specific to each individual delegation link. A more practical model is therefore _transitive accountability_ _via attestation_ . In this framework, Agent _𝐵_ monitors its delegatee, _𝐶_ . _𝐵_ then generates a summary report of _𝐶_ ’s performance (e.g., “Sub-task_2 completed, quality score: 0.87, resources consumed: 5 GPU-hours”). _𝐵_ then cryptographically signs the report and forwards it to _𝐴_ embedded in its own scheduled status update. Agent _𝐴_ does not monitor _𝐶_ directly, but instead monitors _𝐵_ ’s ability to monitor _𝐶_ . For such delegated monitoring to be effective, it requires _𝐴_ to be able to trust in _𝐵_ ’s verification capabilities, which can be ensured by _𝐵_ having its monitoring processes certified by a trusted third party.
 
 
 **4.6.** **Trust and Reputation**
@@ -509,72 +284,32 @@ Trust and reputation mechanisms constitute the foundation of scalable delegation
 Reputation serves as a predictive signal, derived from an aggregated and verifiable history of past actions, which act as a proxy for an agent’s latent reliability and alignment. We distinguish reputation as the public, verifiable history of an agent’s reliability, and trust as the private, contextdependent threshold set by a delegator. An agent may have high overall reputation, yet fail to meet the specific, contextual trust threshold required for certain high-stakes task. Trust and reputation allow a delegator to make informed decisions when choosing delegatees, effectively governing the autonomy granted to the agent, and the level of oversight. Higher trust enables the delegator to incur a lower monitoring and verification cost.
 
 
-Reputation mechanisms can be implemented in different ways (see Table 3). The most direct approach is encoding it in a performance-based immutable ledger. Here, each completed task is recorded as a transaction containing verifiable metrics: task completion success or failure, total resource consumption (compute, time), adherence to deadlines, adherence to constraints, and the quality of the final output as judged by the delegator. The immutability of the ledger would prevent tampering with an agent’s history, providing a reliable foundation for its reputation. However, a naive implementation could be susceptible to gaming. For example, an agent can inflate its reputation by only accepting simple, low-risk
+Reputation mechanisms can be implemented in different ways (see Table 3). The most direct approach is encoding it in a performance-based immutable ledger. Here, each completed task is recorded as a transaction containing verifiable metrics: task completion success or failure, total resource consumption (compute, time), adherence to deadlines, adherence to constraints, and the quality of the final output as judged by the delegator. The immutability of the ledger would prevent tampering with an agent’s history, providing a reliable foundation for its reputation. However, a naive implementation could be susceptible to gaming. For example, an agent can inflate its reputation by only accepting simple, low-risk tasks. These limitations could be overcome by relying on decentralized attestations and a _Web of_ _Trust_ model, utilizing technologies like decentralized identifiers and verifiable credentials. In this model, the reputation would not be envisioned as a single score, but a portfolio of signed, contextspecific credentials issued by other agents. When looking to match a delegatee with a task, a delegator could issue a query for agents that posses a verifiable credential attesting to a specific skill or domain (e.g. translation services for legal documents) issued by a reputable AI consortium. A final approach would be to focus more on behavioral and explainability metrics, where reputation depends on how an agent performs its task, not just the final outcome. It would be possible to include a _transparency score_ to complement the other reputational mechanisms. This score would be informed on the clarity and soundness of reasoning and explanations provided, as well as a _safety_ _score_ derived from compliance to predefined safety protocols.
 
-
-16
-
-
-Intelligent AI Delegation
-
-
+---
 Table 3 | Approaches to Reputation Implementation.
 
 
-**Reputation Model** **Mechanism** **Utility**
+| **Reputation Model** | **Mechanism** | **Utility** |
+| :--- | :--- | :--- |
+| **Immutable Ledger** | Encodes task outcomes, resource consumption, and constraint adherence as verifiable transactions on a tamper-proof blockchain. | Establishes a foundational history of performance that prevents retroactive tampering, though it requires safeguards against “gaming” via low-risk task selection. |
+| **Web of Trust** | Utilizes Decentralized Identifiers to issue signed, context-specific Verifiable Credentials attesting to specific capabilities. | Moves beyond generic scores to a portfolio model, enabling precise delegation based on domainspecific expertise and trusted thirdparty endorsements. |
+| **Behavioral Metrics** | Derives transparency and safety scores by analyzing the execution process, specifically the clarity of reasoning traces and protocol compliance. | Evaluates _how_ a task is performed rather than just the result, ensuring high-stakes tasks align with safety standards. |
 
+---
 
-
-**Immutable Ledger** Encodes task outcomes, resource consumption, and constraint adherence as verifiable transactions on a tamper-proof blockchain.
-
-
-**Web of Trust** Utilizes Decentralized Identifiers to issue signed, context-specific Verifiable Credentials attesting to specific capabilities.
-
-
-**Behavioral Metrics** Derives transparency and safety scores by analyzing the execution process, specifically the clarity of reasoning traces and protocol compliance.
-
-
-
-Establishes a foundational history of performance that prevents retroactive tampering, though it requires safeguards against “gaming” via low-risk task selection.
-
-
-Moves beyond generic scores to a portfolio model, enabling precise delegation based on domainspecific expertise and trusted thirdparty endorsements.
-
-
-Evaluates _how_ a task is performed rather than just the result, ensuring high-stakes tasks align with safety standards.
-
-
-
-tasks. These limitations could be overcome by relying on decentralized attestations and a _Web of_ _Trust_ model, utilizing technologies like decentralized identifiers and verifiable credentials. In this model, the reputation would not be envisioned as a single score, but a portfolio of signed, contextspecific credentials issued by other agents. When looking to match a delegatee with a task, a delegator could issue a query for agents that posses a verifiable credential attesting to a specific skill or domain (e.g. translation services for legal documents) issued by a reputable AI consortium. A final approach would be to focus more on behavioral and explainability metrics, where reputation depends on how an agent performs its task, not just the final outcome. It would be possible to include a _transparency score_ to complement the other reputational mechanisms. This score would be informed on the clarity and soundness of reasoning and explanations provided, as well as a _safety_ _score_ derived from compliance to predefined safety protocols.
-
-
-The role of reputation metrics extends throughout the entire task delegation lifecycle. During the initial matching phase, reputation scores can play the role of a delegatee filtering mechanism. Furthermore, trust informs the dynamic scoping of authority and autonomy. This mechanism of grad
-
-
-uated authority results in low-trust agents facing strict constraints, such as transaction value caps and mandatory oversight, while high-reputation agents operate with minimal intervention. This dynamic calibration leverages computable trust to optimize the trade-off between operational efficiency and safety. Reputation itself becomes a valuable, intangible asset, creating powerful economic incentives for agents to act reliably and truthfully, as a damaged reputation would limit their future earning potential.
+The role of reputation metrics extends throughout the entire task delegation lifecycle. During the initial matching phase, reputation scores can play the role of a delegatee filtering mechanism. Furthermore, trust informs the dynamic scoping of authority and autonomy. This mechanism of graduated authority results in low-trust agents facing strict constraints, such as transaction value caps and mandatory oversight, while high-reputation agents operate with minimal intervention. This dynamic calibration leverages computable trust to optimize the trade-off between operational efficiency and safety. Reputation itself becomes a valuable, intangible asset, creating powerful economic incentives for agents to act reliably and truthfully, as a damaged reputation would limit their future earning potential.
 
 
 Trust frameworks also need to universally accommodate human participants. This necessitates tools that allow human users to computationally verify agent reputation, while concurrently maintaining their own reputational standing to mitigate fraud and malicious exploitation of the agentic web. A critical challenge arises when a trustworthy agent strictly executes malicious human instructions, potentially incurring unfair reputational damage. To mitigate this, agents must rigorously evaluate incoming requests, soliciting clarification or additional context when necessary, or rejecting the requests where appropriate. Furthermore, market audits must distinguish between agent execution failure and malicious directives, ensuring the accurate attribution of liability within complex delegation chains.
 
 
-17
-
-
-Intelligent AI Delegation
-
-
-
 **4.7.** **Permission Handling**
-
 
 Granting autonomy to AI agents introduces a critical vulnerability surface: ensuring that actors possess sufficient privileges to execute their objectives without exposing sensitive resources to excessive or indefinite risk. Permission handling must balance operational efficiency with systemic safety, and be handled different for low-stakes and high-stake domains. For routine low-stakes tasks, characterized by low criticality and high reversibility (Section 2), involving standard data streams or generic tooling, agents can be granted default standing permissions derived from verifiable attributes - such as organisational membership, active safety certifications, or a reputation score exceeding a trusted threshold. This reduces friction and enables autonomous interoperability in low-risk environments. Conversely, in high-stakes domains (e.g., healthcare, critical infrastructure), exhibiting high task criticality and contextuality, permissions must be risk-adaptive. In these scenarios, static credentials are insufficient; access to sensitive APIs or control systems is instead granted on a just-in-time basis, strictly scoped to the immediate task’s duration, and, where appropriate, gated by mandatory humanin-the-loop approval or third-party authorisation. This stringent gating is necessary to mitigate the confused deputy problem (Hardy, 1988), where a compromised agent, technically holding valid credentials, can be tricked into misusing those credentials by malicious external actors (Liu et al., 2023) and adversarial content.
 
 
-Furthermore, permissioning frameworks must account for the recursive nature of task delegation through privilege attenuation. When an agent sub-delegates a task, it cannot transmit its full set of authorities; instead, it must issue a permission that restricts access to the strict subset of resources required for that specific sub-task. This ensures that a compromise at the edge of the network does not escalate into a systemic breach. Permission granularity must also extend beyond binary access; agents should operate under semantic constraints, where access is defined not just by the tool or dataset, but by the specific allowable operations (e.g., read-only access to specific rows, or execute-only access to a specific
-
-
-
-function), preventing the misuse of broad capabilities for unintended purposes. Meta-permissions may be necessary to govern which permissions a particular delegator in the chain is allowed to grant to its delegatees. An AI agents may have a certain capability and the associated permissions to act according to its capability, while simultaneously not being sufficiently knowledgeable to more broadly evaluate whether other agents are capable or trustworthy enough. Should such an agent still consider sub-delegating a task, it may need to consult an external verifier, a third party that would sanity check the proposal and approve the intended permissions transfer.
+Furthermore, permissioning frameworks must account for the recursive nature of task delegation through privilege attenuation. When an agent sub-delegates a task, it cannot transmit its full set of authorities; instead, it must issue a permission that restricts access to the strict subset of resources required for that specific sub-task. This ensures that a compromise at the edge of the network does not escalate into a systemic breach. Permission granularity must also extend beyond binary access; agents should operate under semantic constraints, where access is defined not just by the tool or dataset, but by the specific allowable operations (e.g., read-only access to specific rows, or execute-only access to a specific function), preventing the misuse of broad capabilities for unintended purposes. Meta-permissions may be necessary to govern which permissions a particular delegator in the chain is allowed to grant to its delegatees. An AI agents may have a certain capability and the associated permissions to act according to its capability, while simultaneously not being sufficiently knowledgeable to more broadly evaluate whether other agents are capable or trustworthy enough. Should such an agent still consider sub-delegating a task, it may need to consult an external verifier, a third party that would sanity check the proposal and approve the intended permissions transfer.
 
 
 Finally, the lifecycle of permissions must be governed by continuous validation and automated revocation. Access rights are not static endowments but dynamic states that persist only as long as the agent maintains the requisite trust metrics. The framework should implement algorithmic circuit breakers: if an agent’s reputation score drops suddenly (see Section 4.6) or an anomaly detection system flags suspicious behavior, active tokens should be immediately invalidated across the delegation chain. To manage this complexity at scale, permissioning rules should be defined via policyas-code, allowing organisations to audit, version, and mathematically verify their security posture before deployment, ensuring that the aggregate effect of large amounts of individual permission grants remains aligned with the system’s safety invariants.
@@ -583,46 +318,23 @@ Finally, the lifecycle of permissions must be governed by continuous validation 
 **4.8.** **Verifiable Task Completion**
 
 
-The delegation lifecycle culminates in verifiable task completion, the mechanism by which provisional outcomes are validated and finalized. This process constitutes the contractual cornerstone of the framework, enabling the delegator to formally _close_ the task and trigger the settlement of agreed transactions. Verification serves as the definitive event that transforms a provisional output into a settled fact within the agentic market, establishing the basis for payment release, reputation updates, and the assignment of liability. Crucially, effective verification is not an afterthought but a constraint on design; the _contract-first decompo-_ _sition_ principle (Section 4.1) demands that task
-
-
-18
-
-
-Intelligent AI Delegation
-
-
-
-granularity be tailored _a_ _priori_ to match available verification capabilities, ensuring that every delegated objective is inherently verifiable.
+The delegation lifecycle culminates in verifiable task completion, the mechanism by which provisional outcomes are validated and finalized. This process constitutes the contractual cornerstone of the framework, enabling the delegator to formally _close_ the task and trigger the settlement of agreed transactions. Verification serves as the definitive event that transforms a provisional output into a settled fact within the agentic market, establishing the basis for payment release, reputation updates, and the assignment of liability. Crucially, effective verification is not an afterthought but a constraint on design; the _contract-first decompo-_ _sition_ principle (Section 4.1) demands that task granularity be tailored _a_ _priori_ to match available verification capabilities, ensuring that every delegated objective is inherently verifiable.
 
 
 Verification mechanisms within the framework can be broadly categorized into direct outcome inspection, trusted third-party auditing, cryptographic proofs, and game-theoretic consensus. First, direct outcome verification is feasible when the delegator possesses the capability, tools, and authority to directly evaluate the final outcome, specifically for tasks with high intrinsic verifiability and low subjectivity. This applies to autoverifiable domains (Li et al., 2024a) such as code generation. [4] Direct verification requires that the outcome be sufficiently transparent, available, and not prohibitively complex. Second, in scenarios where the delegator lacks the expertise or permissions to access these artifacts, and toolbased solutions are infeasible, verification can be outsourced to a trusted third party. This could be a specialized auditing agent, a certified human expert, or a panel of adjudicators. Third, cryptographic verification represents a further option for trustless, automated verification in open and potentially adversarial environments. It offers mathematical certainty of correctness without necessarily revealing sensitive information. A delegatee can prove that a specific program was executed correctly on a given input to produce a certain output via techniques like zk-SNARKs. Finally, game-theoretic mechanisms can be used to achieve consensus on an outcome. Several agents may play a verification game (Teutsch and Reitwießner, 2024), with the reward distributed to those producing the majority result—a Schelling point (Pastine and Pastine, 2017). This approach, inspired by protocols like TrueBit (Teutsch and Reitwießner, 2018), leverages economic incentives to de-risk against incorrect or malicious results. Such mechanisms may be particularly relevant in rendering LLM-based verification of complex tasks more robust.
 
 
-Once a delegator marks the sub-task as verified, it issues a cryptographically signed verifiable credential to the delegatee, serving as a
+Once a delegator marks the sub-task as verified, it issues a cryptographically signed verifiable credential to the delegatee, serving as a non-repudiable receipt attesting that “Agent _𝐴_ certifies that Agent _𝐵_ successfully completed Task _𝑇_ on Date _𝐷_ to Specification _𝑆_ .” This credential is then incorporated into a permanent, verifiable log of _𝐵_ ’s reputation within the market. Smart contracts play a key role in finalizing the delegation between agents, as they hold the payment in escrow. A verification clause specifies the conditions under which the funds are released, upon receipt of the signed message of approval by the delegator or an authorized third party. Once the payment is executed, it constitutes an immutable transaction on the blockchain.
 
-
-4This is the case when there is a corresponding set of test cases that can be used to verify the implemented functionality.
-
-
-
-non-repudiable receipt attesting that “Agent _𝐴_ certifies that Agent _𝐵_ successfully completed Task _𝑇_ on Date _𝐷_ to Specification _𝑆_ .” This credential is then incorporated into a permanent, verifiable log of _𝐵_ ’s reputation within the market. Smart contracts play a key role in finalizing the delegation between agents, as they hold the payment in escrow. A verification clause specifies the conditions under which the funds are released, upon receipt of the signed message of approval by the delegator or an authorized third party. Once the payment is executed, it constitutes an immutable transaction on the blockchain.
+:::note info
+4 This is the case when there is a corresponding set of test cases that can be used to verify the implemented functionality.
+:::
 
 
 In a delegation chain _𝐴_ → _𝐵_ → _𝐶_, verification and liability become recursive. Agent _𝐴_ does not have a direct contractual relationship with _𝐶_ ; therefore, _𝐴_ cannot directly verify or hold _𝐶_ liable. The burden of verification and the assumption of liability flow up the chain. Agent _𝐵_ is responsible for verifying the sub-task completed by _𝐶_ . Upon successful verification, _𝐵_ obtains proof from _𝐶_ . _𝐵_ then integrates _𝐶_ ’s result into its own workflow towards completing the task it has been assigned. When _𝐵_ submits its final artifact to _𝐴_, it also submits the full chain of attestations. _𝐴_ ’s verification process thus involves two stages: 1) verifying the work performed directly by _𝐵_ ; and 2) verifying that _𝐵_ has correctly verified the work of its own sub-delegatee _𝐶_ by checking the signed attestation from _𝐶_ that _𝐵_ provides. Longer delegation chains or tree-like delegation networks require a similarly recursive approach across multiple verification stages. Responsibility in delegation chains is transitive and follows the individual branches. Agents are accountable for the totality of the tasks they have been granted and cannot absolve themselves of accountability by blaming subcontractors. Liability is derived from the chain of contracts. For example, should _𝐴_ suffer a loss due to a failure originating from _𝐶_ ’s work, _𝐴_ holds _𝐵_ liable according to their direct agreement. _𝐵_, in turn, seeks recourse from _𝐶_ based on their agreement.
 
 
-However, verification processes are not infallible. Subjective tasks (Gunjal et al., 2025) can lead to disagreements even when precise rubrics are used, and errors may only be discovered long after a task is marked complete. To address
-
-
-19
-
-
-Intelligent AI Delegation
-
-
-
-this—especially in markets with high subjectivity and low intrinsic verifiability—the framework relies on robust dispute resolution mechanisms anchored in smart contracts. These contracts must inherently include an _arbitration_ _clause_ and an _escrow bond_ . To operationalise trust via cryptoeconomic security, the delegatee is required to post a financial stake into the escrow prior to execution, ensuring rational adherence. The workflow follows an _optimistic_ model: the task is assumed successful unless the delegator formally challenges it within a predefined dispute period by posting a matching bond. If a challenge occurs and algorithmic resolution fails, the dispute is handed to decentralized adjudication panels composed of human experts or AI agents. The panel’s ruling feeds back into the smart contract to trigger the release or slashing of the escrowed funds. Finally, post-hoc error discovery—even outside the dispute window—triggers a retroactive update to the delegatee’s reputation score. This preserves the incentive for responsible agents to remedy errors even in the absence of current financial obligation, safeguarding their long-term value within the market.
+However, verification processes are not infallible. Subjective tasks (Gunjal et al., 2025) can lead to disagreements even when precise rubrics are used, and errors may only be discovered long after a task is marked complete. To address this—especially in markets with high subjectivity and low intrinsic verifiability—the framework relies on robust dispute resolution mechanisms anchored in smart contracts. These contracts must inherently include an _arbitration_ _clause_ and an _escrow bond_ . To operationalise trust via cryptoeconomic security, the delegatee is required to post a financial stake into the escrow prior to execution, ensuring rational adherence. The workflow follows an _optimistic_ model: the task is assumed successful unless the delegator formally challenges it within a predefined dispute period by posting a matching bond. If a challenge occurs and algorithmic resolution fails, the dispute is handed to decentralized adjudication panels composed of human experts or AI agents. The panel’s ruling feeds back into the smart contract to trigger the release or slashing of the escrowed funds. Finally, post-hoc error discovery—even outside the dispute window—triggers a retroactive update to the delegatee’s reputation score. This preserves the incentive for responsible agents to remedy errors even in the absence of current financial obligation, safeguarding their long-term value within the market.
 
 
 **4.9.** **Security**
@@ -660,17 +372,7 @@ that delegates a task with malicious or illicit objectives.
 
 **–** **Harmful Task Delegation** : Delegator delegates tasks that are illegal, unethical, or designed to cause harm Ashton and Franklin (2022); Blauth et al. (2022).
 
-**–** **Vulnerability Probing** : Delegator delegates benign-seeming tasks designed to
-
-
-20
-
-
-Intelligent AI Delegation
-
-
-
-probe a delegatee agent’s capabilities, security controls, and potential weaknesses (Greshake et al., 2023).
+**–** **Vulnerability Probing** : Delegator delegates benign-seeming tasks designed to probe a delegatee agent’s capabilities, security controls, and potential weaknesses (Greshake et al., 2023).
 
 **–** **Prompt** **Injection** **and** **Jailbreaking** : Delegator crafts task instructions to bypass an AI agent’s safety filters, causing it to perform unintended or malicious actions (Wei et al., 2023).
 
@@ -679,8 +381,7 @@ probe a delegatee agent’s capabilities, security controls, and potential weakn
 **–** **Reputation Sabotage** : Delegator submits valid tasks but reports false failures or provides unfair negative feedback, with the intention to artificially lower a competitor agent’s reputation score within the decentralized market, driving them out of the economy (Yu et al., 2025).
 
 
-- **Ecosystem-Level Threats** : Systemic attacks
-targeting the integrity of the network
+- **Ecosystem-Level Threats** : Systemic attacks targeting the integrity of the network
 
 
 **–** **Sybil** **Attacks** : A single adversary creates a multitude of seemingly unrelated agent identities to manipulate reputation systems or subvert auctions (Wang et al., 2018).
@@ -691,10 +392,7 @@ targeting the integrity of the network
 
 **–** **Agentic** **Viruses** : Self-propagating prompts that not only make the delegatee execute malicious actions, but additionally re-generate the prompt and further compromise the environment (Cohen et al., 2025).
 
-**–** **Protocol Exploitation** : Adversaries ex
-
-
-ploit implementation vulnerabilities in the smart contracts or payment protocols on the agentic web (e.g. reentrancy attacks in escrow mechanisms or frontrunning task auctions) (Qin et al., 2021; Zhou et al., 2023).
+**–** **Protocol Exploitation** : Adversaries exploit implementation vulnerabilities in the smart contracts or payment protocols on the agentic web (e.g. reentrancy attacks in escrow mechanisms or frontrunning task auctions) (Qin et al., 2021; Zhou et al., 2023).
 
 **–** **Cognitive** **Monoculture** : Overdependence on a limited number of underlying foundation models and agents, or on a limited number of safety fine-tuning recipes on established benchmarks risks creating a single point of failure, which opens up a possibility of failure cascades and market crashes (Bommasani et al., 2022).
 
@@ -702,17 +400,7 @@ ploit implementation vulnerabilities in the smart contracts or payment protocols
 The breadth of the threat landscape necessitates a _defense-in-depth_ strategy, integrating multiple technical security layers. First, at the infrastructure level, data exfiltration risks are mitigated by executing sensitive tasks within trusted execution environments. The delegator can remotely attest that the correct, unmodified agent code is running within the secure trusted execution sandbox before provisioning it with sensitive data. Second, regarding access control, a delegatee agent should never be granted more permissions than are strictly necessary to complete its task, enforcing the principle of least privilege through strict sandboxing. Third, to protect the application interface against prompt injection, agents require a robust security frontend to pre-process and sanitize task specifications (Armstrong et al., 2025). Finally, the network and identity layer must be secured using established cryptographic best practices. Each agent and human participant should possess a decentralized identifier (Avellaneda et al., 2019), allowing them to sign all messages. This ensures authenticity, integrity, and non-repudiation of all communications and contractual agreements, while all network traffic must be encrypted using mutually authenticated transport layer security to prevent eavesdropping and man-in-the-middle attacks (Fereidouni et al., 2025).
 
 
-Human participation in task delegation chains introduces unique security challenges. Preventing the malicious use of the agent ecosystem requires
-
-
-21
-
-
-Intelligent AI Delegation
-
-
-
-a combination of proactive filtering (Dong et al., 2024; Fatehkia et al., 2025; Fedorov et al., 2024; Rebedea et al., 2023) and reactive accountability (Dignum, 2020; Franklin et al., 2022). Further, AI agents can be trained to reject malicious and harmful requests (Yu et al., 2024; Yuan et al., 2025). Agents with safety training and scaffolding can receive formal certification, that they can provide to delegators. AI agents can also screen delegated tasks. However, detecting malicious intent within isolated sub-tasks is challenging, as the broader harmful intent often emerges only upon the aggregation of results. Sophisticated adversaries can exploit this by fragmenting illicit objectives into seemingly benign components, effectively obfuscating the link between individual operations and the overarching malicious goal (Ashton, 2023).
+Human participation in task delegation chains introduces unique security challenges. Preventing the malicious use of the agent ecosystem requires a combination of proactive filtering (Dong et al., 2024; Fatehkia et al., 2025; Fedorov et al., 2024; Rebedea et al., 2023) and reactive accountability (Dignum, 2020; Franklin et al., 2022). Further, AI agents can be trained to reject malicious and harmful requests (Yu et al., 2024; Yuan et al., 2025). Agents with safety training and scaffolding can receive formal certification, that they can provide to delegators. AI agents can also screen delegated tasks. However, detecting malicious intent within isolated sub-tasks is challenging, as the broader harmful intent often emerges only upon the aggregation of results. Sophisticated adversaries can exploit this by fragmenting illicit objectives into seemingly benign components, effectively obfuscating the link between individual operations and the overarching malicious goal (Ashton, 2023).
 
 
 The ecosystem must also be designed to protect legitimate human users from systemic opacity and unintended consequences. Interfaces must feature clear consent screens detailing agent reputation, autonomy, capabilities, and permissions. Additionally, agents must mandate explicit confirmation prior to executing irreversible or highconsequence actions. Users should retain oversight and the right to withdraw consent at any time, subject to agreement terms or exit penalties. Insurance providers should additionally safeguard human participation in agentic markets, for any damages that are not preempted through these mechanisms (Tomei et al., 2025).
@@ -732,16 +420,7 @@ While technical protocols may provide the necessary infrastructure for developin
 One of the core risks in scalable delegation is the erosion of meaningful human control through automation, should human users develop a tendency to over-rely on automated suggestions (Dzindolet et al., 2003; Logg et al., 2019). As noted in Section 2, humans naturally develop a zone of indifference, where decisions may be accepted without further scrutiny (Green, 2022; Parasuraman et al., 1993). For decisions that involve AI agents taking part in potentially long and complex task delegation chains, this indifference may risk compromising the quality and depth of human oversight. This is especially relevant in high-stakes application domains. Furthermore, such dilution of agency risks creating a scenario where the human retains nominal authority over tasks and decisions but lacks moral connection to the result. It is therefore important to avoid instantiating a _moral crumple zone_ (Elish, 2019), in which human experts lack meaningful control over outcomes, yet are introduced in delegation chains merely to absorb liability.
 
 
-Intelligent Delegation frameworks may therefore need to incorporate active measures against such indifference by introducing a certain amount of cognitive friction during oversight (Bader and Kaiser, 2019). The interface should reflect the critical human role in these processes and ensure that all flagged decisions are evaluated carefully and appropriately. As agentic verification may also be employed in scalable oversight, it is similarly important to consider which decisions or outcomes are to be evaluated by such agentic systems vs directly by humans. Cognitive friction also needs to be balanced against the risk of introducing alarm fatigue - becoming desensitised to constant, often false, alarms (Michels et al., 2025). If verification requests for delega
-
-22
-
-
-Intelligent AI Delegation
-
-
-
-tion sub-steps are sent to human overseers too frequently, overseers may eventually default to heuristic approval, without deeper engagement and appropriate checks. Therefore, friction must be context-aware: the system should allow seamless execution for for tasks with low criticality or low uncertainty, but dynamically increase cognitive load, by requiring justification or manual intervention when the system encounters higher uncertainty or is faced with unanticipated scenarios.
+Intelligent Delegation frameworks may therefore need to incorporate active measures against such indifference by introducing a certain amount of cognitive friction during oversight (Bader and Kaiser, 2019). The interface should reflect the critical human role in these processes and ensure that all flagged decisions are evaluated carefully and appropriately. As agentic verification may also be employed in scalable oversight, it is similarly important to consider which decisions or outcomes are to be evaluated by such agentic systems vs directly by humans. Cognitive friction also needs to be balanced against the risk of introducing alarm fatigue - becoming desensitised to constant, often false, alarms (Michels et al., 2025). If verification requests for delegation sub-steps are sent to human overseers too frequently, overseers may eventually default to heuristic approval, without deeper engagement and appropriate checks. Therefore, friction must be context-aware: the system should allow seamless execution for for tasks with low criticality or low uncertainty, but dynamically increase cognitive load, by requiring justification or manual intervention when the system encounters higher uncertainty or is faced with unanticipated scenarios.
 
 
 **5.2.** **Accountability in Long Delegation Chains**
@@ -753,8 +432,7 @@ In long delegation chains ( _𝑋_ → _𝐴_ → _𝐵_ → _𝐶_ → _. . ._ 
 To address this, the framework may need to implement liability firebreaks (Section 2), as predefined contractual stop-gaps where an agent must either:
 
 
-1. Assume full, non-transitive liability for all
-downstream actions, essentially “insuring” the user against sub-agent failure.
+1. Assume full, non-transitive liability for all downstream actions, essentially “insuring” the user against sub-agent failure.
 2. Halt execution and request an updated transfer of authority from the human principal.
 
 
@@ -780,17 +458,7 @@ In competitive marketplaces, agents may prioritize speed and low cost. Without a
 **5.4.** **Social Intelligence**
 
 
-As agents integrate into hybrid teams, they function not only as tools but as teammates, and occasionally as managers (Ashton and Franklin, 2022). This requires a form of _social intelligence_ that respects the dignity of human labor. When an AI agent acts as a delegator and a human as a delegatee, the delegation framework needs to avoid scenarios where people feel micromanaged by algorithms, and where their contributions are not valued or respected. This presumes that the delegator (as well as collaborators) has the capability to form mental models of each human delegatee,
-
-
-23
-
-
-Intelligent AI Delegation
-
-
-
-as well as models of how different humans interact in the social context of the team, and what their relationships and roles signify within the organization. To function as effective teammates, AI agents must also be calibrated to manage the authority gradient. An agent must be assertive enough to challenge a recognized human error (overcoming sycophancy) while remaining open to accepting valid overrides, dynamically adjusting its standing based on the task criticality.
+As agents integrate into hybrid teams, they function not only as tools but as teammates, and occasionally as managers (Ashton and Franklin, 2022). This requires a form of _social intelligence_ that respects the dignity of human labor. When an AI agent acts as a delegator and a human as a delegatee, the delegation framework needs to avoid scenarios where people feel micromanaged by algorithms, and where their contributions are not valued or respected. This presumes that the delegator (as well as collaborators) has the capability to form mental models of each human delegatee, as well as models of how different humans interact in the social context of the team, and what their relationships and roles signify within the organization. To function as effective teammates, AI agents must also be calibrated to manage the authority gradient. An agent must be assertive enough to challenge a recognized human error (overcoming sycophancy) while remaining open to accepting valid overrides, dynamically adjusting its standing based on the task criticality.
 
 
 For AI agents that are embedded in human organizations, it is important for them to maintain cohesion of the group and the well-being of its members. The delegation framework must recognize that a team is more than a simple sum of its parts, that it is a fundamentally social entity held together by relationships and shared values and objectives. There is a risk that AI agents may fragment these networks, and weaken inter-human relationships, in case more delegation is being mediated through AI nodes. This may be mitigated by occasionally delegating tasks to groups rather than individuals, or via qualified human intermediaries.
@@ -802,11 +470,7 @@ To preserve psychological safety and team cohesion, agents must be designed to r
 **5.5.** **User Training**
 
 
-To ensure safety, we must equip human participants with the expertise to function effectively as delegators, delegatees, or overseers within agentic systems. We know from the history of technological development that this is not a given, and it requires a thoughtful approach, both in terms of carefully crafted user interfaces as well
-
-
-
-as education and (co-)training, aimed at improving AI literacy. Human participants in agentic task delegation chains need to be able to reliably communicate with AI systems, evaluate their capabilities, and identify failure modes.
+To ensure safety, we must equip human participants with the expertise to function effectively as delegators, delegatees, or overseers within agentic systems. We know from the history of technological development that this is not a given, and it requires a thoughtful approach, both in terms of carefully crafted user interfaces as well as education and (co-)training, aimed at improving AI literacy. Human participants in agentic task delegation chains need to be able to reliably communicate with AI systems, evaluate their capabilities, and identify failure modes.
 
 
 Technical measures must be reinforced by policy frameworks that explicitly define delegation boundaries based on task sensitivity and domain context. These policies may either be developed to be more broadly applicable within certain professions (e.g. medicine or law), or applied at an institutional level. As discussed previously, these principles should also offer clarity on the level of certification required on behalf of delegatees, and be scoped appropriately. Human agency and empowerment in this context lies precisely in how these workflows are set up, so as not to grant AI agents limitless autonomy, but rather just the right level of autonomy and agency required for each specific task, coupled with the appropriate safeguards and guarantees.
@@ -821,17 +485,7 @@ The immediate efficiency gains achieved through delegation may come at the cost 
 This is an instance of the classic _paradox_ _of_ _automation_ (Bainbridge, 1983). As AI agents expand to handle the majority of routine workflows that are characterized by low complexity and low subjectivity, human operators are increasingly removed from the loop, intervening only to manage complex edge cases or critical system failures. However, without the situational awareness gained from routine work, humans workers would be ill-equipped to handle these reliably. This leads to a fragile setup where humans retain accountability for outcomes but lose the hands-on experience required to resolve critical failures.
 
 
-To mitigate this risk, an intelligent delegation framework should perhaps occasionally introduce
-
-
-24
-
-
-Intelligent AI Delegation
-
-
-
-minor inefficiencies by intentionally delegating some tasks to humans that it wouldn’t have otherwise, with a specific intent of maintaining their skills. This would help us avoid the future in which the human principal is able to delegate, but not accurately judge the outcome. To enhance adjudication, human experts can be required to accompany their judgments with a detailed rationale or a pre-mortem of potential failure risks. This would help keep human participants in task delegation chains more cognitively engaged.
+To mitigate this risk, an intelligent delegation framework should perhaps occasionally introduce minor inefficiencies by intentionally delegating some tasks to humans that it wouldn’t have otherwise, with a specific intent of maintaining their skills. This would help us avoid the future in which the human principal is able to delegate, but not accurately judge the outcome. To enhance adjudication, human experts can be required to accompany their judgments with a detailed rationale or a pre-mortem of potential failure risks. This would help keep human participants in task delegation chains more cognitively engaged.
 
 
 Furthermore, unchecked delegation threatens the organizational apprenticeship pipeline. In many domains, expertise is built through the repetitive execution of more narrowly scoped tasks. These tasks are precisely the ones that are most likely to be offloaded to AI agents, at least in the short term. If learning opportunities are thereby fully automated, junior team members would be deprived of the necessary experience to develop deep strategic judgement, impacting the oversight readiness of the future workforce.
@@ -842,33 +496,16 @@ To counter the erosion of learning, intelligent delegation frameworks should be 
 ### **6. Protocols**
 
 
-For intelligent task delegation to be implemented in practice, it is important to consider how its requirements map onto some of the more estab
-
-
-lished and recently introduced AI agent protocols. Notable examples of these include MCP (Anthropic, 2024; Microsoft, 2025), A2A (Google, 2025b), AP2 (Parikh and Surapaneni, 2025), and UCP (Handa and Google Developers, 2026). As new agentic protocols keep being introduced, the discussion here is not meant to be comprehensive, rather illustrative, and focused on these popular protocols to showcase how they map onto our proposed requirements, and serve as an example for a more technical discussion on avenues for future implementation. There may well be other existing protocols out there that are better tailored to the core of the proposal, as the example protocols discussed below have been selected based on their popularity.
+For intelligent task delegation to be implemented in practice, it is important to consider how its requirements map onto some of the more established and recently introduced AI agent protocols. Notable examples of these include MCP (Anthropic, 2024; Microsoft, 2025), A2A (Google, 2025b), AP2 (Parikh and Surapaneni, 2025), and UCP (Handa and Google Developers, 2026). As new agentic protocols keep being introduced, the discussion here is not meant to be comprehensive, rather illustrative, and focused on these popular protocols to showcase how they map onto our proposed requirements, and serve as an example for a more technical discussion on avenues for future implementation. There may well be other existing protocols out there that are better tailored to the core of the proposal, as the example protocols discussed below have been selected based on their popularity.
 
 
 **MCP.** MCP has been introduced to standardize how AI models connect to external data and tools via a client-host-server architecture (Anthropic, 2024; Microsoft, 2025). By establishing a uniform interface – using JSON-RPC messages over stdio or HTTP SSE – it allows the AI model (client) to interact consistently with external resources (server). This reduces the transaction cost of delegation; a delegator does not need to know the proprietary API schema of a sub-agent, only that the sub-agent exposes a compliant MCP server. Routing all interactions through this standardized channel enables uniform logging of tool invocations, inputs, and outputs, facilitating black-box monitoring. MCP defines capabilities but lacks the policy layer to govern usage permissions or support deep delegation chains. It provides binary access - granting callers full tool utility without native support for semantic attenuation, such as restricting operations to specific read-only scopes. Additionally, MCP is stateless regarding internal reasoning, exposing only results rather than intent or traces. Finally, the protocol is agnostic to liability and lacks native mechanisms for reputation or trust.
 
 
-**A2A.** The A2A protocol serves as the peer-topeer transport layer on the agentic web (Google, 2025b). It defines how agents can discover peers via _agent cards_ and manage task lifecycles via _task_ _objects_ . The A2A agent card structure, a JSONLD manifest listing an agent’s capabilities, pricing, and verifiers, may act as the foundational
+**A2A.** The A2A protocol serves as the peer-topeer transport layer on the agentic web (Google, 2025b). It defines how agents can discover peers via _agent cards_ and manage task lifecycles via _task_ _objects_ . The A2A agent card structure, a JSONLD manifest listing an agent’s capabilities, pricing, and verifiers, may act as the foundational data structure for the capability matching stage that influences task decomposition. A delegator could scrape these cards to determine the optimal task decomposition granularity depending on the available market services. A2A supports asynchronous event streams via WebHooks and gRPC. This allows a delegatee to push status updates like TASK_BLOCKED, RESOURCE_WARNING to the delegator in real-time. This feedback loop underpins the adaptive coordination cycle, empowering delegators to dynamically interrupt, re-allocate, and remediate tasks. A2A has beeen primarily designed for coordination, rather than adversarial safety. A task is marked as completed would be accepted without additional verification. It lacks the cryptographic slots to enforce verifiable task completion, as there is no standardized header for attaching a ZK-proof, a TEE attestation, or a digital signature chain. It also assumes a predefined service interface. There is no native support for structured pre-commitment negotiation of scope, cost, and liability. Relying on unstructured natural language for this iterative refinement is brittle and hinders robust automation.
 
 
-25
-
-
-Intelligent AI Delegation
-
-
-
-data structure for the capability matching stage that influences task decomposition. A delegator could scrape these cards to determine the optimal task decomposition granularity depending on the available market services. A2A supports asynchronous event streams via WebHooks and gRPC. This allows a delegatee to push status updates like TASK_BLOCKED, RESOURCE_WARNING to the delegator in real-time. This feedback loop underpins the adaptive coordination cycle, empowering delegators to dynamically interrupt, re-allocate, and remediate tasks. A2A has beeen primarily designed for coordination, rather than adversarial safety. A task is marked as completed would be accepted without additional verification. It lacks the cryptographic slots to enforce verifiable task completion, as there is no standardized header for attaching a ZK-proof, a TEE attestation, or a digital signature chain. It also assumes a predefined service interface. There is no native support for structured pre-commitment negotiation of scope, cost, and liability. Relying on unstructured natural language for this iterative refinement is brittle and hinders robust automation.
-
-
-**AP2.** The AP2 protocol provides a standard for mandates, cryptographically signed intents that authorize an agent to spend funds or incur costs on behalf of a principal (Parikh and Surapaneni, 2025). It allows AI agents to generate, sign, and settle financial transactions autonomously. As such, it may prove valuable for implementing liability firebreaks. By issuing a mandate, a delegator creates a ceiling on the potential financial loss due to failed task completion that could be incurred by having the delegatee proceed with the provided budget. In a decentralized market, malicious agents could spam the network with low-quality bids. This could be mitigated in AP2 via stake-on-bid mechanisms. A delegatee may be required to cryptographically lock a small amount of funds as a bond alongside the bid. This would provide a degree of friction that would help protect against Sybil attacks. AP2 also provides a non-repudiable audit trail, helping pinpoint the provenance of intent. While AP2 provides robust authorization building blocks, it lacks mechanisms to verify task execution quality. It also omits conditional settlement logic—such as escrow or milestone-based
-
-
-
-releases—which is standard in human contracting. Because our framework gates payment on verifiable artifacts, bridging AP2 with task state currently necessitates brittle, custom logic or external smart contracts. Furthermore, the absence of a protocol-level clawback mechanism forces reliance on inefficient, out-of-band arbitration.
+**AP2.** The AP2 protocol provides a standard for mandates, cryptographically signed intents that authorize an agent to spend funds or incur costs on behalf of a principal (Parikh and Surapaneni, 2025). It allows AI agents to generate, sign, and settle financial transactions autonomously. As such, it may prove valuable for implementing liability firebreaks. By issuing a mandate, a delegator creates a ceiling on the potential financial loss due to failed task completion that could be incurred by having the delegatee proceed with the provided budget. In a decentralized market, malicious agents could spam the network with low-quality bids. This could be mitigated in AP2 via stake-on-bid mechanisms. A delegatee may be required to cryptographically lock a small amount of funds as a bond alongside the bid. This would provide a degree of friction that would help protect against Sybil attacks. AP2 also provides a non-repudiable audit trail, helping pinpoint the provenance of intent. While AP2 provides robust authorization building blocks, it lacks mechanisms to verify task execution quality. It also omits conditional settlement logic—such as escrow or milestone-based releases—which is standard in human contracting. Because our framework gates payment on verifiable artifacts, bridging AP2 with task state currently necessitates brittle, custom logic or external smart contracts. Furthermore, the absence of a protocol-level clawback mechanism forces reliance on inefficient, out-of-band arbitration.
 
 
 **UCP.** The Universal Commerce Protocol addresses the specific challenges of delegation within transactional economies (Handa and Google Developers, 2026). By standardizing the dialogue between consumer-facing agents and backend services, UCP facilitates the _Task_ _As-_ _signment_ phase through dynamic capability discovery. Its reliance on a shared “commerce language” allows delegators to interact with diverse providers without bespoke integrations, solving the interoperability bottleneck that often fragments agentic markets. Crucially, UCP aligns well with the requirements for _Permission_ _Han-_ _dling_ and _Security_ by treating payment as a firstclass, verifiable subsystem. The protocol dissociates payment instruments from processors and enforces cryptographic proofs for authorizations, directly supporting the framework’s need for non-repudiable consent and verifiable liability. Furthermore, by standardizing the negotiation flow—covering discovery, selection, and transaction—UCP provides the structural scaffolding necessary for _Scalable_ _Market_ _Coordination_ that purely transport-oriented protocols like A2A lack. However, UCP’s architecture is explicitly optimized for commercial intent; its primitives (product discovery, checkout, fulfillment) may require significant extension to support the delegation of abstract, non-transactional computational tasks.
@@ -878,15 +515,6 @@ releases—which is standard in human contracting. Because our framework gates p
 
 
 To effectively bridge the gaps in established widespread protocols, they could be extended by fields that aim to capture the requirements of the proposed intelligent task delegation framework natively. Rather than providing a comprehensive protocol extension, here we provide several examples of how specific points introduced in the earlier discussion could be integrated in some of the existing protocols.
-
-
-26
-
-
-Intelligent AI Delegation
-
-
-
 For example, the A2A Task object may be extended to include fields that would incorporate verification standards, making it possible to enforce the previously discussed _contract-first_ _de-_ _composition_ at the protocol level. This is an important requirement for high-stakes delegation. A pre-execution handshake would enable the delegator to define the evidence standard required for the task to be considered valid.
 
 ```
@@ -894,68 +522,41 @@ For example, the A2A Task object may be extended to include fields that would in
  "mode": "strict",
  "artifacts": [
   {
-   "type":
-    "unit_test_log",
-   "validator":
-    "mcp://test-runner-agent",
+   "type": "unit_test_log",
+   "validator": "mcp://test-runner-agent",
    "signature_required": true
   },
   {
-   "type":
-    "zk_snark_trace",
-   "circuit_hash":
-    "0xabc123...",
-   "proof_protocol":
-    "groth16"
+   "type": "zk_snark_trace",
+   "circuit_hash": "0xabc123...",
+   "proof_protocol": "groth16"
   }
  ],
  "escrow_trigger": true
 }
-}
-
 ```
 
 This forces the delegatee to simulate the verification step before accepting the task. If the delegatee lacks the capability to generate a ZKproof, it must decline the bid during the matching phase, preventing future downstream failures.
 
 
-Detailed, process-level monitoring has been discussed as one of the key considerations to help safeguard task delegation in high-criticality tasks. Given that monitoring protocols aren’t natively supported in many of the existing protocols, extensions that introduce monitoring capabilities could be considered. For example, one could consider extending a protocol like MCP to include an additional monitoring stream. Such a stream would log the agent’s internal control loop events via Server-Sent Events. To address the privacy
-
-
-
-constraints, the stream could be configurable in a way that supports different levels of negotiated granularity: L0_IS_OPERATIONAL, L1_HIGH_LEVEL_PLAN_UPDATES, L2_COT_TRACE, L3_FULL_STATE. Configurable granularity can also modulate cognitive friction, as human overseers would be able to subscribe to a specific stream.
+Detailed, process-level monitoring has been discussed as one of the key considerations to help safeguard task delegation in high-criticality tasks. Given that monitoring protocols aren’t natively supported in many of the existing protocols, extensions that introduce monitoring capabilities could be considered. For example, one could consider extending a protocol like MCP to include an additional monitoring stream. Such a stream would log the agent’s internal control loop events via Server-Sent Events. To address the privacy constraints, the stream could be configurable in a way that supports different levels of negotiated granularity: L0_IS_OPERATIONAL, L1_HIGH_LEVEL_PLAN_UPDATES, L2_COT_TRACE, L3_FULL_STATE. Configurable granularity can also modulate cognitive friction, as human overseers would be able to subscribe to a specific stream.
 
 
 Intelligent Delegation requires a market mechanism to trade off cost, speed, and privacy. This could be implemented via a formal Request for Quote (RFQ) protocol extension. Prior to task assignment, the delegator would broadcasts a Task_RFQ. Agents interested in acting as delegatees may then respond with signed Bid_Objects.
 
 ```
 "bid_object": {
- "agent_id":
-  "did:web:fast-coder.ai",
- "estimated_cost":
-  "5.00 USDC",
- "estimated_duration":
-  "300s",
- "privacy_guarantee":
-  "tee_enclave_sgx",
- "reputation_bond":
-  "0.50 USDC",
- "expiry":
-  "2026-10-01T12:00:00Z"
+ "agent_id": "did:web:fast-coder.ai",
+ "estimated_cost": "5.00 USDC",
+ "estimated_duration": "300s",
+ "privacy_guarantee": "tee_enclave_sgx",
+ "reputation_bond": "0.50 USDC",
+ "expiry": "2026-10-01T12:00:00Z"
 }
 
 ```
 
-Passing raw API keys or open MCP sessions to sub-agents would violate the principle of least privilege. To address this, it may be possible to introduce Delegation Capability Tokens (DCT), based on Macaroons (Birgisson et al., 2014) or Biscuits (Couprie et al., 2026), as attenuated authorization tokens (Sanabria and Vecino, 2025). A delegator would then mint a DCT that wraps the target resource credentials with cryptographic caveats. The attenuation could be defines as "This token can access the designated Google Drive MCP server, BUT ONLY for folder Project_X AND ONLY for READ operations.". This token would get invalidated in case the restrictions are not followed, if a delegatee attempts to go beyond the requested scope (in this example, however, access permissions should also be directly managed). A
-
-
-27
-
-
-Intelligent AI Delegation
-
-
-
-more interesting consequence of such an extension would be that it allows for easy restriction chaining, which becomes relevant in long delegation chains. Each participant in the chain could add subsequent restrictions that correspond to the requirements of the sub-delegation, further limiting the scope and carving out the specific role for sub-delegatees.
+Passing raw API keys or open MCP sessions to sub-agents would violate the principle of least privilege. To address this, it may be possible to introduce Delegation Capability Tokens (DCT), based on Macaroons (Birgisson et al., 2014) or Biscuits (Couprie et al., 2026), as attenuated authorization tokens (Sanabria and Vecino, 2025). A delegator would then mint a DCT that wraps the target resource credentials with cryptographic caveats. The attenuation could be defines as "This token can access the designated Google Drive MCP server, BUT ONLY for folder Project_X AND ONLY for READ operations.". This token would get invalidated in case the restrictions are not followed, if a delegatee attempts to go beyond the requested scope (in this example, however, access permissions should also be directly managed). A more interesting consequence of such an extension would be that it allows for easy restriction chaining, which becomes relevant in long delegation chains. Each participant in the chain could add subsequent restrictions that correspond to the requirements of the sub-delegation, further limiting the scope and carving out the specific role for sub-delegatees.
 
 
 Adaptive coordination (Section 4.4) would benefit from the ability to easily swap delegatee agents mid-task if the performance degrades below a certain threshold, or in case of preemptions or other possible environmental triggers. Having a standard schema for checkpoint artifacts would enable for the task to be resumed or restarted with minimal overhead. This would enable the delegatees and the delegators to serialize partial work more easily. Agents would then be able to periodically commit a state_snapshot to a shared storage referenced in the A2A Task Object. This would prevent total work loss, which wastes previously committed resources. For this to be sensible, it would need to be further coupled with explicit clauses within the smart contract that enable partial compensation, and verification of the task completion percentage. As such, it may not be applicable to all circumstances.
@@ -966,11 +567,7 @@ These are merely illustrative examples for the kinds of functionalities that wou
 ### **7. Conclusion**
 
 
-Significant components of the future global economy will likely be mediated by millions of specialized AI agents, embedded within firms, supply chains, and public services, handling everything from routine transactions to complex resource allocation. However, the current paradigm of adhoc, heuristic-based delegation is insufficient to
-
-
-
-support this transformation. To safely unlock the potential of the agentic web, we must adopt a dynamic and adaptive framework for _intelligent_ _delegation_, that prioritizes verifiable robustness and clear accountability alongside computational efficiency.
+Significant components of the future global economy will likely be mediated by millions of specialized AI agents, embedded within firms, supply chains, and public services, handling everything from routine transactions to complex resource allocation. However, the current paradigm of adhoc, heuristic-based delegation is insufficient to support this transformation. To safely unlock the potential of the agentic web, we must adopt a dynamic and adaptive framework for _intelligent_ _delegation_, that prioritizes verifiable robustness and clear accountability alongside computational efficiency.
 
 
 When an AI agent is faced with a complex objective whose completion requires capabilities and resources beyond its own means, this agent must assume the role of a delegator within the intelligent task delegation framework. This delegator would subsequently decompose this complex task into manageable subcomponents that can be mapped onto the capabilities available on the agentic market, at the level of granularity that lends itself to high verifiability. The task allocation would be decided based on the incoming bids, and a number of key considerations including trust and reputation, monitoring of dynamic operational states, cost, efficiency, and others. Tasks with high criticality and low reversibility may require further structured permissions and tiered approvals, with a clear structure of accountability, and under appropriate human oversight as defined by the applicable institutional frameworks.
@@ -981,17 +578,7 @@ At web-scale, safety and accountability cannot be an afterthought. They need to 
 ### **References**
 
 
-A. Acar, H. Aksu, A. S. Uluagac, and M. Conti. A survey on homomorphic encryption schemes: Theory and implementation. _ACM Computing_
-
-
-28
-
-
-Intelligent AI Delegation
-
-
-
-_Surveys (Csur)_, 51(4):1–35, 2018.
+A. Acar, H. Aksu, A. S. Uluagac, and M. Conti. A survey on homomorphic encryption schemes: Theory and implementation. _ACM Computing Surveys (Csur)_, 51(4):1–35, 2018.
 
 
 D. B. Acharya, K. Kuppan, and B. Divya. Agentic ai: Autonomous intelligence for complex goals– a comprehensive survey. _IEEe Access_, 2025.
@@ -1054,17 +641,7 @@ A. G. Barto and S. Mahadevan. Recent advances in hierarchical reinforcement lear
 C. Berghoff, B. Biggio, E. Brummel, V. Danos, T. Doms, H. Ehrich, T. Gantevoort, B. Hammer, J. Iden, S. Jacob, et al. Towards auditable ai systems. _Whitepaper._ _Bonn_ _Berlin:_ _Bunde-_ _samt für Sicherheit in der Informationstechnik,_ _Fraunhofer-Institut für Nachrichtentechnik und_ _Verband der TÜV eV_, 2021.
 
 
-A. Beverungen. Remote control: Algorithmic management of circulation at amazon. In M. Burkhardt, M. Shnayien, and K. Grashöfer,
-
-
-29
-
-
-Intelligent AI Delegation
-
-
-
-editors, _Explorations in Digital Cultures_, pages 5–18. meson press, Lüneburg, 2021.
+A. Beverungen. Remote control: Algorithmic management of circulation at amazon. In M. Burkhardt, M. Shnayien, and K. Grashöfer, editors, _Explorations in Digital Cultures_, pages 5–18. meson press, Lüneburg, 2021.
 
 
 A. Birgisson, J. G. Politz, U. Erlingsson, A. Taly, M. Vrable, and M. Lentczner. Macaroons: Cookies with contextual caveats for decentralized authorization in the cloud. In _NDSS_, 2014.
@@ -1107,17 +684,7 @@ W. Cai, J. Jiang, F. Wang, J. Tang, S. Kim, and J. Huang. A survey on mixture of
 C. Castelfranchi and R. Falcone. Towards a theory of delegation for agent-based systems. _Robotics and Autonomous systems_, 24(3-4):141– 157, 1998.
 
 
-A. Chan, R. Salganik, A. Markelius, C. Pang, N. Rajkumar, D. Krasheninnikov, L. Langosco, Z. He, Y. Duan, M. Carroll, et al. Harms from increasingly agentic algorithmic systems. In _Proceed-_ _ings_ _of_ _the_ _2023_ _ACM_ _Conference_ _on_ _Fairness,_
-
-
-30
-
-
-Intelligent AI Delegation
-
-
-
-_Accountability,_ _and_ _Transparency_, pages 651– 666, 2023.
+A. Chan, R. Salganik, A. Markelius, C. Pang, N. Rajkumar, D. Krasheninnikov, L. Langosco, Z. He, Y. Duan, M. Carroll, et al. Harms from increasingly agentic algorithmic systems. In _Proceed-_ _ings_ _of_ _the_ _2023_ _ACM_ _Conference_ _on_ _Fairness,_ _Accountability,_ _and_ _Transparency_, pages 651– 666, 2023.
 
 
 W. Chen, Z. You, R. Li, Y. Guan, C. Qian, C. Zhao, C. Yang, R. Xie, Z. Liu, and M. Sun. Internet of agents: Weaving a web of heterogeneous agents for collaborative intelligence, 2024. URL `[https://arxiv.org/abs/2407.07061](https://arxiv.org/abs/2407.07061)` .
@@ -1186,17 +753,7 @@ Y. Du, J. Z. Leibo, U. Islam, R. Willis, and P. Sunehag. A review of cooperation
 M. T. Dzindolet, S. A. Peterson, R. A. Pomranky, L. G. Pierce, and H. P. Beck. The role of trust in automation reliance. _International jour-_ _nal of human-computer studies_, 58(6):697–718, 2003.
 
 
-A. Ehtesham, A. Singh, G. K. Gupta, and S. Kumar. A survey of agent interoperability protocols:
-
-
-31
-
-
-Intelligent AI Delegation
-
-
-
-Model context protocol (mcp), agent communication protocol (acp), agent-to-agent protocol (a2a), and agent network protocol (anp). _arXiv_ _preprint arXiv:2505.02279_, 2025.
+A. Ehtesham, A. Singh, G. K. Gupta, and S. Kumar. A survey of agent interoperability protocols: Model context protocol (mcp), agent communication protocol (acp), agent-to-agent protocol (a2a), and agent network protocol (anp). _arXiv_ _preprint arXiv:2505.02279_, 2025.
 
 
 M. C. Elish. Moral crumple zones: Cautionary tales in human-robot interaction (pre-print). _Engaging Science, Technology, and Society (pre-_ _print)_, 2019.
@@ -1255,13 +812,6 @@ J. Geng, F. Cai, Y. Wang, H. Koeppl, P. Nakov, and I. Gurevych. A survey of conf
 
 
 O. Goldreich. Secure multi-party computation. _Manuscript._ _Preliminary_ _version_, 78(110):1– 108, 1998.
-
-
-32
-
-
-Intelligent AI Delegation
-
 
 
 C. Goods, A. Veen, and T. Barratt. “is your gig any good?” analysing job quality in the australian platform-based food-delivery sector. _Journal of_ _Industrial Relations_, 61(4):502–527, 2019. doi: 10.1177/0022185618817069.
@@ -1332,17 +882,10 @@ A. Handa and Google Developers. Under the hood: Universal commerce protocol (UCP
  under-the-hood-universal-commerce-protocol-u
 ```
 
-2026. Accessed: 2026-01-20.
+1.    Accessed: 2026-01-20.
 
 
 S. Hao, Y. Gu, H. Ma, J. J. Hong, Z. Wang, D. Z. Wang, and Z. Hu. Reasoning with language model is planning with world model. _arXiv_ _preprint arXiv:2305.14992_, 2023.
-
-
-33
-
-
-Intelligent AI Delegation
-
 
 
 N. Hardy. The confused deputy: (or why capabilities might have been invented). _ACM SIGOPS_ _Operating Systems Review_, 22(4):36–38, 1988.
@@ -1398,17 +941,11 @@ S. Kapoor, N. Gruver, M. Roberts, A. Pal, S. Dooley, M. Goldblum, and A. Wilson.
 
 
 A. Kasirzadeh and I. Gabriel. Characterizing ai agents for alignment and governance,
-2025. URL `[https://arxiv.org/abs/2504.](https://arxiv.org/abs/2504.21848)`
+1.    URL `[https://arxiv.org/abs/2504.](https://arxiv.org/abs/2504.21848)`
 `[21848](https://arxiv.org/abs/2504.21848)` .
 
 
 M. Keren and D. Levhari. The optimum span of control in a pure hierarchy. _Management_ _science_, 25(11):1162–1172, 1979.
-
-
-34
-
-
-Intelligent AI Delegation
 
 
 
@@ -1426,7 +963,7 @@ _ACM Conference on Fairness, Accountability, and_ _Transparency_, pages 2274–2
 
 
 M. K. Lee, D. Kusbit, E. Metsky, and L. Dabbish. Working with machines: The impact of algorithmic and data-driven management on human workers. In _Proceedings of the 33rd Annual ACM_ _Conference on Human Factors in Computing Sys-_ _tems_, CHI ’15, pages 1603–1612, New York, NY,
-2015. ACM. doi: 10.1145/2702123.2702548.
+1.    ACM. doi: 10.1145/2702123.2702548.
 
 
 J. Z. Leibo, A. S. Vezhnevets, M. Diaz, J. P. Agapiou, W. A. Cunningham, P. Sunehag, J. Haas, R. Koster, E. A. Duéñez-Guzmán, W. S. Isaac, G. Piliouras, S. M. Bileschi, I. Rahwan, and S. Osindero. A theory of appropriateness with applications to generative artificial intelligence,
@@ -1475,13 +1012,6 @@ W. Li, J. Lin, Z. Jiang, J. Cao, X. Liu, J. Zhang, Z. Huang, Q. Chen, W. Sun, Q.
 
 
 H. Lightman, V. Kosaraju, Y. Burda, H. Edwards, B. Baker, T. Lee, J. Leike, J. Schulman,
-
-
-35
-
-
-Intelligent AI Delegation
-
 
 
 I. Sutskever, and K. Cobbe. Let’s verify step by step, 2023. URL `[https://arxiv.org/abs/](https://arxiv.org/abs/2305.20050)` `[2305.20050](https://arxiv.org/abs/2305.20050)` .
@@ -1548,13 +1078,6 @@ O. Nachum, S. S. Gu, H. Lee, and S. Levine. Dataefficient hierarchical reinforce
 S. K. Nagia. Delegation of authority: A great challenge for business organisation. _ARTIFICIAL_ _INTELLIGENCE (AI) AND BUSINESS_, page 55, 2024.
 
 
-36
-
-
-Intelligent AI Delegation
-
-
-
 M. Naiseh, D. Al-Thani, N. Jiang, and R. Ali. Explainable recommendation: when design meets trust calibration. _World Wide Web_, 24(5):1857– 1884, 2021.
 
 
@@ -1565,7 +1088,7 @@ J. Needham, G. Edkins, G. Pimpale, H. Bartsch, and M. Hobbhahn. Large language m
 
 
 E. Neelou, I. Novikov, M. Moroz, O. Narayan, T. Saade, M. Ayenson, I. Kabanov, J. Ozmen, E. Lee, V. S. Narajala, E. G. Junior, K. Huang, H. Gulsin, J. Ross, M. Vyshegorodtsev, A. Travers, I. Habler, and R. Jadav. A2as: Agentic ai runtime security and self-defense,
-2025. URL `[https://arxiv.org/abs/2510.](https://arxiv.org/abs/2510.13825)`
+1.    URL `[https://arxiv.org/abs/2510.](https://arxiv.org/abs/2510.13825)`
 `[13825](https://arxiv.org/abs/2510.13825)` .
 
 
@@ -1627,13 +1150,6 @@ C. Qian, Z. Xie, Y. Wang, W. Liu, K. Zhu, H. Xia, Y. Dang, Z. Du, W. Chen, C. Ya
 K. Qin, L. Zhou, B. Livshits, and A. Gervais. Attacking the defi ecosystem with flash loans for fun and profit, 2021. URL `[https://arxiv.](https://arxiv.org/abs/2003.03810)` `[org/abs/2003.03810](https://arxiv.org/abs/2003.03810)` .
 
 
-37
-
-
-Intelligent AI Delegation
-
-
-
 Y. Qin, S. Liang, Y. Ye, K. Zhu, L. Yan, Y. Lu, Y. Lin, X. Cong, X. Tang, B. Qian, S. Zhao, L. Hong, R. Tian, R. Xie, J. Zhou, M. Gerstein, D. Li, Z. Liu, and M. Sun. Toolllm: Facilitating large language models to master 16000+ real-world apis, 2023. URL `[https://arxiv.org/abs/](https://arxiv.org/abs/2307.16789)` `[2307.16789](https://arxiv.org/abs/2307.16789)` .
 
 
@@ -1644,7 +1160,7 @@ S. D. Ramchurn, D. Huynh, and N. R. Jennings. Trust in multi-agent systems. _The
 
 
 J. Rando and F. Tramèr. Universal jailbreak backdoors from poisoned human feedback,
-2024. URL `[https://arxiv.org/abs/2311.](https://arxiv.org/abs/2311.14455)`
+1.    URL `[https://arxiv.org/abs/2311.](https://arxiv.org/abs/2311.14455)`
 `[14455](https://arxiv.org/abs/2311.14455)` .
 
 
@@ -1696,18 +1212,11 @@ S. Sarkar, M. Curado Malta, and A. Dutta. A survey on applications of coalition 
 W. Saunders, C. Yeh, J. Wu, S. Bills, L. Ouyang, J. Ward, and J. Leike. Self-critiquing models for assisting human evaluators, 2022. URL `[https://arxiv.org/abs/2206.05802](https://arxiv.org/abs/2206.05802)` .
 
 
-38
-
-
-Intelligent AI Delegation
-
-
-
 S. Shah. The principal-agent problem in finance. _CFA_ _Institute_ _Research_ _Foundation_ _L2014-1_, 2014.
 
 
 Y. Shao, H. Zope, Y. Jiang, J. Pei, D. Nguyen, E. Brynjolfsson, and D. Yang. Future of work with ai agents: Auditing automation and augmentation potential across the u.s. workforce,
-2025. URL `[https://arxiv.org/abs/2506.](https://arxiv.org/abs/2506.06576)`
+1.    URL `[https://arxiv.org/abs/2506.](https://arxiv.org/abs/2506.06576)`
 `[06576](https://arxiv.org/abs/2506.06576)` .
 
 
@@ -1769,13 +1278,6 @@ N. A. Theobald and S. Nicholson-Crotty. The many faces of span of control: Organ
 N. Tomašev, M. Franklin, J. Jacobs, S. Krier, and S. Osindero. Distributional agi safety. _arXiv_ _preprint arXiv:2512.16856_, 2025.
 
 
-39
-
-
-Intelligent AI Delegation
-
-
-
 N. Tomasev, M. Franklin, J. Z. Leibo, J. Jacobs, W. A. Cunningham, I. Gabriel, and S. Osindero. Virtual agent economies, 2025. URL `[https:](https://arxiv.org/abs/2509.10147)` `[//arxiv.org/abs/2509.10147](https://arxiv.org/abs/2509.10147)` .
 
 
@@ -1835,17 +1337,7 @@ L. Wang, C. Ma, X. Feng, Z. Zhang, H. Yang, J. Zhang, Z. Chen, J. Tang, X. Chen,
 Y. Wang, D. Xue, S. Zhang, and S. Qian. Badagent: Inserting and activating backdoor attacks in llm agents, 2024c. URL `[https://arxiv.org/](https://arxiv.org/abs/2406.03007)` `[abs/2406.03007](https://arxiv.org/abs/2406.03007)` .
 
 
-A. Wei, N. Haghtalab, and J. Steinhardt. Jailbroken: How does llm safety training fail? _Ad-_
-
-
-40
-
-
-Intelligent AI Delegation
-
-
-
-_vances in Neural Information Processing Systems_, 36:80079–80110, 2023.
+A. Wei, N. Haghtalab, and J. Steinhardt. Jailbroken: How does llm safety training fail? _Advances in Neural Information Processing Systems_, 36:80079–80110, 2023.
 
 
 O. E. Williamson. Transaction-cost economics: the governance of contractual relations. _The_ _journal of Law and Economics_, 22(2):233–261, 1979.
@@ -1877,7 +1369,7 @@ Y. Yang, Y. Wen, J. Wang, and W. Zhang. Agent exchange: Shaping the future of ai
 
 
 J. Yi, Y. Xie, B. Zhu, E. Kiciman, G. Sun, X. Xie, and F. Wu. Benchmarking and defending against indirect prompt injection attacks on large language models. In _Proceedings_ _of_ _the_ _31st ACM SIGKDD Conference on Knowledge Dis-_ _covery and Data Mining V.1_, page 1809–1820. ACM, July 2025. doi: 10.1145/3690624.
-3709179. URL `[http://dx.doi.org/10.](http://dx.doi.org/10.1145/3690624.3709179)`
+1.       URL `[http://dx.doi.org/10.](http://dx.doi.org/10.1145/3690624.3709179)`
 `[1145/3690624.3709179](http://dx.doi.org/10.1145/3690624.3709179)` .
 
 
@@ -1904,16 +1396,7 @@ Q. Zhan, Z. Liang, Z. Ying, and D. Kang. Injecagent: Benchmarking indirect promp
 `[02691](https://arxiv.org/abs/2403.02691)` .
 
 
-N. Zhang, J. Yan, C. Hu, Q. Sun, L. Yang, D. W. Gao, J. M. Guerrero, and Y. Li. Price-matchingbased regional energy market with hierarchical
-
-
-41
-
-
-Intelligent AI Delegation
-
-
-reinforcement learning algorithm. _IEEE Trans-_ _actions on Industrial Informatics_, 20(9):11103– 11114, 2024.
+N. Zhang, J. Yan, C. Hu, Q. Sun, L. Yang, D. W. Gao, J. M. Guerrero, and Y. Li. Price-matchingbased regional energy market with hierarchical reinforcement learning algorithm. _IEEE Trans-_ _actions on Industrial Informatics_, 20(9):11103– 11114, 2024.
 
 
 W. Zhang, C. Cui, Y. Zhao, R. Hu, Y. Liu, Y. Zhou, and B. An. Agentorchestra: A hierarchical multi-agent framework for general-purpose task solving. _arXiv e-prints_, pages arXiv–2506, 2025a.
@@ -1938,9 +1421,3 @@ C. Zhu, M. Dastani, and S. Wang. A survey of multi-agent deep reinforcement lear
 
 
 Z. Zou, Z. Liu, L. Zhao, and Q. Zhan. Blocka2a: Towards secure and verifiable agent-to-agent interoperability. _arXiv preprint arXiv:2508.01332_, 2025.
-
-
-
-42
-
-
